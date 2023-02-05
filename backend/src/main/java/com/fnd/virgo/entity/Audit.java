@@ -15,17 +15,19 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name = "audit")
-@Where(clause = "deleted <> 1")
+@Where(clause = "deleted = false")
 public class Audit extends CommonFields {
     @Column(name = "user_id", length = 255, nullable = false)
     private String userId;
     @Column(name = "date", nullable = false)
-    private Date date;
+    private Date date = new Date();
     @Column(name = "type", length = 50, nullable = false)
     @Enumerated(EnumType.STRING)
     private AuditTypeEnum type;
     @Column(name = "table_name", length = 255, nullable = false)
     private String tableName;
+    @Column(name = "description", nullable = false)
+    private String description;
     @OneToMany(mappedBy = "audit", cascade = CascadeType.ALL)
     private List<AuditTuple> tuples;
 }

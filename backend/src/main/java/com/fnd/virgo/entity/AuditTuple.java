@@ -13,10 +13,10 @@ import java.util.Date;
 @NoArgsConstructor
 @Entity
 @Table(name = "audit_tuple")
-@Where(clause = "deleted <> 1")
+@Where(clause = "deleted = false")
 public class AuditTuple extends CommonFields {
     @Column(name = "date", nullable = false)
-    private Date date;
+    private Date date = new Date();
     @Column(name = "tuple_id", nullable = false)
     private Long tupleId;
     @ManyToOne(optional = false)

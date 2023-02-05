@@ -14,10 +14,12 @@ import org.hibernate.annotations.Where;
 @NoArgsConstructor
 @Entity
 @Table(name = "credentials")
-@Where(clause = "deleted <> 1")
+@Where(clause = "deleted = false")
 public class Credential extends CommonFields {
     @Column(name = "user_id", nullable = false)
     private String userId;
+    @Column(name = "name", nullable = false)
+    private String name;
     @Column(name = "website", nullable = false)
     private String website;
     @Column(name = "username")
