@@ -1,4 +1,4 @@
-package com.fnd.virgo.config;
+package com.fnd.virgo;
 
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;

@@ -1,4 +1,4 @@
-package com.fnd.virgo.config;
+package com.fnd.virgo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -11,4 +11,3 @@ public class BackendApplication {
     }
 
 }
-
