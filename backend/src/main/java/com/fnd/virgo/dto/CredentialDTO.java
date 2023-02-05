@@ -8,6 +8,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class CredentialDTO extends CommonFieldsDTO {
+    private String name;
     private String website;
     private String username;
     private String encryptPassword;
