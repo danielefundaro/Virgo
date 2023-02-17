@@ -16,7 +16,14 @@ import java.util.List;
 @Entity
 @Table(name = "audit")
 @Where(clause = "deleted = false")
-public class Audit extends CommonFields {
+public class Audit {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", updatable = false, nullable = false)
+    private Long id;
+
+    @Column(name = "deleted", nullable = false)
+    private Boolean deleted = false;
     @Column(name = "user_id", length = 255, nullable = false)
     private String userId;
     @Column(name = "date", nullable = false)
