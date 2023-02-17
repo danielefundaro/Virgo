@@ -18,4 +18,12 @@ public class CommonFields {
 
     @Column(name = "deleted", nullable = false)
     private Boolean deleted = false;
+    @Column(name = "user_id", nullable = false)
+    private String userId;
+    @Column(name = "name", nullable = false)
+    private String name;
+    @Column(name = "salt", nullable = false)
+    private String salt;
+    @Column(name = "iv", nullable = false)
+    private String iv;
 }

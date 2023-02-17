@@ -90,8 +90,9 @@ public class CredentialServiceImpl implements CredentialService {
         credential.setName(credentialDTO.getName());
         credential.setWebsite(credentialDTO.getWebsite());
         credential.setUsername(credentialDTO.getUsername());
-        credential.setEncryptPassword(credentialDTO.getEncryptPassword());
+        credential.setPasswd(credentialDTO.getPasswd());
         credential.setSalt(credentialDTO.getSalt());
+        credential.setIv(credentialDTO.getIv());
         credential = credentialRepository.save(credential);
 
         // Save the audit info into db

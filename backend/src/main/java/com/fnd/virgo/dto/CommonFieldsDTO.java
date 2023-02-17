@@ -8,4 +8,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class CommonFieldsDTO {
+    private String name;
+    private String salt;
+    private String iv;
 }

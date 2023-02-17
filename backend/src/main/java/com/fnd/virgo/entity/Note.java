@@ -13,13 +13,9 @@ import org.hibernate.annotations.Where;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "credentials")
+@Table(name = "notes")
 @Where(clause = "deleted = false")
-public class Credential extends CommonFields {
-    @Column(name = "website", nullable = false)
-    private String website;
-    @Column(name = "username")
-    private String username;
-    @Column(name = "passwd", nullable = false)
-    private String passwd;
+public class Note extends CommonFields {
+    @Column(name = "content", nullable = false)
+    private String content;
 }
