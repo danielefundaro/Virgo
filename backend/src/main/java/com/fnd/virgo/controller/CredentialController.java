@@ -1,6 +1,6 @@
 package com.fnd.virgo.controller;
 
-import com.fnd.virgo.dto.CredentialDTO;
+import com.fnd.virgo.dto.CredentialDetailsDTO;
 import com.fnd.virgo.service.CredentialService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,25 +23,25 @@ public class CredentialController {
 
     @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(code = HttpStatus.OK)
-    private List<CredentialDTO> getAll() {
+    private List<CredentialDetailsDTO> getAll() {
         return credentialService.getAll();
     }
 
     @PostMapping(value = "/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(code = HttpStatus.CREATED)
-    private CredentialDTO save(@RequestBody CredentialDTO credentialDTO) {
-        return credentialService.save(credentialDTO);
+    private CredentialDetailsDTO save(@RequestBody CredentialDetailsDTO credentialDetailsDTO) {
+        return credentialService.save(credentialDetailsDTO);
     }
 
     @PutMapping(value = "/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(code = HttpStatus.OK)
-    private CredentialDTO update(@RequestBody CredentialDTO credentialDTO) {
-        return credentialService.update(credentialDTO);
+    private CredentialDetailsDTO update(@RequestBody CredentialDetailsDTO credentialDetailsDTO) {
+        return credentialService.update(credentialDetailsDTO);
     }
 
     @DeleteMapping(value = "/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(code = HttpStatus.OK)
-    private CredentialDTO delete(@RequestBody CredentialDTO credentialDTO) {
-        return credentialService.delete(credentialDTO);
+    private CredentialDetailsDTO delete(@RequestBody CredentialDetailsDTO credentialDetailsDTO) {
+        return credentialService.delete(credentialDetailsDTO);
     }
 }

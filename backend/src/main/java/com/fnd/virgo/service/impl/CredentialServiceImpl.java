@@ -1,6 +1,6 @@
 package com.fnd.virgo.service.impl;
 
-import com.fnd.virgo.dto.CredentialDTO;
+import com.fnd.virgo.dto.CredentialDetailsDTO;
 import com.fnd.virgo.entity.Audit;
 import com.fnd.virgo.entity.AuditTuple;
 import com.fnd.virgo.entity.CommonFields;
@@ -39,7 +39,7 @@ public class CredentialServiceImpl implements CredentialService {
     }
 
     @Override
-    public List<CredentialDTO> getAll() {
+    public List<CredentialDetailsDTO> getAll() {
         String userId = "a";
         List<Credential> credentials = credentialRepository.findAll();
 
@@ -47,23 +47,23 @@ public class CredentialServiceImpl implements CredentialService {
         String info = String.format("The user %s got all the credentials. Count %s", userId, credentials.size());
         saveAuditInfo(credentials.stream().map(CommonFields::getId).collect(Collectors.toList()), userId, AuditTypeEnum.SELECT_ALL, info, true);
 
-        return credentials.stream().map(credential -> modelMapper.map(credential, CredentialDTO.class)).collect(Collectors.toList());
+        return credentials.stream().map(credential -> modelMapper.map(credential, CredentialDetailsDTO.class)).collect(Collectors.toList());
     }
 
     @Override
-    public CredentialDTO save(@NotNull CredentialDTO credentialDTO) {
+    public CredentialDetailsDTO save(@NotNull CredentialDetailsDTO credentialDetailsDTO) {
         String userId = "a";
-        Credential credential = getCredential(credentialDTO, userId);
+        Credential credential = getCredential(credentialDetailsDTO, userId);
 
         if (credential != null) {
-            String error = String.format("The user %s found the credential while saving website: %s, username: %s", userId, credentialDTO.getWebsite(), credentialDTO.getUsername());
+            String error = String.format("The user %s found the credential while saving website: %s, username: %s", userId, credentialDetailsDTO.getWebsite(), credentialDetailsDTO.getUsername());
             saveAuditInfo(Collections.singletonList(credential.getId()), userId, error);
             log.error(error);
 
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Object already exists");
         }
 
-        credential = modelMapper.map(credentialDTO, Credential.class);
+        credential = modelMapper.map(credentialDetailsDTO, Credential.class);
         credential.setUserId(userId);
         credential = credentialRepository.save(credential);
 
@@ -71,44 +71,44 @@ public class CredentialServiceImpl implements CredentialService {
         String info = String.format("The user %s saved a new credential with id %s", userId, credential.getId());
         saveAuditInfo(Collections.singletonList(credential.getId()), userId, AuditTypeEnum.INSERT, info, true);
 
-        return modelMapper.map(credential, CredentialDTO.class);
+        return modelMapper.map(credential, CredentialDetailsDTO.class);
     }
 
     @Override
-    public CredentialDTO update(CredentialDTO credentialDTO) {
+    public CredentialDetailsDTO update(CredentialDetailsDTO credentialDetailsDTO) {
         String userId = "a";
-        Credential credential = getCredential(credentialDTO, userId);
+        Credential credential = getCredential(credentialDetailsDTO, userId);
 
         if (credential == null) {
-            String error = String.format("The user %s didn't find the credential while updating website: %s, username: %s", userId, credentialDTO.getWebsite(), credentialDTO.getUsername());
+            String error = String.format("The user %s didn't find the credential while updating website: %s, username: %s", userId, credentialDetailsDTO.getWebsite(), credentialDetailsDTO.getUsername());
             saveAuditInfo(userId, error);
             log.error(error);
 
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Object not found");
         }
 
-        credential.setName(credentialDTO.getName());
-        credential.setWebsite(credentialDTO.getWebsite());
-        credential.setUsername(credentialDTO.getUsername());
-        credential.setPasswd(credentialDTO.getPasswd());
-        credential.setSalt(credentialDTO.getSalt());
-        credential.setIv(credentialDTO.getIv());
+        credential.setName(credentialDetailsDTO.getName());
+        credential.setWebsite(credentialDetailsDTO.getWebsite());
+        credential.setUsername(credentialDetailsDTO.getUsername());
+        credential.setPasswd(credentialDetailsDTO.getPasswd());
+        credential.setSalt(credentialDetailsDTO.getSalt());
+        credential.setIv(credentialDetailsDTO.getIv());
         credential = credentialRepository.save(credential);
 
         // Save the audit info into db
         String info = String.format("The user %s updated the credential with id %s", userId, credential.getId());
         saveAuditInfo(Collections.singletonList(credential.getId()), userId, AuditTypeEnum.UPDATE, info, true);
 
-        return modelMapper.map(credential, CredentialDTO.class);
+        return modelMapper.map(credential, CredentialDetailsDTO.class);
     }
 
     @Override
-    public CredentialDTO delete(CredentialDTO credentialDTO) {
+    public CredentialDetailsDTO delete(CredentialDetailsDTO credentialDetailsDTO) {
         String userId = "a";
-        Credential credential = getCredential(credentialDTO, userId);
+        Credential credential = getCredential(credentialDetailsDTO, userId);
 
         if (credential == null) {
-            String error = String.format("The user %s didn't find the credential while deleting website: %s, username: %s", userId, credentialDTO.getWebsite(), credentialDTO.getUsername());
+            String error = String.format("The user %s didn't find the credential while deleting website: %s, username: %s", userId, credentialDetailsDTO.getWebsite(), credentialDetailsDTO.getUsername());
             saveAuditInfo(userId, error);
             log.error(error);
 
@@ -122,11 +122,11 @@ public class CredentialServiceImpl implements CredentialService {
         String info = String.format("The user %s deleted the credential with id %s", userId, credential.getId());
         saveAuditInfo(Collections.singletonList(credential.getId()), userId, AuditTypeEnum.DELETE, info, true);
 
-        return modelMapper.map(credential, CredentialDTO.class);
+        return modelMapper.map(credential, CredentialDetailsDTO.class);
     }
 
-    private Credential getCredential(@NotNull CredentialDTO credentialDTO, String userId) {
-        Optional<Credential> optionalCredential = credentialRepository.findCredentialByUserIdAndWebsiteAndUsername(userId, credentialDTO.getWebsite(), credentialDTO.getUsername());
+    private Credential getCredential(@NotNull CredentialDetailsDTO credentialDetailsDTO, String userId) {
+        Optional<Credential> optionalCredential = credentialRepository.findCredentialByUserIdAndWebsiteAndUsername(userId, credentialDetailsDTO.getWebsite(), credentialDetailsDTO.getUsername());
         return optionalCredential.orElse(null);
     }
 

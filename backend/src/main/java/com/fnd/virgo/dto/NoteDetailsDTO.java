@@ -7,6 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class CommonFieldsDTO {
-    private String name;
+public class NoteDetailsDTO extends EncryptCommonFieldsDTO {
+    private String content;
+    private WorkspaceDTO workspace;
 }

@@ -1,15 +1,15 @@
 package com.fnd.virgo.service;
 
-import com.fnd.virgo.dto.CredentialDTO;
+import com.fnd.virgo.dto.CredentialDetailsDTO;
 
 import java.util.List;
 
 public interface CredentialService {
-    List<CredentialDTO> getAll();
+    List<CredentialDetailsDTO> getAll();
 
-    CredentialDTO save(CredentialDTO credentialDTO);
+    CredentialDetailsDTO save(CredentialDetailsDTO credentialDetailsDTO);
 
-    CredentialDTO update(CredentialDTO credentialDTO);
+    CredentialDetailsDTO update(CredentialDetailsDTO credentialDetailsDTO);
 
-    CredentialDTO delete(CredentialDTO credentialDTO);
+    CredentialDetailsDTO delete(CredentialDetailsDTO credentialDetailsDTO);
 }

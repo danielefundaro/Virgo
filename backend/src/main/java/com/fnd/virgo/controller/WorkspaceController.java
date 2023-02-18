@@ -1,7 +1,7 @@
 package com.fnd.virgo.controller;
 
-import com.fnd.virgo.dto.NoteDetailsDTO;
-import com.fnd.virgo.service.NoteService;
+import com.fnd.virgo.dto.WorkspaceDetailsDTO;
+import com.fnd.virgo.service.WorkspaceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -11,37 +11,37 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "notes")
+@RequestMapping(value = "workspaces")
 @Validated
-public class NoteController {
-    private final NoteService noteService;
+public class WorkspaceController {
+    private final WorkspaceService workspaceService;
 
     @Autowired
-    public NoteController(NoteService noteService) {
-        this.noteService = noteService;
+    public WorkspaceController(WorkspaceService workspaceService) {
+        this.workspaceService = workspaceService;
     }
 
     @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(code = HttpStatus.OK)
-    private List<NoteDetailsDTO> getAll() {
-        return noteService.getAll();
+    private List<WorkspaceDetailsDTO> getAll() {
+        return workspaceService.getAll();
     }
 
     @PostMapping(value = "/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(code = HttpStatus.CREATED)
-    private NoteDetailsDTO save(@RequestBody NoteDetailsDTO noteDetailsDTO) {
-        return noteService.save(noteDetailsDTO);
+    private WorkspaceDetailsDTO save(@RequestBody WorkspaceDetailsDTO workspaceDetailsDTO) {
+        return workspaceService.save(workspaceDetailsDTO);
     }
 
     @PutMapping(value = "/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(code = HttpStatus.OK)
-    private NoteDetailsDTO update(@RequestBody NoteDetailsDTO noteDetailsDTO) {
-        return noteService.update(noteDetailsDTO);
+    private WorkspaceDetailsDTO update(@RequestBody WorkspaceDetailsDTO workspaceDetailsDTO) {
+        return workspaceService.update(workspaceDetailsDTO);
     }
 
     @DeleteMapping(value = "/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(code = HttpStatus.OK)
-    private NoteDetailsDTO delete(@RequestBody NoteDetailsDTO noteDetailsDTO) {
-        return noteService.delete(noteDetailsDTO);
+    private WorkspaceDetailsDTO delete(@RequestBody WorkspaceDetailsDTO workspaceDetailsDTO) {
+        return workspaceService.delete(workspaceDetailsDTO);
     }
 }

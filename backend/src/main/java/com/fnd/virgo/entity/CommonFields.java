@@ -22,8 +22,4 @@ public class CommonFields {
     private String userId;
     @Column(name = "name", nullable = false)
     private String name;
-    @Column(name = "salt", nullable = false)
-    private String salt;
-    @Column(name = "iv", nullable = false)
-    private String iv;
 }
