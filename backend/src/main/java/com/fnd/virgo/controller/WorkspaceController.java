@@ -1,19 +1,18 @@
 package com.fnd.virgo.controller;
 
 import com.fnd.virgo.dto.WorkspaceDTO;
+import com.fnd.virgo.entity.Workspace;
+import com.fnd.virgo.repository.WorkspaceRepository;
 import com.fnd.virgo.service.WorkspaceService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "workspaces")
 @Validated
-public class WorkspaceController {
+public class WorkspaceController implements CommonController<Workspace, WorkspaceDTO, WorkspaceRepository, WorkspaceService> {
     private final WorkspaceService workspaceService;
 
     @Autowired
@@ -21,27 +20,8 @@ public class WorkspaceController {
         this.workspaceService = workspaceService;
     }
 
-    @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(code = HttpStatus.OK)
-    private List<WorkspaceDTO> getAll() {
-        return workspaceService.getAll();
-    }
-
-    @PostMapping(value = "/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(code = HttpStatus.CREATED)
-    private WorkspaceDTO save(@RequestBody WorkspaceDTO workspaceDTO) {
-        return workspaceService.save(workspaceDTO);
-    }
-
-    @PutMapping(value = "/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(code = HttpStatus.OK)
-    private WorkspaceDTO update(@RequestBody WorkspaceDTO workspaceDTO) {
-        return workspaceService.update(workspaceDTO);
-    }
-
-    @DeleteMapping(value = "/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(code = HttpStatus.OK)
-    private WorkspaceDTO delete(@RequestBody WorkspaceDTO workspaceDTO) {
-        return workspaceService.delete(workspaceDTO);
+    @Override
+    public WorkspaceService getService() {
+        return this.workspaceService;
     }
 }
