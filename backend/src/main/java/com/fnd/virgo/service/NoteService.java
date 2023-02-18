@@ -1,15 +1,15 @@
 package com.fnd.virgo.service;
 
-import com.fnd.virgo.dto.NoteDetailsDTO;
+import com.fnd.virgo.dto.NoteDTO;
 
 import java.util.List;
 
 public interface NoteService {
-    List<NoteDetailsDTO> getAll();
+    List<NoteDTO> getAll();
 
-    NoteDetailsDTO save(NoteDetailsDTO noteDTO);
+    NoteDTO save(NoteDTO noteDTO);
 
-    NoteDetailsDTO update(NoteDetailsDTO noteDTO);
+    NoteDTO update(NoteDTO noteDTO);
 
-    NoteDetailsDTO delete(NoteDetailsDTO noteDTO);
+    NoteDTO delete(NoteDTO noteDTO);
 }

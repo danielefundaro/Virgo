@@ -1,7 +1,9 @@
 package com.fnd.virgo.entity;
 
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -20,7 +22,4 @@ public class Credential extends EncryptCommonFields {
     private String username;
     @Column(name = "passwd", nullable = false)
     private String passwd;
-    @ManyToOne()
-    @JoinColumn(name = "workspace_id")
-    private Workspace workspace;
 }

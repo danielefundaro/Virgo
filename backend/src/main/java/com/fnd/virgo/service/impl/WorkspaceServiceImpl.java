@@ -1,6 +1,6 @@
 package com.fnd.virgo.service.impl;
 
-import com.fnd.virgo.dto.WorkspaceDetailsDTO;
+import com.fnd.virgo.dto.WorkspaceDTO;
 import com.fnd.virgo.entity.Audit;
 import com.fnd.virgo.entity.AuditTuple;
 import com.fnd.virgo.entity.CommonFields;
@@ -38,7 +38,7 @@ public class WorkspaceServiceImpl implements WorkspaceService {
     }
 
     @Override
-    public List<WorkspaceDetailsDTO> getAll() {
+    public List<WorkspaceDTO> getAll() {
         String userId = "a";
         List<Workspace> notes = workspaceRepository.findAll();
 
@@ -46,23 +46,23 @@ public class WorkspaceServiceImpl implements WorkspaceService {
         String info = String.format("The user %s got all the notes. Count %s", userId, notes.size());
         saveAuditInfo(notes.stream().map(CommonFields::getId).collect(Collectors.toList()), userId, AuditTypeEnum.SELECT_ALL, info, true);
 
-        return notes.stream().map(workspace -> modelMapper.map(workspace, WorkspaceDetailsDTO.class)).collect(Collectors.toList());
+        return notes.stream().map(workspace -> modelMapper.map(workspace, WorkspaceDTO.class)).collect(Collectors.toList());
     }
 
     @Override
-    public WorkspaceDetailsDTO save(@NotNull WorkspaceDetailsDTO workspaceDetailsDTO) {
+    public WorkspaceDTO save(@NotNull WorkspaceDTO workspaceDTO) {
         String userId = "a";
-        Workspace workspace = getWorkspace(workspaceDetailsDTO, userId);
+        Workspace workspace = getWorkspace(workspaceDTO, userId);
 
         if (workspace != null) {
-            String error = String.format("The user %s found the workspace while saving it with name: %s", userId, workspaceDetailsDTO.getName());
+            String error = String.format("The user %s found the workspace while saving it with name: %s", userId, workspaceDTO.getName());
             saveAuditInfo(Collections.singletonList(workspace.getId()), userId, error);
             log.error(error);
 
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Object already exists");
         }
 
-        workspace = modelMapper.map(workspaceDetailsDTO, Workspace.class);
+        workspace = modelMapper.map(workspaceDTO, Workspace.class);
         workspace.setUserId(userId);
         workspace = workspaceRepository.save(workspace);
 
@@ -70,39 +70,39 @@ public class WorkspaceServiceImpl implements WorkspaceService {
         String info = String.format("The user %s saved a new workspace with id %s", userId, workspace.getId());
         saveAuditInfo(Collections.singletonList(workspace.getId()), userId, AuditTypeEnum.INSERT, info, true);
 
-        return modelMapper.map(workspace, WorkspaceDetailsDTO.class);
+        return modelMapper.map(workspace, WorkspaceDTO.class);
     }
 
     @Override
-    public WorkspaceDetailsDTO update(WorkspaceDetailsDTO workspaceDetailsDTO) {
+    public WorkspaceDTO update(WorkspaceDTO workspaceDTO) {
         String userId = "a";
-        Workspace workspace = getWorkspace(workspaceDetailsDTO, userId);
+        Workspace workspace = getWorkspace(workspaceDTO, userId);
 
         if (workspace == null) {
-            String error = String.format("The user %s didn't find the workspace while updating name: %s", userId, workspaceDetailsDTO.getName());
+            String error = String.format("The user %s didn't find the workspace while updating name: %s", userId, workspaceDTO.getName());
             saveAuditInfo(userId, error);
             log.error(error);
 
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Object not found");
         }
 
-        workspace.setName(workspaceDetailsDTO.getName());
+        workspace.setName(workspaceDTO.getName());
         workspace = workspaceRepository.save(workspace);
 
         // Save the audit info into db
         String info = String.format("The user %s updated the workspace with id %s", userId, workspace.getId());
         saveAuditInfo(Collections.singletonList(workspace.getId()), userId, AuditTypeEnum.UPDATE, info, true);
 
-        return modelMapper.map(workspace, WorkspaceDetailsDTO.class);
+        return modelMapper.map(workspace, WorkspaceDTO.class);
     }
 
     @Override
-    public WorkspaceDetailsDTO delete(WorkspaceDetailsDTO workspaceDetailsDTO) {
+    public WorkspaceDTO delete(WorkspaceDTO workspaceDTO) {
         String userId = "a";
-        Workspace workspace = getWorkspace(workspaceDetailsDTO, userId);
+        Workspace workspace = getWorkspace(workspaceDTO, userId);
 
         if (workspace == null) {
-            String error = String.format("The user %s didn't find the workspace while deleting name: %s", userId, workspaceDetailsDTO.getName());
+            String error = String.format("The user %s didn't find the workspace while deleting name: %s", userId, workspaceDTO.getName());
             saveAuditInfo(userId, error);
             log.error(error);
 
@@ -116,11 +116,11 @@ public class WorkspaceServiceImpl implements WorkspaceService {
         String info = String.format("The user %s deleted the workspace with id %s", userId, workspace.getId());
         saveAuditInfo(Collections.singletonList(workspace.getId()), userId, AuditTypeEnum.DELETE, info, true);
 
-        return modelMapper.map(workspace, WorkspaceDetailsDTO.class);
+        return modelMapper.map(workspace, WorkspaceDTO.class);
     }
 
-    private Workspace getWorkspace(@NotNull WorkspaceDetailsDTO workspaceDetailsDTO, String userId) {
-        Optional<Workspace> optionalNote = workspaceRepository.findWorkspaceByUserIdAndName(userId, workspaceDetailsDTO.getName());
+    private Workspace getWorkspace(@NotNull WorkspaceDTO workspaceDTO, String userId) {
+        Optional<Workspace> optionalNote = workspaceRepository.findWorkspaceByUserIdAndName(userId, workspaceDTO.getName());
         return optionalNote.orElse(null);
     }
 

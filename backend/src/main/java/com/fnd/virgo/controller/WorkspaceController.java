@@ -1,6 +1,6 @@
 package com.fnd.virgo.controller;
 
-import com.fnd.virgo.dto.WorkspaceDetailsDTO;
+import com.fnd.virgo.dto.WorkspaceDTO;
 import com.fnd.virgo.service.WorkspaceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,25 +23,25 @@ public class WorkspaceController {
 
     @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(code = HttpStatus.OK)
-    private List<WorkspaceDetailsDTO> getAll() {
+    private List<WorkspaceDTO> getAll() {
         return workspaceService.getAll();
     }
 
     @PostMapping(value = "/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(code = HttpStatus.CREATED)
-    private WorkspaceDetailsDTO save(@RequestBody WorkspaceDetailsDTO workspaceDetailsDTO) {
-        return workspaceService.save(workspaceDetailsDTO);
+    private WorkspaceDTO save(@RequestBody WorkspaceDTO workspaceDTO) {
+        return workspaceService.save(workspaceDTO);
     }
 
     @PutMapping(value = "/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(code = HttpStatus.OK)
-    private WorkspaceDetailsDTO update(@RequestBody WorkspaceDetailsDTO workspaceDetailsDTO) {
-        return workspaceService.update(workspaceDetailsDTO);
+    private WorkspaceDTO update(@RequestBody WorkspaceDTO workspaceDTO) {
+        return workspaceService.update(workspaceDTO);
     }
 
     @DeleteMapping(value = "/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(code = HttpStatus.OK)
-    private WorkspaceDetailsDTO delete(@RequestBody WorkspaceDetailsDTO workspaceDetailsDTO) {
-        return workspaceService.delete(workspaceDetailsDTO);
+    private WorkspaceDTO delete(@RequestBody WorkspaceDTO workspaceDTO) {
+        return workspaceService.delete(workspaceDTO);
     }
 }

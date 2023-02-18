@@ -1,7 +1,7 @@
 package com.fnd.virgo.service.impl;
 
-import com.fnd.virgo.dto.NoteDetailsDTO;
-import com.fnd.virgo.dto.WorkspaceDTO;
+import com.fnd.virgo.dto.NoteDTO;
+import com.fnd.virgo.dto.WorkspaceCoreDTO;
 import com.fnd.virgo.entity.*;
 import com.fnd.virgo.enums.AuditTypeEnum;
 import com.fnd.virgo.repository.AuditRepository;
@@ -39,7 +39,7 @@ public class NoteServiceImpl implements NoteService {
     }
 
     @Override
-    public List<NoteDetailsDTO> getAll() {
+    public List<NoteDTO> getAll() {
         String userId = "a";
         List<Note> notes = noteRepository.findAll();
 
@@ -47,24 +47,24 @@ public class NoteServiceImpl implements NoteService {
         String info = String.format("The user %s got all the notes. Count %s", userId, notes.size());
         saveAuditInfo(notes.stream().map(CommonFields::getId).collect(Collectors.toList()), userId, AuditTypeEnum.SELECT_ALL, info, true);
 
-        return notes.stream().map(note -> modelMapper.map(note, NoteDetailsDTO.class)).collect(Collectors.toList());
+        return notes.stream().map(note -> modelMapper.map(note, NoteDTO.class)).collect(Collectors.toList());
     }
 
     @Override
-    public NoteDetailsDTO save(@NotNull NoteDetailsDTO noteDetailsDTO) {
+    public NoteDTO save(@NotNull NoteDTO noteDTO) {
         String userId = "a";
-        Note note = getNote(noteDetailsDTO, userId);
+        Note note = getNote(noteDTO, userId);
 
         if (note != null) {
-            String error = String.format("The user %s found the note while saving it with name: %s", userId, noteDetailsDTO.getName());
+            String error = String.format("The user %s found the note while saving it with name: %s", userId, noteDTO.getName());
             saveAuditInfo(Collections.singletonList(note.getId()), userId, error);
             log.error(error);
 
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Object already exists");
         }
 
-        note = modelMapper.map(noteDetailsDTO, Note.class);
-        note.setWorkspace(getWorkspace(noteDetailsDTO.getWorkspace(), userId));
+        note = modelMapper.map(noteDTO, Note.class);
+        note.setWorkspace(getWorkspace(noteDTO.getWorkspace(), userId));
         note.setUserId(userId);
         note = noteRepository.save(note);
 
@@ -72,42 +72,42 @@ public class NoteServiceImpl implements NoteService {
         String info = String.format("The user %s saved a new note with id %s", userId, note.getId());
         saveAuditInfo(Collections.singletonList(note.getId()), userId, AuditTypeEnum.INSERT, info, true);
 
-        return modelMapper.map(note, NoteDetailsDTO.class);
+        return modelMapper.map(note, NoteDTO.class);
     }
 
     @Override
-    public NoteDetailsDTO update(NoteDetailsDTO noteDetailsDTO) {
+    public NoteDTO update(NoteDTO noteDTO) {
         String userId = "a";
-        Note note = getNote(noteDetailsDTO, userId);
+        Note note = getNote(noteDTO, userId);
 
         if (note == null) {
-            String error = String.format("The user %s didn't find the note while updating name: %s", userId, noteDetailsDTO.getName());
+            String error = String.format("The user %s didn't find the note while updating name: %s", userId, noteDTO.getName());
             saveAuditInfo(userId, error);
             log.error(error);
 
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Object not found");
         }
 
-        note.setName(noteDetailsDTO.getName());
-        note.setContent(noteDetailsDTO.getContent());
-        note.setSalt(noteDetailsDTO.getSalt());
-        note.setIv(noteDetailsDTO.getIv());
+        note.setName(noteDTO.getName());
+        note.setContent(noteDTO.getContent());
+        note.setSalt(noteDTO.getSalt());
+        note.setIv(noteDTO.getIv());
         note = noteRepository.save(note);
 
         // Save the audit info into db
         String info = String.format("The user %s updated the note with id %s", userId, note.getId());
         saveAuditInfo(Collections.singletonList(note.getId()), userId, AuditTypeEnum.UPDATE, info, true);
 
-        return modelMapper.map(note, NoteDetailsDTO.class);
+        return modelMapper.map(note, NoteDTO.class);
     }
 
     @Override
-    public NoteDetailsDTO delete(NoteDetailsDTO noteDetailsDTO) {
+    public NoteDTO delete(NoteDTO noteDTO) {
         String userId = "a";
-        Note note = getNote(noteDetailsDTO, userId);
+        Note note = getNote(noteDTO, userId);
 
         if (note == null) {
-            String error = String.format("The user %s didn't find the note while deleting name: %s", userId, noteDetailsDTO.getName());
+            String error = String.format("The user %s didn't find the note while deleting name: %s", userId, noteDTO.getName());
             saveAuditInfo(userId, error);
             log.error(error);
 
@@ -121,15 +121,15 @@ public class NoteServiceImpl implements NoteService {
         String info = String.format("The user %s deleted the note with id %s", userId, note.getId());
         saveAuditInfo(Collections.singletonList(note.getId()), userId, AuditTypeEnum.DELETE, info, true);
 
-        return modelMapper.map(note, NoteDetailsDTO.class);
+        return modelMapper.map(note, NoteDTO.class);
     }
 
-    private Note getNote(@NotNull NoteDetailsDTO noteDetailsDTO, String userId) {
-        Optional<Note> optionalNote = noteRepository.findNoteByUserIdAndName(userId, noteDetailsDTO.getName());
+    private Note getNote(@NotNull NoteDTO noteDTO, String userId) {
+        Optional<Note> optionalNote = noteRepository.findNoteByUserIdAndName(userId, noteDTO.getName());
         return optionalNote.orElse(null);
     }
 
-    private Workspace getWorkspace(@NotNull WorkspaceDTO workspaceDTO, String userId) {
+    private Workspace getWorkspace(@NotNull WorkspaceCoreDTO workspaceDTO, String userId) {
         Optional<Workspace> optionalNote = workspaceRepository.findWorkspaceByUserIdAndName(userId, workspaceDTO.getName());
         return optionalNote.orElse(null);
     }
