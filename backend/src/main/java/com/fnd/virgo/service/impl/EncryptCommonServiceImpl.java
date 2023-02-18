@@ -33,7 +33,7 @@ public abstract class EncryptCommonServiceImpl<C extends EncryptCommonFields, D 
         d.setWorkspace(null);
         d = super.save(d);
 
-        C c = modelMapper.map(d, getClassEntity());
+        C c = findEntity(d, userId);
         c.setWorkspace(workspace);
         c.setUserId(userId);
         c = getRepository().save(c);
