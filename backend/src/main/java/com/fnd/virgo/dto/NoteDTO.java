@@ -9,5 +9,4 @@ import lombok.Setter;
 @NoArgsConstructor
 public class NoteDTO extends EncryptCommonFieldsDTO {
     private String content;
-    private WorkspaceCoreDTO workspace;
 }

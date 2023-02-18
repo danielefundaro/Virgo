@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface NoteRepository extends PagingAndSortingRepository<Note, Long>, JpaSpecificationExecutor<Note>, JpaRepository<Note, Long> {
+public interface NoteRepository extends CommonRepository<Note> {
     Optional<Note> findNoteByUserIdAndName(String userId, String name);
 }

@@ -10,4 +10,5 @@ import lombok.Setter;
 public class EncryptCommonFieldsDTO extends CommonFieldsDTO {
     private String salt;
     private String iv;
+    private WorkspaceCoreDTO workspace;
 }

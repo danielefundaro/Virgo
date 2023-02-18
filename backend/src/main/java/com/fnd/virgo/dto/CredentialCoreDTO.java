@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class CredentialCoreDTO extends EncryptCommonFieldsDTO {
+public class CredentialCoreDTO extends EncryptCommonFieldsCoreDTO {
     private String website;
     private String username;
     private String passwd;

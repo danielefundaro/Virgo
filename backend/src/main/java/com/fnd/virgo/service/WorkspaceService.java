@@ -1,15 +1,10 @@
 package com.fnd.virgo.service;
 
 import com.fnd.virgo.dto.WorkspaceDTO;
+import com.fnd.virgo.entity.Workspace;
+import com.fnd.virgo.repository.WorkspaceRepository;
 
 import java.util.List;
 
-public interface WorkspaceService {
-    List<WorkspaceDTO> getAll();
-
-    WorkspaceDTO save(WorkspaceDTO workspaceDTO);
-
-    WorkspaceDTO update(WorkspaceDTO workspaceDTO);
-
-    WorkspaceDTO delete(WorkspaceDTO workspaceDTO);
+public interface WorkspaceService extends CommonService<Workspace, WorkspaceDTO, WorkspaceRepository> {
 }

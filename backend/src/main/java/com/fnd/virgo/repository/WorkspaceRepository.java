@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface WorkspaceRepository extends PagingAndSortingRepository<Workspace, Long>, JpaSpecificationExecutor<Workspace>, JpaRepository<Workspace, Long> {
+public interface WorkspaceRepository extends CommonRepository<Workspace> {
     Optional<Workspace> findWorkspaceByUserIdAndName(String userId, String name);
 }

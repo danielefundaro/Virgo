@@ -1,15 +1,8 @@
 package com.fnd.virgo.service;
 
 import com.fnd.virgo.dto.NoteDTO;
+import com.fnd.virgo.entity.Note;
+import com.fnd.virgo.repository.NoteRepository;
 
-import java.util.List;
-
-public interface NoteService {
-    List<NoteDTO> getAll();
-
-    NoteDTO save(NoteDTO noteDTO);
-
-    NoteDTO update(NoteDTO noteDTO);
-
-    NoteDTO delete(NoteDTO noteDTO);
+public interface NoteService extends EncryptCommonService<Note, NoteDTO, NoteRepository> {
 }
