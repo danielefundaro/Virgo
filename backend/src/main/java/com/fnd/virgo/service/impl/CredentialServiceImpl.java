@@ -2,6 +2,7 @@ package com.fnd.virgo.service.impl;
 
 import com.fnd.virgo.dto.CredentialDTO;
 import com.fnd.virgo.entity.Credential;
+import com.fnd.virgo.model.UpdateRequest;
 import com.fnd.virgo.repository.AuditRepository;
 import com.fnd.virgo.repository.CredentialRepository;
 import com.fnd.virgo.repository.WorkspaceRepository;
@@ -43,5 +44,19 @@ public class CredentialServiceImpl extends EncryptCommonServiceImpl<Credential, 
     public Credential findEntity(@NotNull CredentialDTO credentialDTO, String userId) {
         Optional<Credential> optionalCredential = credentialRepository.findCredentialByUserIdAndWebsiteAndUsername(userId, credentialDTO.getWebsite(), credentialDTO.getUsername());
         return optionalCredential.orElse(null);
+    }
+
+    @Override
+    public CredentialDTO update(@NotNull UpdateRequest<CredentialDTO> updateRequest) {
+        String userId = "a";
+        CredentialDTO savedCredentialDTO = super.update(updateRequest);
+        Credential credential = findEntity(savedCredentialDTO, userId);
+
+        credential.setUsername(updateRequest.getNewInfo().getUsername());
+        credential.setPasswd(updateRequest.getNewInfo().getPasswd());
+        credential.setWebsite(updateRequest.getNewInfo().getWebsite());
+        credential = credentialRepository.save(credential);
+
+        return modelMapper.map(credential, getClassDTO());
     }
 }

@@ -2,6 +2,7 @@ package com.fnd.virgo.service.impl;
 
 import com.fnd.virgo.dto.NoteDTO;
 import com.fnd.virgo.entity.Note;
+import com.fnd.virgo.model.UpdateRequest;
 import com.fnd.virgo.repository.AuditRepository;
 import com.fnd.virgo.repository.NoteRepository;
 import com.fnd.virgo.repository.WorkspaceRepository;
@@ -43,5 +44,17 @@ public class NoteServiceImpl extends EncryptCommonServiceImpl<Note, NoteDTO, Not
     public Note findEntity(@NotNull NoteDTO noteDTO, String userId) {
         Optional<Note> optionalNote = noteRepository.findNoteByUserIdAndName(userId, noteDTO.getName());
         return optionalNote.orElse(null);
+    }
+
+    @Override
+    public NoteDTO update(@NotNull UpdateRequest<NoteDTO> updateRequest) {
+        String userId = "a";
+        NoteDTO savedNoteDTO = super.update(updateRequest);
+        Note note = findEntity(savedNoteDTO, userId);
+
+        note.setContent(updateRequest.getNewInfo().getContent());
+        note = noteRepository.save(note);
+
+        return modelMapper.map(note, getClassDTO());
     }
 }

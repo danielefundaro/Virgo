@@ -5,6 +5,7 @@ import com.fnd.virgo.entity.Audit;
 import com.fnd.virgo.entity.AuditTuple;
 import com.fnd.virgo.entity.CommonFields;
 import com.fnd.virgo.enums.AuditTypeEnum;
+import com.fnd.virgo.model.UpdateRequest;
 import com.fnd.virgo.repository.AuditRepository;
 import com.fnd.virgo.repository.CommonRepository;
 import com.fnd.virgo.service.CommonService;
@@ -70,26 +71,35 @@ public abstract class CommonServiceImpl<C extends CommonFields, D extends Common
     }
 
     @Override
-    public D update(D d) {
+    public D update(@NotNull UpdateRequest<D> updateRequest) {
         String userId = "a";
-        C c = findEntity(d, userId);
+        D dOld = updateRequest.getOldInfo(), dNew = updateRequest.getNewInfo();
+        C cOld = findEntity(dOld, userId), cNew = findEntity(dNew, userId);
 
-        if (c == null) {
-            String error = String.format("The user %s didn't find the %s while updating name: %s", userId, getClassEntity().getSimpleName(), d.getName());
+        if (cOld == null) {
+            String error = String.format("The user %s didn't find the %s while updating name: %s", userId, getClassEntity().getSimpleName(), dOld.getName());
             saveAuditInfo(userId, error);
             log.error(error);
 
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Object not found");
         }
 
-        c.setName(d.getName());
-        c = getRepository().save(c);
+        if (cNew != null) {
+            String error = String.format("The user %s found the %s while updating name: %s", userId, getClassEntity().getSimpleName(), dOld.getName());
+            saveAuditInfo(userId, error);
+            log.error(error);
+
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Object already exists");
+        }
+
+        cOld.setName(dNew.getName());
+        cOld = getRepository().save(cOld);
 
         // Save the audit info into db
-        String info = String.format("The user %s updated the %s with id %s", userId, getClassEntity().getSimpleName(), c.getId());
-        saveAuditInfo(Collections.singletonList(c.getId()), userId, AuditTypeEnum.UPDATE, info, true);
+        String info = String.format("The user %s updated the %s with id %s", userId, getClassEntity().getSimpleName(), cOld.getId());
+        saveAuditInfo(Collections.singletonList(cOld.getId()), userId, AuditTypeEnum.UPDATE, info, true);
 
-        return modelMapper.map(c, getClassDTO());
+        return modelMapper.map(cOld, getClassDTO());
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.fnd.virgo.service;
 
 import com.fnd.virgo.dto.CommonFieldsDTO;
 import com.fnd.virgo.entity.CommonFields;
+import com.fnd.virgo.model.UpdateRequest;
 import com.fnd.virgo.repository.CommonRepository;
 import org.jetbrains.annotations.NotNull;
 import org.modelmapper.ModelMapper;
@@ -24,7 +25,7 @@ public interface CommonService<C extends CommonFields, D extends CommonFieldsDTO
 
     D save(D d);
 
-    D update(D d);
+    D update(UpdateRequest<D> updateRequest);
 
     D delete(D d);
 }

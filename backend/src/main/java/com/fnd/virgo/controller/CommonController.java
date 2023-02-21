@@ -2,8 +2,10 @@ package com.fnd.virgo.controller;
 
 import com.fnd.virgo.dto.CommonFieldsDTO;
 import com.fnd.virgo.entity.CommonFields;
+import com.fnd.virgo.model.UpdateRequest;
 import com.fnd.virgo.repository.CommonRepository;
 import com.fnd.virgo.service.CommonService;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
@@ -31,7 +33,7 @@ public interface CommonController<C extends CommonFields, D extends CommonFields
 
     @PutMapping(value = "/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(code = HttpStatus.OK)
-    private D update(@RequestBody D d) {
+    private D update(@NotNull @RequestBody UpdateRequest<D> d) {
         return getService().update(d);
     }
 

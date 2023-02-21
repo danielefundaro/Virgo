@@ -4,6 +4,7 @@ import com.fnd.virgo.dto.EncryptCommonFieldsDTO;
 import com.fnd.virgo.dto.WorkspaceCoreDTO;
 import com.fnd.virgo.entity.EncryptCommonFields;
 import com.fnd.virgo.entity.Workspace;
+import com.fnd.virgo.model.UpdateRequest;
 import com.fnd.virgo.repository.AuditRepository;
 import com.fnd.virgo.repository.CommonRepository;
 import com.fnd.virgo.repository.WorkspaceRepository;
@@ -36,6 +37,21 @@ public abstract class EncryptCommonServiceImpl<C extends EncryptCommonFields, D 
         C c = findEntity(d, userId);
         c.setWorkspace(workspace);
         c.setUserId(userId);
+        c = getRepository().save(c);
+
+        return modelMapper.map(c, getClassDTO());
+    }
+
+    @Override
+    public D update(@NotNull UpdateRequest<D> updateRequest) {
+        String userId = "a";
+        D savedD = super.update(updateRequest);
+        C c = findEntity(savedD, userId);
+        Workspace workspace = getEntityWorkspace(updateRequest.getNewInfo().getWorkspace(), userId);
+
+        c.setSalt(updateRequest.getNewInfo().getSalt());
+        c.setIv(updateRequest.getNewInfo().getIv());
+        c.setWorkspace(workspace);
         c = getRepository().save(c);
 
         return modelMapper.map(c, getClassDTO());
