@@ -11,8 +11,6 @@ import java.util.List;
 
 public interface CommonService<C extends CommonFields, D extends CommonFieldsDTO, R extends CommonRepository<C>> {
 
-    ModelMapper modelMapper = new ModelMapper();
-
     R getRepository();
 
     Class<D> getClassDTO();

@@ -10,6 +10,7 @@ import com.fnd.virgo.repository.CommonRepository;
 import com.fnd.virgo.repository.WorkspaceRepository;
 import com.fnd.virgo.service.EncryptCommonService;
 import org.jetbrains.annotations.NotNull;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,11 +20,13 @@ import java.util.Optional;
 public abstract class EncryptCommonServiceImpl<C extends EncryptCommonFields, D extends EncryptCommonFieldsDTO, R extends CommonRepository<C>> extends CommonServiceImpl<C, D, R> implements EncryptCommonService<C, D, R> {
 
     private final WorkspaceRepository workspaceRepository;
+    private final ModelMapper modelMapper;
 
     @Autowired
     protected EncryptCommonServiceImpl(WorkspaceRepository workspaceRepository, AuditRepository auditRepository) {
         super(auditRepository);
         this.workspaceRepository = workspaceRepository;
+        this.modelMapper = new ModelMapper();
     }
 
     @Override
@@ -57,7 +60,7 @@ public abstract class EncryptCommonServiceImpl<C extends EncryptCommonFields, D 
         return modelMapper.map(c, getClassDTO());
     }
 
-    public Workspace getEntityWorkspace(@NotNull WorkspaceCoreDTO workspaceDTO, String userId) {
+    private Workspace getEntityWorkspace(@NotNull WorkspaceCoreDTO workspaceDTO, String userId) {
         Optional<Workspace> optionalNote = workspaceRepository.findWorkspaceByUserIdAndName(userId, workspaceDTO.getName());
         return optionalNote.orElse(null);
     }
