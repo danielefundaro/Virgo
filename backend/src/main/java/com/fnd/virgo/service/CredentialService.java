@@ -4,7 +4,5 @@ import com.fnd.virgo.dto.CredentialDTO;
 import com.fnd.virgo.entity.Credential;
 import com.fnd.virgo.repository.CredentialRepository;
 
-import java.util.List;
-
 public interface CredentialService extends EncryptCommonService<Credential, CredentialDTO, CredentialRepository> {
 }

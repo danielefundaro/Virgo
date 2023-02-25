@@ -24,14 +24,14 @@ public class Audit {
 
     @Column(name = "deleted", nullable = false)
     private Boolean deleted = false;
-    @Column(name = "user_id", length = 255, nullable = false)
+    @Column(name = "user_id", nullable = false)
     private String userId;
     @Column(name = "date", nullable = false)
     private Date date = new Date();
     @Column(name = "type", length = 50, nullable = false)
     @Enumerated(EnumType.STRING)
     private AuditTypeEnum type;
-    @Column(name = "table_name", length = 255, nullable = false)
+    @Column(name = "table_name", nullable = false)
     private String tableName;
     @Column(name = "description", nullable = false)
     private String description;

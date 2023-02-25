@@ -18,6 +18,6 @@ public class EncryptCommonFields extends CommonFields {
     @Column(name = "iv", nullable = false)
     private String iv;
     @ManyToOne()
-    @JoinColumn(name = "workspace_id")
+    @JoinColumn(name = "workspace_id", nullable = false)
     private Workspace workspace;
 }
