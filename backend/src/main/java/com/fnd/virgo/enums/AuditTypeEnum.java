@@ -4,7 +4,7 @@ public enum AuditTypeEnum {
     SELECT,
     SELECT_ALL,
     SEARCH,
-    INSERT,
+    SAVE,
     UPDATE,
     DELETE,
     ERROR,

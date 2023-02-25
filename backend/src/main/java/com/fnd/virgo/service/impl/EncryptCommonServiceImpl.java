@@ -1,18 +1,17 @@
 package com.fnd.virgo.service.impl;
 
 import com.fnd.virgo.dto.EncryptCommonFieldsDTO;
-import com.fnd.virgo.dto.WorkspaceCoreDTO;
 import com.fnd.virgo.entity.EncryptCommonFields;
 import com.fnd.virgo.entity.Workspace;
-import com.fnd.virgo.model.UpdateRequest;
 import com.fnd.virgo.repository.AuditRepository;
 import com.fnd.virgo.repository.CommonRepository;
 import com.fnd.virgo.repository.WorkspaceRepository;
 import com.fnd.virgo.service.EncryptCommonService;
 import org.jetbrains.annotations.NotNull;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
 
@@ -20,48 +19,42 @@ import java.util.Optional;
 public abstract class EncryptCommonServiceImpl<C extends EncryptCommonFields, D extends EncryptCommonFieldsDTO, R extends CommonRepository<C>> extends CommonServiceImpl<C, D, R> implements EncryptCommonService<C, D, R> {
 
     private final WorkspaceRepository workspaceRepository;
-    private final ModelMapper modelMapper;
 
     @Autowired
     protected EncryptCommonServiceImpl(WorkspaceRepository workspaceRepository, AuditRepository auditRepository) {
         super(auditRepository);
         this.workspaceRepository = workspaceRepository;
-        this.modelMapper = new ModelMapper();
     }
 
     @Override
     public D save(@NotNull D d) {
         String userId = "a";
-        Workspace workspace = getEntityWorkspace(d.getWorkspace(), userId);
-
-        d.setWorkspace(null);
-        d = super.save(d);
-
-        C c = findEntity(d, userId);
-        c.setWorkspace(workspace);
-        c.setUserId(userId);
-        c = getRepository().save(c);
-
-        return modelMapper.map(c, getClassDTO());
+        checkWorkspace(d, userId);
+        return super.save(d);
     }
 
     @Override
-    public D update(@NotNull UpdateRequest<D> updateRequest) {
+    public D update(@NotNull D d) {
         String userId = "a";
-        D savedD = super.update(updateRequest);
-        C c = findEntity(savedD, userId);
-        Workspace workspace = getEntityWorkspace(updateRequest.getNewInfo().getWorkspace(), userId);
-
-        c.setSalt(updateRequest.getNewInfo().getSalt());
-        c.setIv(updateRequest.getNewInfo().getIv());
-        c.setWorkspace(workspace);
-        c = getRepository().save(c);
-
-        return modelMapper.map(c, getClassDTO());
+        checkWorkspace(d, userId);
+        return super.update(d);
     }
 
-    private Workspace getEntityWorkspace(@NotNull WorkspaceCoreDTO workspaceDTO, String userId) {
-        Optional<Workspace> optionalNote = workspaceRepository.findWorkspaceByUserIdAndName(userId, workspaceDTO.getName());
-        return optionalNote.orElse(null);
+    private void checkWorkspace(@NotNull D d, String userId) {
+        if (d.getWorkspace() == null || d.getWorkspace().getId() == null) {
+            String error = String.format("The user %s didn't specify the workspace of %s while saving it with name %s", userId, getClassEntity().getSimpleName(), d.getName());
+            saveAuditInfo(userId, error);
+
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Workspace missing");
+        }
+
+        Optional<Workspace> optionalWorkspace = workspaceRepository.findByIdAndUserId(d.getWorkspace().getId(), userId);
+
+        if (optionalWorkspace.isEmpty()) {
+            String error = String.format("The user %s didn't find the workspace of %s while saving it with name %s", userId, getClassEntity().getSimpleName(), d.getName());
+            saveAuditInfo(userId, error);
+
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Workspace not found");
+        }
     }
 }

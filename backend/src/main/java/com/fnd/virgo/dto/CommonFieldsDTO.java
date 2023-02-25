@@ -8,5 +8,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class CommonFieldsDTO {
+    private Long id;
     private String name;
 }

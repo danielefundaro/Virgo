@@ -21,9 +21,11 @@ public interface CommonService<C extends CommonFields, D extends CommonFieldsDTO
 
     List<D> getAll();
 
+    D getById(Long id);
+
     D save(D d);
 
-    D update(UpdateRequest<D> updateRequest);
+    D update(@NotNull D d);
 
-    D delete(D d);
+    D delete(Long id);
 }
