@@ -2,6 +2,7 @@ package com.fnd.virgo.controller;
 
 import com.fnd.virgo.dto.CommonFieldsDTO;
 import com.fnd.virgo.entity.CommonFields;
+import com.fnd.virgo.model.Searcher;
 import com.fnd.virgo.repository.CommonRepository;
 import com.fnd.virgo.service.CommonService;
 import org.jetbrains.annotations.NotNull;
@@ -34,6 +35,12 @@ public interface CommonController<C extends CommonFields, D extends CommonFields
     @ResponseStatus(code = HttpStatus.CREATED)
     private D save(@RequestBody D d) {
         return getService().save(d);
+    }
+
+    @PostMapping(value = "/searcher", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(code = HttpStatus.OK)
+    private List<D> searcher(@RequestBody Searcher searcher) {
+        return getService().search(searcher);
     }
 
     @PutMapping(value = "/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)

@@ -8,6 +8,8 @@ import com.fnd.virgo.service.WorkspaceService;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -42,5 +44,10 @@ public class WorkspaceServiceImpl extends CommonServiceImpl<Workspace, Workspace
     public Workspace findEntity(@NotNull WorkspaceDTO workspaceDTO, String userId) {
         Optional<Workspace> optionalNote = workspaceRepository.findWorkspaceByUserIdAndName(userId, workspaceDTO.getName());
         return optionalNote.orElse(null);
+    }
+
+    @Override
+    public Page<Workspace> findAllByFilter(String value, String userId, PageRequest pageRequest) {
+        return workspaceRepository.findAllByUserIdAndNameContainsIgnoreCase(userId, value, pageRequest);
     }
 }

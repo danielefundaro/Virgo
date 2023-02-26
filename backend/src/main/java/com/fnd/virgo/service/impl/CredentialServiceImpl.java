@@ -9,6 +9,8 @@ import com.fnd.virgo.service.CredentialService;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -43,5 +45,10 @@ public class CredentialServiceImpl extends EncryptCommonServiceImpl<Credential, 
     public Credential findEntity(@NotNull CredentialDTO credentialDTO, String userId) {
         Optional<Credential> optionalCredential = credentialRepository.findCredentialByUserIdAndWebsiteAndUsername(userId, credentialDTO.getWebsite(), credentialDTO.getUsername());
         return optionalCredential.orElse(null);
+    }
+
+    @Override
+    public Page<Credential> findAllByFilter(String value, String userId, PageRequest pageRequest) {
+        return credentialRepository.findAllByUserIdAndFilter(userId, value, value, value, pageRequest);
     }
 }

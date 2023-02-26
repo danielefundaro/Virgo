@@ -9,6 +9,8 @@ import com.fnd.virgo.service.NoteService;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -43,5 +45,10 @@ public class NoteServiceImpl extends EncryptCommonServiceImpl<Note, NoteDTO, Not
     public Note findEntity(@NotNull NoteDTO noteDTO, String userId) {
         Optional<Note> optionalNote = noteRepository.findNoteByUserIdAndName(userId, noteDTO.getName());
         return optionalNote.orElse(null);
+    }
+
+    @Override
+    public Page<Note> findAllByFilter(String value, String userId, PageRequest pageRequest) {
+        return noteRepository.findAllByUserIdAndNameContainsIgnoreCase(userId, value, pageRequest);
     }
 }
