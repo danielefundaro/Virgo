@@ -88,10 +88,20 @@ public abstract class CommonServiceImpl<C extends CommonFields, D extends Common
         int pageSize = searcher.pageSize() == null || searcher.pageSize() < 0 ? 0 : searcher.pageSize();
 
         if (searcher.sort() != null && !searcher.sort().isEmpty()) {
-            orders = searcher.sort().stream().filter(Objects::nonNull).filter(s -> !s.isBlank()).map(s -> switch (s.charAt(0)) {
-                case '-' -> new Sort.Order(Sort.Direction.DESC, s.substring(1));
-                case '+' -> new Sort.Order(Sort.Direction.ASC, s.substring(1));
-                default -> new Sort.Order(Sort.Direction.ASC, s.isBlank() ? "id" : s);
+            orders = searcher.sort().stream().filter(Objects::nonNull).filter(s -> !s.isBlank() && !((s.charAt(0) == '-' || s.charAt(0) == '+') && s.substring(1).length() == 0)).map(s -> {
+                Sort.Direction direction = Sort.Direction.ASC;
+                String property = s;
+
+                if (s.charAt(0) == '-')
+                    direction = Sort.Direction.DESC;
+
+                if (s.charAt(0) == '-' || s.charAt(0) == '+')
+                    property = s.substring(1);
+
+                if (property.isBlank())
+                    property = "id";
+
+                return new Sort.Order(direction, property);
             }).toList();
 
             if (!checkFields(orders)) {
