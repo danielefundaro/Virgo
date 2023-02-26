@@ -81,7 +81,7 @@ public abstract class CommonServiceImpl<C extends CommonFields, D extends Common
     }
 
     @Override
-    public List<D> search(@NotNull Searcher searcher) {
+    public Page<D> search(@NotNull Searcher searcher) {
         String userId = "a";
         List<Sort.Order> orders = new ArrayList<>();
         int pageNumber = searcher.pageNumber() == null || searcher.pageNumber() < 0 ? 0 : searcher.pageNumber();
@@ -112,7 +112,7 @@ public abstract class CommonServiceImpl<C extends CommonFields, D extends Common
         String info = String.format("The user %s got all object %s with ids %s. Count %s; total elements %s; total pages %s", userId, getClassEntity().getSimpleName(), cPage.stream().map(CommonFields::getId).toList(), cPage.getNumberOfElements(), cPage.getTotalElements(), cPage.getTotalPages());
         saveAuditInfo(cPage.stream().map(CommonFields::getId).collect(Collectors.toList()), userId, AuditTypeEnum.SEARCH, info);
 
-        return cPage.stream().map(c -> modelMapper.map(c, getClassDTO())).collect(Collectors.toList());
+        return cPage.map(c -> modelMapper.map(c, getClassDTO()));
     }
 
     @Override

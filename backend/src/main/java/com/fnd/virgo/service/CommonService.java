@@ -28,7 +28,7 @@ public interface CommonService<C extends CommonFields, D extends CommonFieldsDTO
 
     D save(D d);
 
-    List<D> search(Searcher searcher);
+    Page<D> search(Searcher searcher);
 
     D update(@NotNull D d);
 

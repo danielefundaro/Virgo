@@ -6,6 +6,7 @@ import com.fnd.virgo.model.Searcher;
 import com.fnd.virgo.repository.CommonRepository;
 import com.fnd.virgo.service.CommonService;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
@@ -39,7 +40,7 @@ public interface CommonController<C extends CommonFields, D extends CommonFields
 
     @PostMapping(value = "/searcher", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(code = HttpStatus.OK)
-    private List<D> searcher(@RequestBody Searcher searcher) {
+    private Page<D> searcher(@RequestBody Searcher searcher) {
         return getService().search(searcher);
     }
 
