@@ -7,6 +7,7 @@ import com.fnd.virgo.repository.CommonRepository;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 
 import java.util.List;
 
@@ -22,15 +23,15 @@ public interface CommonService<C extends CommonFields, D extends CommonFieldsDTO
 
     Page<C> findAllByFilter(String value, String userId, PageRequest pageRequest);
 
-    List<D> getAll();
+    List<D> getAll(JwtAuthenticationToken jwtAuthenticationToken);
 
-    D getById(Long id);
+    D getById(Long id, JwtAuthenticationToken jwtAuthenticationToken);
 
-    D save(D d);
+    D save(D d, JwtAuthenticationToken jwtAuthenticationToken);
 
-    Page<D> search(Searcher searcher);
+    Page<D> search(Searcher searcher, JwtAuthenticationToken jwtAuthenticationToken);
 
-    D update(@NotNull D d);
+    D update(@NotNull D d, JwtAuthenticationToken jwtAuthenticationToken);
 
-    D delete(Long id);
+    D delete(Long id, JwtAuthenticationToken jwtAuthenticationToken);
 }

@@ -10,6 +10,7 @@ import com.fnd.virgo.service.EncryptCommonService;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -27,17 +28,17 @@ public abstract class EncryptCommonServiceImpl<C extends EncryptCommonFields, D 
     }
 
     @Override
-    public D save(@NotNull D d) {
-        String userId = "a";
+    public D save(@NotNull D d, JwtAuthenticationToken jwtAuthenticationToken) {
+        String userId = jwtAuthenticationToken.getName();
         checkWorkspace(d, userId);
-        return super.save(d);
+        return super.save(d, jwtAuthenticationToken);
     }
 
     @Override
-    public D update(@NotNull D d) {
-        String userId = "a";
+    public D update(@NotNull D d, JwtAuthenticationToken jwtAuthenticationToken) {
+        String userId = jwtAuthenticationToken.getName();
         checkWorkspace(d, userId);
-        return super.update(d);
+        return super.update(d, jwtAuthenticationToken);
     }
 
     private void checkWorkspace(@NotNull D d, String userId) {

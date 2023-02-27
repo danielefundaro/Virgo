@@ -17,6 +17,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -36,8 +37,8 @@ public abstract class CommonServiceImpl<C extends CommonFields, D extends Common
     }
 
     @Override
-    public List<D> getAll() {
-        String userId = "a";
+    public List<D> getAll(JwtAuthenticationToken keycloakAuthenticationToken) {
+        String userId = keycloakAuthenticationToken.getName();
         List<C> cList = getRepository().findAllByUserId(userId);
 
         // Save the audit info into db
@@ -48,8 +49,8 @@ public abstract class CommonServiceImpl<C extends CommonFields, D extends Common
     }
 
     @Override
-    public D getById(Long id) {
-        String userId = "a";
+    public D getById(Long id, JwtAuthenticationToken keycloakAuthenticationToken) {
+        String userId = keycloakAuthenticationToken.getName();
         C c = findEntity(id, userId);
 
         if (c == null) {
@@ -66,8 +67,8 @@ public abstract class CommonServiceImpl<C extends CommonFields, D extends Common
     }
 
     @Override
-    public D save(@NotNull D d) {
-        String userId = "a";
+    public D save(@NotNull D d, JwtAuthenticationToken keycloakAuthenticationToken) {
+        String userId = keycloakAuthenticationToken.getName();
         C c = findEntity(d, userId);
 
         if (c != null) {
@@ -81,8 +82,8 @@ public abstract class CommonServiceImpl<C extends CommonFields, D extends Common
     }
 
     @Override
-    public Page<D> search(@NotNull Searcher searcher) {
-        String userId = "a";
+    public Page<D> search(@NotNull Searcher searcher, JwtAuthenticationToken keycloakAuthenticationToken) {
+        String userId = keycloakAuthenticationToken.getName();
         List<Sort.Order> orders = new ArrayList<>();
         int pageNumber = searcher.pageNumber() == null || searcher.pageNumber() < 0 ? 0 : searcher.pageNumber();
         int pageSize = searcher.pageSize() == null || searcher.pageSize() < 0 ? 0 : searcher.pageSize();
@@ -126,8 +127,8 @@ public abstract class CommonServiceImpl<C extends CommonFields, D extends Common
     }
 
     @Override
-    public D update(@NotNull D d) {
-        String userId = "a";
+    public D update(@NotNull D d, JwtAuthenticationToken keycloakAuthenticationToken) {
+        String userId = keycloakAuthenticationToken.getName();
         C cOld = findEntity(d.getId(), userId), cNew = findEntity(d, userId);
 
         if (cOld == null) {
@@ -148,8 +149,8 @@ public abstract class CommonServiceImpl<C extends CommonFields, D extends Common
     }
 
     @Override
-    public D delete(Long id) {
-        String userId = "a";
+    public D delete(Long id, JwtAuthenticationToken keycloakAuthenticationToken) {
+        String userId = keycloakAuthenticationToken.getName();
         C c = findEntity(id, userId);
 
         if (c == null) {

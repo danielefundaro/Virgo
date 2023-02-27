@@ -9,6 +9,7 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,37 +23,37 @@ public interface CommonController<C extends CommonFields, D extends CommonFields
 
     @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(code = HttpStatus.OK)
-    private List<D> getAll() {
-        return getService().getAll();
+    private List<D> getAll(JwtAuthenticationToken jwtAuthenticationToken) {
+        return getService().getAll(jwtAuthenticationToken);
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(code = HttpStatus.OK)
-    private D getById(@PathVariable Long id) {
-        return getService().getById(id);
+    private D getById(@PathVariable Long id, JwtAuthenticationToken jwtAuthenticationToken) {
+        return getService().getById(id, jwtAuthenticationToken);
     }
 
     @PostMapping(value = "/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(code = HttpStatus.CREATED)
-    private D save(@RequestBody D d) {
-        return getService().save(d);
+    private D save(@RequestBody D d, JwtAuthenticationToken jwtAuthenticationToken) {
+        return getService().save(d, jwtAuthenticationToken);
     }
 
     @PostMapping(value = "/searcher", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(code = HttpStatus.OK)
-    private Page<D> searcher(@RequestBody Searcher searcher) {
-        return getService().search(searcher);
+    private Page<D> searcher(@RequestBody Searcher searcher, JwtAuthenticationToken jwtAuthenticationToken) {
+        return getService().search(searcher, jwtAuthenticationToken);
     }
 
     @PutMapping(value = "/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(code = HttpStatus.OK)
-    private D update(@NotNull @RequestBody D d) {
-        return getService().update(d);
+    private D update(@NotNull @RequestBody D d, JwtAuthenticationToken jwtAuthenticationToken) {
+        return getService().update(d, jwtAuthenticationToken);
     }
 
     @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(code = HttpStatus.OK)
-    private D delete(@PathVariable Long id) {
-        return getService().delete(id);
+    private D delete(@PathVariable Long id, JwtAuthenticationToken jwtAuthenticationToken) {
+        return getService().delete(id, jwtAuthenticationToken);
     }
 }
