@@ -45,7 +45,7 @@ public class SecurityConfig {
                 .requestMatchers("/credentials/*").authenticated()
                 .requestMatchers("/notes/*").authenticated()
                 .requestMatchers("/workspaces/*").authenticated()
-                .anyRequest().permitAll() ;
+                .anyRequest().permitAll();
         http.oauth2Login().and().logout().addLogoutHandler(keycloakLogoutHandler).logoutSuccessUrl("/");
         http.oauth2ResourceServer().jwt();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
