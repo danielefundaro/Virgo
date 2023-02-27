@@ -2,10 +2,12 @@ package com.fnd.virgo;
 
 
 import com.fnd.virgo.config.KeycloakLogoutHandler;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -38,14 +40,15 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(@NotNull HttpSecurity http) throws Exception {
         http.csrf().disable().authorizeHttpRequests()
                 .requestMatchers("/credentials/*").authenticated()
                 .requestMatchers("/notes/*").authenticated()
                 .requestMatchers("/workspaces/*").authenticated()
-                .anyRequest().authenticated().and()
-                .oauth2Login().and().logout().addLogoutHandler(keycloakLogoutHandler).logoutSuccessUrl("/").and()
-                .oauth2ResourceServer().jwt();
+                .anyRequest().permitAll() ;
+        http.oauth2Login().and().logout().addLogoutHandler(keycloakLogoutHandler).logoutSuccessUrl("/");
+        http.oauth2ResourceServer().jwt();
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         return http.build();
     }
@@ -53,7 +56,7 @@ public class SecurityConfig {
     @Bean
     public UserDetailsService userDetailsService() {
         UserDetails user = User.builder().passwordEncoder(getEncoder()::encode)
-                .username("user")
+                .username("username")
                 .password("password")
                 .roles("USER")
                 .build();
