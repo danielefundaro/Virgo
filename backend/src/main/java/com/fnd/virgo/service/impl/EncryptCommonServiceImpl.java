@@ -55,7 +55,7 @@ public abstract class EncryptCommonServiceImpl<C extends EncryptCommonFields, D 
             String error = String.format("The user %s didn't find the workspace of %s while saving it with name %s", userId, getClassEntity().getSimpleName(), d.getName());
             saveAuditInfo(userId, error);
 
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Workspace not found");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Workspace not found");
         }
     }
 }
