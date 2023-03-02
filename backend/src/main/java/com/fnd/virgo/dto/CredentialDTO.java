@@ -11,4 +11,5 @@ public class CredentialDTO extends EncryptCommonFieldsDTO {
     private String website;
     private String username;
     private String passwd;
+    private String note;
 }
