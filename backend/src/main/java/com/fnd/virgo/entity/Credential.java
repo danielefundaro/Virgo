@@ -22,4 +22,6 @@ public class Credential extends EncryptCommonFields {
     private String username;
     @Column(name = "passwd", nullable = false)
     private String passwd;
+    @Column(name = "note")
+    private String note;
 }

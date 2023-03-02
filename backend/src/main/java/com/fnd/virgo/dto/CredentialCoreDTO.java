@@ -11,4 +11,5 @@ public class CredentialCoreDTO extends EncryptCommonFieldsCoreDTO {
     private String website;
     private String username;
     private String passwd;
+    private String note;
 }
