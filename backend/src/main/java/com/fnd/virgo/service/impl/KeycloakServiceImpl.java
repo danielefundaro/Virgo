@@ -54,28 +54,18 @@ public class KeycloakServiceImpl implements KeycloakService {
         form.add("grant_type", grantType);
         form.add("score", "openid");
 
-        ResponseEntity<String> response = postResponseEntity(keycloakTokenUri, new HttpHeaders(), form);
-
-        if (!response.getStatusCode().is2xxSuccessful() || !response.hasBody()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Token not acquired");
-        }
-
-        try {
-            return objectMapper.readValue(response.getBody(), AccessTokenResponse.class);
-        } catch (JsonProcessingException e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Token not acquired");
-        }
+        return getAccessToken(form);
     }
 
     @Override
-    public void logout(String refreshToken, @NotNull JwtAuthenticationToken jwtAuthenticationToken) {
+    public void logout(String token, @NotNull JwtAuthenticationToken jwtAuthenticationToken) {
         String url = String.format("%s/protocol/openid-connect/logout", keycloakIssuerUri);
         HttpHeaders httpHeaders = new HttpHeaders();
         MultiValueMap<String, String> form = new LinkedMultiValueMap<>();
 
         form.add("client_id", clientId);
         form.add("client_secret", clientSecret);
-        form.add("refresh_token", refreshToken);
+        form.add("refresh_token", token);
         httpHeaders.setBearerAuth(jwtAuthenticationToken.getToken().getTokenValue());
 
         ResponseEntity<String> response = postResponseEntity(url, httpHeaders, form);
@@ -85,6 +75,18 @@ public class KeycloakServiceImpl implements KeycloakService {
         } else {
             log.error("Could not propagate logout to Keycloak");
         }
+    }
+
+    @Override
+    public AccessTokenResponse refreshToken(String token, String grantType) {
+        MultiValueMap<String, String> form = new LinkedMultiValueMap<>();
+
+        form.add("client_id", clientId);
+        form.add("client_secret", clientSecret);
+        form.add("refresh_token", token);
+        form.add("grant_type", grantType);
+
+        return getAccessToken(form);
     }
 
     @Override
@@ -116,6 +118,20 @@ public class KeycloakServiceImpl implements KeycloakService {
 
         log.trace(String.format("Token is active %s", isActive));
         return isActive;
+    }
+
+    private AccessTokenResponse getAccessToken(MultiValueMap<String, String> form) {
+        ResponseEntity<String> response = postResponseEntity(keycloakTokenUri, new HttpHeaders(), form);
+
+        if (!response.getStatusCode().is2xxSuccessful() || !response.hasBody()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Token not acquired");
+        }
+
+        try {
+            return objectMapper.readValue(response.getBody(), AccessTokenResponse.class);
+        } catch (JsonProcessingException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Token not acquired");
+        }
     }
 
     @NotNull

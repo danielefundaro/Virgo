@@ -8,5 +8,7 @@ public interface KeycloakService {
 
     void logout(String refreshToken, JwtAuthenticationToken jwtAuthenticationToken);
 
+    AccessTokenResponse refreshToken(String token, String grantType);
+
     boolean tokenIsActive(String accessToken);
 }

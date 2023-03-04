@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = "auth")
 @Validated
 public class AuthController {
-
     private final KeycloakService keycloakService;
 
     @Autowired
@@ -28,7 +27,13 @@ public class AuthController {
 
     @PostMapping(value = "/logout", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(code = HttpStatus.OK)
-    public void logout(@RequestParam("refresh_token") String refreshToken, JwtAuthenticationToken jwtAuthenticationToken) {
-        keycloakService.logout(refreshToken, jwtAuthenticationToken);
+    public void logout(@RequestParam("refresh_token") String token, JwtAuthenticationToken jwtAuthenticationToken) {
+        keycloakService.logout(token, jwtAuthenticationToken);
+    }
+
+    @PostMapping(value = "/token", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    @ResponseStatus(code = HttpStatus.OK)
+    public Object refreshToken(@RequestParam("refresh_token") String token, @RequestParam("grant_type") String grantType) {
+        return keycloakService.refreshToken(token, grantType);
     }
 }

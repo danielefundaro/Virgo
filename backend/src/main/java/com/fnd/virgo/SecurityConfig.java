@@ -24,6 +24,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(@NotNull HttpSecurity http) throws Exception {
         http.csrf().disable().authorizeHttpRequests()
                 .requestMatchers("/auth/login").permitAll()
+                .requestMatchers("/auth/token").permitAll()
                 .requestMatchers("/credentials/*").authenticated()
                 .requestMatchers("/notes/*").authenticated()
                 .requestMatchers("/workspaces/*").authenticated()
