@@ -25,10 +25,6 @@ public class SecurityConfig {
         http.csrf().disable().authorizeHttpRequests()
                 .requestMatchers("/auth/login").permitAll()
                 .requestMatchers("/auth/token").permitAll()
-                .requestMatchers("/credentials/*").authenticated()
-                .requestMatchers("/notes/*").authenticated()
-                .requestMatchers("/workspaces/*").authenticated()
-                .requestMatchers("/users/*").authenticated()
                 .anyRequest().authenticated();
         http.oauth2Login().and().logout();
         http.oauth2ResourceServer().jwt();
