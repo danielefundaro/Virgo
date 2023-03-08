@@ -1,0 +1,127 @@
+<div class="container">
+    <div fxHide fxShow.lt-sm>
+        <mat-toolbar color="primary">
+            <span><strong>Virgo</strong></span>
+            <div fxFlex fxLayout="row" fxLayoutAlign="space-evenly center">
+                <button mat-icon-button [routerLink]="['vault']">
+                    <ng-container *ngTemplateOutlet="vaultIcon"></ng-container>
+                </button>
+                <button mat-icon-button [routerLink]="['passwords']">
+                    <ng-container *ngTemplateOutlet="passwordsIcon"></ng-container>
+                </button>
+                <button mat-icon-button [routerLink]="['notes']">
+                    <ng-container *ngTemplateOutlet="notesIcon"></ng-container>
+                </button>
+            </div>
+            <button mat-icon-button aria-label="Notifications">
+                <mat-icon class="fa fa-bell"></mat-icon>
+            </button>
+            <button mat-icon-button [matMenuTriggerFor]="settings" [matTooltip]="'MENU.SETTINGS' | translate" aria-label="Menu">
+                <mat-icon class="fa fa-gear"></mat-icon>
+            </button>
+        </mat-toolbar>
+        <ng-container *ngTemplateOutlet="mainContent"></ng-container>
+    </div>
+    <mat-sidenav-container fxFill fxHide.lt-sm fxShow>
+        <mat-sidenav class="sidenav" mode="side" position="start" opened>
+            <mat-nav-list>
+                <div mat-list-item fxLayout.lt-md="column" fxLayout="row" fxLayoutAlign="space-between center">
+                    <span mat-line><strong>Virgo</strong></span>
+                    <div fxLayout.lt-md="column">
+                        <button mat-icon-button aria-label="Notifications">
+                            <mat-icon class="fa fa-bell" color="primary"></mat-icon>
+                        </button>
+                        <button mat-icon-button [matMenuTriggerFor]="settings" [matTooltip]="'MENU.SETTINGS' | translate" aria-label="Menu">
+                            <mat-icon class="fa fa-gear" color="primary"></mat-icon>
+                        </button>
+                    </div>
+                </div>
+
+                <div mat-list-item fxHide.lt-md>
+                    <mat-form-field class="example-full-width">
+                        <mat-label>{{'SHARED.SEARCH' | translate}}</mat-label>
+                        <input matInput>
+                    </mat-form-field>
+                </div>
+
+                <a mat-list-item [routerLink]="['vault']" routerLinkActive="active">
+                    <ng-container *ngTemplateOutlet="vaultIcon"></ng-container>
+                    <mat-icon mat-list-icon fxHide.lt-md fxShow class="fa-solid fa-vault"></mat-icon>
+                    <span mat-line fxHide.lt-md fxShow>{{'MENU.VAULT' | translate}}</span>
+                </a>
+
+                <a mat-list-item [routerLink]="['passwords']">
+                    <ng-container *ngTemplateOutlet="passwordsIcon"></ng-container>
+                    <mat-icon mat-list-icon fxHide.lt-md fxShow class="fa-solid fa-user-secret"></mat-icon>
+                    <span mat-line fxHide.lt-md fxShow>{{'MENU.PASSWORDS' | translate}}</span>
+                </a>
+
+                <a mat-list-item [routerLink]="['notes']">
+                    <ng-container *ngTemplateOutlet="notesIcon"></ng-container>
+                    <mat-icon mat-list-icon fxHide.lt-md fxShow class="fa-solid fa-note-sticky"></mat-icon>
+                    <span mat-line fxHide.lt-md fxShow>{{'MENU.NOTES' | translate}}</span>
+                </a>
+
+                <mat-divider></mat-divider>
+
+                <a mat-list-item (click)="signout()">
+                    <mat-icon mat-list-icon fxHide fxShow.lt-md class="fa-solid fa-right-from-bracket"
+                        [matTooltip]="'MENU.LOGOUT' | translate"></mat-icon>
+                    <mat-icon mat-list-icon fxHide.lt-md fxShow class="fa-solid fa-right-from-bracket"></mat-icon>
+                    <span mat-line fxHide.lt-md fxShow>{{'MENU.LOGOUT' | translate}}</span>
+                </a>
+            </mat-nav-list>
+        </mat-sidenav>
+        <mat-sidenav-content class="sidenav-content">
+            <ng-container *ngTemplateOutlet="mainContent"></ng-container>
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+</div>
+
+<ng-template #vaultIcon>
+    <mat-icon mat-list-icon fxHide fxShow.lt-md class="fa-solid fa-vault"
+        [matTooltip]="'MENU.VAULT' | translate"></mat-icon>
+</ng-template>
+
+<ng-template #passwordsIcon>
+    <mat-icon mat-list-icon fxHide fxShow.lt-md class="fa-solid fa-user-secret"
+        [matTooltip]="'MENU.PASSWORDS' | translate"></mat-icon>
+</ng-template>
+
+<ng-template #notesIcon>
+    <mat-icon mat-list-icon fxHide fxShow.lt-md class="fa-solid fa-note-sticky"
+        [matTooltip]="'MENU.NOTES' | translate"></mat-icon>
+</ng-template>
+
+<ng-template #mainContent>
+    <div class="main-page-container">
+        <router-outlet></router-outlet>
+    </div>
+</ng-template>
+
+<mat-menu #settings>
+    <button mat-menu-item [matTooltip]="user.email || ''" *ngIf="user">
+        <mat-icon>person_outline</mat-icon>
+        <span>{{user.firstName}} {{user.lastName}}</span>
+        <div class="inline-block" [ngClass]="{'isLoggedId': isLoggedIn}"></div>
+    </button>
+    <mat-divider></mat-divider>
+    <button mat-menu-item (click)="openProfile()">
+        <mat-icon>apps</mat-icon>
+        <span>{{'MENU.USER' | translate}}</span>
+    </button>
+    <button mat-menu-item (click)="changeTheme()">
+        <mat-icon>{{isDarkTheme ? "brightness_7" : "brightness_2"}}</mat-icon>
+        <span>{{('MENU.THEME.' + (isDarkTheme ? 'LIGHT' : 'DARK')) | translate}}</span>
+    </button>
+    <button mat-menu-item [matMenuTriggerFor]="language">
+        <mat-icon class="fa-solid fa-flag"></mat-icon>
+        <span>{{'MENU.LANGUAGES.TITLE' | translate}}</span>
+    </button>
+</mat-menu>
+<mat-menu #language>
+    <button mat-menu-item *ngFor="let lang of languages" (click)="changeLang(lang)">
+        <mat-icon class="fa-solid fa-landmark-flag"></mat-icon>
+        <span>{{('MENU.LANGUAGES.ENUMS.' + lang.toUpperCase()) | translate}}</span>
+    </button>
+</mat-menu>

@@ -1,0 +1,36 @@
+.container {
+    height: 100%;
+}
+
+.sidenav {
+    padding: 0 0.5rem;
+}
+
+.sidenav-container {
+    border: 1px solid rgba(0, 0, 0, 0.5);
+}
+
+.main-page-container {
+    margin: 1rem;
+}
+
+.inline-block {
+    width: 0.8rem;
+    height: 0.8rem;
+    border-radius: 0.8rem;
+    display: inline-block;
+    background: orangered;
+    margin-left: 0.5rem;
+}
+
+.isLoggedId {
+    background: yellowgreen;
+}
+
+a {
+    cursor: pointer;
+}
+
+mat-icon {
+    margin-right: 0.5rem;
+}
