@@ -6,8 +6,28 @@
             "name": "ng serve",
             "type": "chrome",
             "request": "launch",
-            "preLaunchTask": "npm: start",
-            "url": "http://localhost:4200/"
+            // "preLaunchTask": "npm: start",
+            "url": "http://localhost:4200/",
+            "runtimeArgs": ["--incognito"]
+        },
+        {
+            "type": "firefox",
+            "request": "launch",
+            "reAttach": true,
+            "name": "Firefox",
+            // "preLaunchTask": "npm: start",
+            "url": "http://localhost:4200/",
+            "webRoot": "${workspaceFolder}",
+            "firefoxArgs": ["-private"]
+        },
+        {
+            "name": "Edge",
+            "request": "launch",
+            "type": "msedge",
+            // "preLaunchTask": "npm: start",
+            "url": "http://localhost:4200/",
+            "webRoot": "${workspaceFolder}",
+            "runtimeArgs": ["-inprivate"]
         },
         {
             "name": "ng test",

@@ -1,0 +1,24 @@
+{
+    "SHARED": {
+        "SEARCH": "Cerca"
+    },
+    "MENU": {
+        "VAULT": "Vault",
+        "PASSWORDS": "Passwords",
+        "NOTES": "Note",
+        "LOGOUT": "Logout",
+        "SETTINGS": "Impostazioni",
+        "USER": "Pagina utente",
+        "THEME": {
+            "LIGHT": "Chiaro",
+            "DARK": "Scuro"
+        },
+        "LANGUAGES": {
+            "TITLE": "Lingua",
+            "ENUMS": {
+                "IT": "Italiano",
+                "EN": "Inglese"
+            }
+        }
+    }
+}
