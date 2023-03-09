@@ -40,6 +40,7 @@ import { KeycloakInitModule } from './init/keycloak-init.module';
         MatInputModule,
         DefaultRoutingModule,
         MainTranslateModule,
+        KeycloakInitModule,
     ],
     providers: [],
     bootstrap: [AppComponent]

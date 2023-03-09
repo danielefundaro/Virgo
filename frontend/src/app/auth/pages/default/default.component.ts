@@ -1,7 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
 import { KeycloakProfile } from 'keycloak-js';
 import { Subscription } from 'rxjs';
-import { SettingsService } from 'src/app/services';
+import { SettingsService, UserService } from 'src/app/services';
 
 @Component({
     selector: 'default',
@@ -16,12 +16,12 @@ export class DefaultComponent implements OnDestroy {
     public isLoading!: boolean;
     private loadState: Subscription;
 
-    constructor(private settingsService: SettingsService) {
+    constructor(private userService: UserService, private settingsService: SettingsService) {
         this.languages = settingsService.languages;
         this.isDarkTheme = this.settingsService.isDarkTheme;
 
-        // this.userService.isLoggedIn().then(data => this.isLoggedIn = data);
-        // this.userService.loadUserProfile().then(data => this.user = data);
+        this.userService.isLoggedIn().then(data => this.isLoggedIn = data);
+        this.userService.loadUserProfile().then(data => this.user = data);
 
         // Set default theme
         this.settingsService.setDefalutTheme();
@@ -36,7 +36,7 @@ export class DefaultComponent implements OnDestroy {
     }
 
     public openProfile(): void {
-        // this.userService.redirectToProfile();
+        this.userService.redirectToProfile();
     }
 
     public changeTheme(): void {
@@ -48,6 +48,6 @@ export class DefaultComponent implements OnDestroy {
     }
 
     public signout(): void {
-        // this.userService.logout();
+        this.userService.logout();
     }
 }

@@ -7,9 +7,11 @@ import { VaultComponent } from '../vault/vault.component';
 const routes: Routes = [{
     path: '',
     component: DefaultComponent,
-    // canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
     children: [
         { path: 'vault', component: VaultComponent },
+        { path: 'passwords', component: VaultComponent },
+        { path: 'notes', component: VaultComponent },
     ]
 }];
 

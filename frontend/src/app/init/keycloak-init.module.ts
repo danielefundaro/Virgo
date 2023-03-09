@@ -2,22 +2,22 @@ import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
-import { environment } from 'src/environments/environment';
+import { environment } from 'src/environments/environment.dev';
 
 
 export function initializeKeycloak(keycloakService: KeycloakService) {
     return () => keycloakService.init({
         config: {
-            url: environment.keycloak.baseurl,
+            url: environment.keycloak.baseUrl,
             realm: environment.keycloak.realmName,
             clientId: environment.keycloak.clientId,
         },
         loadUserProfileAtStartUp: false,
         initOptions: {
-            flow: 'implicit',
+            flow: 'hybrid',
             useNonce: true
         },
-        bearerExcludedUrls: []
+        bearerExcludedUrls: [],
     });
 }
 
