@@ -14,15 +14,20 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatInputModule } from '@angular/material/input';
-import { DefaultRoutingModule } from './auth/pages/default/default-routing.module';
-import { DefaultComponent } from './auth/pages/default/default.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { MainTranslateModule } from './main-translate/main-translate.module';
 import { KeycloakInitModule } from './init/keycloak-init.module';
+import { DefaultRoutingModule } from './auth/pages/default/default-routing.module';
+import { DefaultComponent } from './auth/pages/default/default.component';
+import { VaultComponent } from './auth/pages/vault/vault.component';
+import { CredentialsComponent } from './auth/pages/credentials/credentials.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         DefaultComponent,
+        VaultComponent,
+        CredentialsComponent,
     ],
     imports: [
         BrowserModule,
@@ -38,6 +43,7 @@ import { KeycloakInitModule } from './init/keycloak-init.module';
         MatSnackBarModule,
         MatToolbarModule,
         MatInputModule,
+        MatPaginatorModule,
         DefaultRoutingModule,
         MainTranslateModule,
         KeycloakInitModule,
