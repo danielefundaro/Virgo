@@ -3,8 +3,8 @@
         <mat-toolbar color="primary">
             <span><strong>Virgo</strong></span>
             <div fxFlex fxLayout="row" fxLayoutAlign="space-evenly center">
-                <button mat-icon-button [routerLink]="['vault']">
-                    <ng-container *ngTemplateOutlet="vaultIcon"></ng-container>
+                <button mat-icon-button [routerLink]="['wallet']">
+                    <ng-container *ngTemplateOutlet="walletIcon"></ng-container>
                 </button>
                 <button mat-icon-button [routerLink]="['passwords']">
                     <ng-container *ngTemplateOutlet="passwordsIcon"></ng-container>
@@ -44,10 +44,10 @@
                     </mat-form-field>
                 </div>
 
-                <a mat-list-item [routerLink]="['vault']" routerLinkActive="active">
-                    <ng-container *ngTemplateOutlet="vaultIcon"></ng-container>
-                    <mat-icon mat-list-icon fxHide.lt-md fxShow class="fa-solid fa-vault"></mat-icon>
-                    <span mat-line fxHide.lt-md fxShow>{{'MENU.VAULT' | translate}}</span>
+                <a mat-list-item [routerLink]="['wallet']" routerLinkActive="active">
+                    <ng-container *ngTemplateOutlet="walletIcon"></ng-container>
+                    <mat-icon mat-list-icon fxHide.lt-md fxShow class="fa-solid fa-wallet"></mat-icon>
+                    <span mat-line fxHide.lt-md fxShow>{{'MENU.WALLET' | translate}}</span>
                 </a>
 
                 <a mat-list-item [routerLink]="['passwords']">
@@ -78,9 +78,9 @@
     </mat-sidenav-container>
 </div>
 
-<ng-template #vaultIcon>
-    <mat-icon mat-list-icon fxHide fxShow.lt-md class="fa-solid fa-vault"
-        [matTooltip]="'MENU.VAULT' | translate"></mat-icon>
+<ng-template #walletIcon>
+    <mat-icon mat-list-icon fxHide fxShow.lt-md class="fa-solid fa-wallet"
+        [matTooltip]="'MENU.WALLET' | translate"></mat-icon>
 </ng-template>
 
 <ng-template #passwordsIcon>

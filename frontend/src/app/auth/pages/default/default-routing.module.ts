@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from 'src/app/guard/auth.guard';
 import { DefaultComponent } from './default.component';
-import { VaultComponent } from '../vault/vault.component';
+import { WalletComponent } from '../wallet/wallet.component';
 import { CredentialsComponent } from '../credentials/credentials.component';
 
 const routes: Routes = [{
@@ -10,9 +10,9 @@ const routes: Routes = [{
     component: DefaultComponent,
     canActivate: [AuthGuard],
     children: [
-        { path: 'vault', component: VaultComponent },
+        { path: 'wallet', component: WalletComponent },
         { path: 'passwords', component: CredentialsComponent },
-        { path: 'notes', component: VaultComponent },
+        { path: 'notes', component: WalletComponent },
     ]
 }];
 

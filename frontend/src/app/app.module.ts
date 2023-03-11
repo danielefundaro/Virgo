@@ -19,14 +19,14 @@ import { MainTranslateModule } from './main-translate/main-translate.module';
 import { KeycloakInitModule } from './init/keycloak-init.module';
 import { DefaultRoutingModule } from './auth/pages/default/default-routing.module';
 import { DefaultComponent } from './auth/pages/default/default.component';
-import { VaultComponent } from './auth/pages/vault/vault.component';
+import { WalletComponent } from './auth/pages/wallet/wallet.component';
 import { CredentialsComponent } from './auth/pages/credentials/credentials.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         DefaultComponent,
-        VaultComponent,
+        WalletComponent,
         CredentialsComponent,
     ],
     imports: [
