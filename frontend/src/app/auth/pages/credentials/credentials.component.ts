@@ -23,7 +23,6 @@ export class CredentialsComponent implements AfterViewInit, OnDestroy {
         private snackBarService: SnackBarService, private settingService: SettingsService) {
         this.dataSource = [];
         this.settingService.isLoading = true;
-        console.log(this.dataSource);
     }
 
     ngAfterViewInit(): void {
@@ -40,13 +39,11 @@ export class CredentialsComponent implements AfterViewInit, OnDestroy {
                 }
 
                 this.paginator.length = data.totalElements;
-                console.log("map", data.content);
                 return data.content;
             })
         ).subscribe(data => {
             this.dataSource = data;
             this.settingService.isLoading = false;
-            console.log("sub", this.dataSource);
         });
     }
 
