@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @Validated
 public interface CommonController<C extends CommonFields, D extends CommonFieldsDTO, R extends CommonRepository<C>, S extends CommonService<C, D, R>> {
@@ -39,7 +40,7 @@ public interface CommonController<C extends CommonFields, D extends CommonFields
         return getService().save(d, jwtAuthenticationToken);
     }
 
-    @PostMapping(value = "/searcher", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = {"/searcher", "/searcher/"}, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(code = HttpStatus.OK)
     private Page<D> searcher(@RequestBody Searcher searcher, JwtAuthenticationToken jwtAuthenticationToken) {
         return getService().search(searcher, jwtAuthenticationToken);

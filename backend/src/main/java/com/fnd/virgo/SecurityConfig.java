@@ -22,7 +22,7 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(@NotNull HttpSecurity http) throws Exception {
-        http.csrf().disable().authorizeHttpRequests()
+        http.csrf().disable().cors().disable().authorizeHttpRequests()
                 .requestMatchers("/auth/login").permitAll()
                 .requestMatchers("/auth/token").permitAll()
                 .anyRequest().authenticated();
