@@ -36,7 +36,7 @@ export abstract class CommonService<T extends CommonFields | EncryptCommonFields
     }
 
     public search(queryPagination: Searcher): Observable<Page<T>> {
-        return this.http.post<Page<T>>(`${environment.backendUrl}/${this.baseApi()}/searcher/`, queryPagination);
+        return this.http.post<Page<T>>(`${environment.backendUrl}/${this.baseApi()}/searcher`, queryPagination);
     }
 
     protected get getBaseUrl(): string { return `${environment.backendUrl}/${this.baseApi()}`; }

@@ -14,7 +14,7 @@ export function initializeKeycloak(keycloakService: KeycloakService) {
         },
         loadUserProfileAtStartUp: false,
         initOptions: {
-            flow: 'hybrid',
+            flow: 'implicit',
             useNonce: true
         },
         bearerExcludedUrls: [],
