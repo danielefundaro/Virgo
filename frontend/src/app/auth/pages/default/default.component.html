@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" fxLayout="row" fxLayout.lt-sm="column">
     <div fxHide fxShow.lt-sm>
         <mat-toolbar color="primary">
             <span><strong>Virgo</strong></span>
@@ -20,9 +20,8 @@
                 <mat-icon class="fa fa-gear"></mat-icon>
             </button>
         </mat-toolbar>
-        <ng-container *ngTemplateOutlet="mainContent"></ng-container>
     </div>
-    <mat-sidenav-container fxFill fxHide.lt-sm fxShow>
+    <mat-sidenav-container fxHide.lt-sm fxShow>
         <mat-sidenav class="sidenav" mode="side" position="start" opened>
             <mat-nav-list>
                 <div mat-list-item fxLayout.lt-md="column" fxLayout="row" fxLayoutAlign="space-between center">
@@ -72,10 +71,10 @@
                 </a>
             </mat-nav-list>
         </mat-sidenav>
-        <mat-sidenav-content class="sidenav-content">
-            <ng-container *ngTemplateOutlet="mainContent"></ng-container>
-        </mat-sidenav-content>
     </mat-sidenav-container>
+    <div class="main-page-container" fxFlex>
+        <router-outlet></router-outlet>
+    </div>
 </div>
 
 <ng-template #walletIcon>
@@ -91,12 +90,6 @@
 <ng-template #notesIcon>
     <mat-icon mat-list-icon fxHide fxShow.lt-md class="fa-solid fa-note-sticky"
         [matTooltip]="'MENU.NOTES' | translate"></mat-icon>
-</ng-template>
-
-<ng-template #mainContent>
-    <div class="main-page-container">
-        <router-outlet></router-outlet>
-    </div>
 </ng-template>
 
 <mat-menu #settings>
