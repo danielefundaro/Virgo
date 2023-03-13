@@ -15,9 +15,9 @@ export class CredentialsComponent implements AfterViewInit, OnDestroy {
 
     @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-    public dataSource!: Credential[];
+    public dataSource!: any[];
     public sort: string;
-    public columnDisplay = ["name", "website", "username"];
+    public columnDisplay = ["name", "website", "username", "workspace.name"];
 
     private subscription!: Subscription;
     private defaultColumnSort = "name";

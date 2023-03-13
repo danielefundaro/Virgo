@@ -24,6 +24,7 @@
     "CREDENTIALS": {
         "NAME": "Nome",
         "WEBSITE": "Sito web",
-        "USERNAME": "Username"
+        "USERNAME": "Username",
+        "WORKSPACE.NAME": "Workspace"
     }
 }
