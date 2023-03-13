@@ -21,6 +21,7 @@ import { DefaultRoutingModule } from './auth/pages/default/default-routing.modul
 import { DefaultComponent } from './auth/pages/default/default.component';
 import { WalletComponent } from './auth/pages/wallet/wallet.component';
 import { CredentialsComponent } from './auth/pages/credentials/credentials.component';
+import { TruncatePipe } from './pipes/truncate.pipe';
 
 @NgModule({
     declarations: [
@@ -28,6 +29,7 @@ import { CredentialsComponent } from './auth/pages/credentials/credentials.compo
         DefaultComponent,
         WalletComponent,
         CredentialsComponent,
+        TruncatePipe,
     ],
     imports: [
         BrowserModule,
