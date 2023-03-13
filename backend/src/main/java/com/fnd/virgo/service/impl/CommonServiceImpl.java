@@ -104,20 +104,22 @@ public abstract class CommonServiceImpl<C extends CommonFields, D extends Common
 
                 return new Sort.Order(direction, property);
             }).toList();
-
-            if (!checkFields(orders)) {
-                String info = String.format("The user %s entered the wrong sort fields %s", userId, orders.stream().map(Sort.Order::getProperty).collect(Collectors.joining(", ")));
-                saveAuditInfo(userId, info);
-
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Sort fields not resolve");
-            }
         } else {
             orders.add(new Sort.Order(Sort.Direction.ASC, "id"));
         }
 
         Sort sort = Sort.by(orders);
         PageRequest pageRequest = PageRequest.of(pageNumber, pageSize, sort);
-        Page<C> cPage = findAllByFilter(searcher.value(), userId, pageRequest);
+        Page<C> cPage;
+
+        try {
+            cPage = findAllByFilter(searcher.value(), userId, pageRequest);
+        } catch (Exception e) {
+            String info = String.format("The user %s got the error %s", userId, e.getMessage());
+            saveAuditInfo(userId, info);
+
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
 
         // Save the audit info into db
         String info = String.format("The user %s got all object %s with ids %s. Count %s; total elements %s; total pages %s", userId, getClassEntity().getSimpleName(), cPage.stream().map(CommonFields::getId).toList(), cPage.getNumberOfElements(), cPage.getTotalElements(), cPage.getTotalPages());
@@ -223,24 +225,5 @@ public abstract class CommonServiceImpl<C extends CommonFields, D extends Common
         saveAuditInfo(c.getId(), userId, auditTypeEnum, info);
 
         return modelMapper.map(c, getClassDTO());
-    }
-
-    private boolean checkFields(@NotNull List<Sort.Order> orders) {
-        Class<?> clazz = getClassDTO();
-        int count = 0;
-
-        do {
-            Class<?> finalClazz = clazz;
-
-            for (Sort.Order order : orders) {
-                if (Arrays.stream(finalClazz.getDeclaredFields()).anyMatch(field -> field.getName().equals(order.getProperty()))) {
-                    count++;
-                }
-            }
-
-            clazz = clazz.getSuperclass();
-        } while (clazz != null && count < orders.size());
-
-        return count == orders.size();
     }
 }
