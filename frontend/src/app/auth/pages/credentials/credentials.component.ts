@@ -1,7 +1,7 @@
-import { AfterViewInit, Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { TranslateService } from '@ngx-translate/core';
-import { catchError, debounceTime, fromEvent, map, merge, of, startWith, Subscription, switchMap } from 'rxjs';
+import { catchError, debounceTime, map, merge, of, startWith, Subject, Subscription, switchMap } from 'rxjs';
 import { SettingsService, SnackBarService } from 'src/app/services';
 import { Credential, Searcher } from '../../models';
 import { CredentialsService } from '../../services';
@@ -16,21 +16,26 @@ export class CredentialsComponent implements AfterViewInit, OnDestroy {
     @ViewChild(MatPaginator) paginator!: MatPaginator;
 
     public dataSource!: Credential[];
+    public sort: string;
+    public columnDisplay = ["name", "website", "username"];
 
     private subscription!: Subscription;
+    private defaultColumnSort = "name";
+    private sortSubject: Subject<string> = new Subject<string>();
 
     constructor(private credentialsService: CredentialsService, private translate: TranslateService,
         private snackBarService: SnackBarService, private settingService: SettingsService) {
         this.dataSource = [];
         this.settingService.isLoading = true;
+        this.sort = this.defaultColumnSort;
     }
 
     ngAfterViewInit(): void {
-        this.subscription = merge(this.paginator.page).pipe(
+        this.subscription = merge(this.paginator.page, this.sortSubject).pipe(
             startWith({}),
             debounceTime(150),
             switchMap(() => {
-                const s: Searcher = new Searcher("", this.paginator.pageIndex, this.paginator.pageSize, []);
+                const s: Searcher = new Searcher("", this.paginator.pageIndex, this.paginator.pageSize, [this.sort]);
                 return this.credentialsService.search(s).pipe(catchError(() => of(null)));
             }),
             map(data => {
@@ -49,5 +54,27 @@ export class CredentialsComponent implements AfterViewInit, OnDestroy {
 
     ngOnDestroy(): void {
         this.subscription.unsubscribe();
+    }
+
+    public order(columnName: string): void {
+        if (columnName != undefined && columnName.length > 0) {
+            const sign = this.sort.charAt(0);
+
+            if (sign === '+' || sign === '-') {
+                this.sort = this.sort.substring(1);
+            }
+
+            if (this.sort === columnName) {
+                switch (sign) {
+                    case '+': this.sort = `-${columnName}`; break;
+                    case '-': this.sort = this.defaultColumnSort; break;
+                    default: this.sort = `+${columnName}`; break;
+                }
+            } else {
+                this.sort = `+${columnName}`;
+            }
+
+            this.sortSubject.next(this.sort.toLowerCase());
+        }
     }
 }

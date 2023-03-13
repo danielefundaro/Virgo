@@ -20,5 +20,10 @@
                 "EN": "Inglese"
             }
         }
+    },
+    "CREDENTIALS": {
+        "NAME": "Nome",
+        "WEBSITE": "Sito web",
+        "USERNAME": "Username"
     }
 }
