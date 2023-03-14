@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CredentialsComponent } from './credentials.component';
+import { CustomTableComponent } from './custom-table.component';
 
-describe('CredentialsComponent', () => {
-    let component: CredentialsComponent;
-    let fixture: ComponentFixture<CredentialsComponent>;
+describe('CustomTableComponent', () => {
+    let component: CustomTableComponent;
+    let fixture: ComponentFixture<CustomTableComponent>;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [CredentialsComponent]
+            declarations: [CustomTableComponent]
         })
             .compileComponents();
 
-        fixture = TestBed.createComponent(CredentialsComponent);
+        fixture = TestBed.createComponent(CustomTableComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

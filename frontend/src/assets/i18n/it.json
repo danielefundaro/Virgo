@@ -25,6 +25,6 @@
         "NAME": "Nome",
         "WEBSITE": "Sito web",
         "USERNAME": "Username",
-        "WORKSPACE.NAME": "Workspace"
+        "WORKSPACE": "Workspace"
     }
 }

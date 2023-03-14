@@ -22,6 +22,7 @@ import { DefaultComponent } from './auth/pages/default/default.component';
 import { WalletComponent } from './auth/pages/wallet/wallet.component';
 import { CredentialsComponent } from './auth/pages/credentials/credentials.component';
 import { TruncatePipe } from './pipes/truncate.pipe';
+import { CustomTableComponent } from './auth/components/custom-table/custom-table.component';
 
 @NgModule({
     declarations: [
@@ -30,6 +31,7 @@ import { TruncatePipe } from './pipes/truncate.pipe';
         WalletComponent,
         CredentialsComponent,
         TruncatePipe,
+        CustomTableComponent,
     ],
     imports: [
         BrowserModule,

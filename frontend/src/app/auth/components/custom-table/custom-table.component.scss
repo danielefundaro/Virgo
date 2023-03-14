@@ -1,0 +1,17 @@
+.container {
+    overflow-y: auto;
+}
+
+.column {
+    cursor: pointer;
+}
+
+.column:hover {
+    background-color: #424242;
+}
+
+.column {
+    span + i {
+        margin-left: 1rem;
+    }
+}
