@@ -17,17 +17,14 @@ export class CredentialsComponent implements OnInit, AfterViewInit, OnDestroy {
 
     public dataSource!: Credential[];
     public columnsDisplay!: IColumn[];
-    public defaultColumnSort = "name";
 
     private subscription!: Subscription;
     private sortSubject: Subject<string> = new Subject<string>();
-    private sort: string;
 
     constructor(private credentialsService: CredentialsService, private translate: TranslateService,
         private snackBarService: SnackBarService, private settingService: SettingsService) {
         this.dataSource = [];
         this.settingService.isLoading = true;
-        this.sort = this.defaultColumnSort;
     }
 
     ngOnInit(): void {
@@ -51,7 +48,7 @@ export class CredentialsComponent implements OnInit, AfterViewInit, OnDestroy {
             startWith({}),
             debounceTime(150),
             switchMap(() => {
-                const s: Searcher = new Searcher("", this.customTable.paginator.pageIndex, this.customTable.paginator.pageSize, [this.sort]);
+                const s: Searcher = new Searcher("", this.customTable.paginator.pageIndex, this.customTable.paginator.pageSize, [this.customTable.sort]);
                 return this.credentialsService.search(s).pipe(catchError(() => of(null)));
             }),
             map(data => {
@@ -73,7 +70,6 @@ export class CredentialsComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     public onSortChange(field: string): void {
-        this.sort = field;
-        this.sortSubject.next(this.sort);
+        this.sortSubject.next(field);
     }
 }
