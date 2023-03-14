@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { catchError, debounceTime, fromEvent, map, merge, of, startWith, Subject, Subscription, switchMap } from 'rxjs';
+import { catchError, debounceTime, map, merge, of, startWith, Subject, Subscription, switchMap } from 'rxjs';
 import { SettingsService, SnackBarService } from 'src/app/services';
 import { CustomTableComponent } from '../../components/custom-table/custom-table.component';
 import { Credential, IColumn, Searcher } from '../../models';
