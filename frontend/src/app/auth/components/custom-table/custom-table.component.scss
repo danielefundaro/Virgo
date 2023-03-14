@@ -2,16 +2,30 @@
     overflow-y: auto;
 }
 
-.column {
+.element {
     cursor: pointer;
 }
 
-.column:hover {
+.element+.element {
+    margin-top: 1rem;
+}
+
+.element:hover, .column:hover  {
     background-color: #424242;
 }
 
 .column {
-    span + i {
+    cursor: pointer;
+
+    span+i {
         margin-left: 1rem;
     }
+}
+
+.rounded-icon {
+    width: 3rem;
+    height: 3rem;
+    background-color: brown;
+    border-radius: 0.5rem;
+    border-top-left-radius: 1rem;
 }

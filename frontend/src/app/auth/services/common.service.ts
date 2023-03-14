@@ -11,7 +11,7 @@ import { EncryptCommonFields } from "../models/encryptCommonFields.model";
 })
 export abstract class CommonService<T extends CommonFields | EncryptCommonFields> {
 
-    constructor(protected http: HttpClient) { }
+    constructor(private http: HttpClient) { }
 
     abstract baseApi(): string;
 

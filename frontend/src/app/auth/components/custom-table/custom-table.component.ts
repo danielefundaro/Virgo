@@ -11,6 +11,7 @@ export class CustomTableComponent implements OnInit {
 
     @Input() columnsDisplay!: IColumn[];
     @Input() defaultColumnSort!: string;
+    @Input() dataSource!: any[];
     @Output() onSortChange: EventEmitter<string> = new EventEmitter<string>();
     @ViewChild(MatPaginator) paginator!: MatPaginator;
 
