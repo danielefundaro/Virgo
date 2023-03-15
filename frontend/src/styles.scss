@@ -16,6 +16,41 @@ $accent: mat.define-palette(mat.$green-palette, A200, A100, A400);
 
 // The warn palette is optional (defaults to red).
 $warn: mat.define-palette(mat.$red-palette);
+$backgroud-palette: (
+    50 : #f4f4f5,
+    100 : #c2c2c6,
+    200 : #9a9aa0,
+    300 : #71727a,
+    400 : #52535e,
+    500 : #343541,
+    600 : #2f303b,
+    700 : #272832,
+    800 : #21222a,
+    900 : #15161c,
+    A100 : #2289f9,
+    A200 : #066ad8,
+    A400 : #005ec5,
+    A700 : #0057b5,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #ffffff,
+        400 : #ffffff,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #ffffff,
+        A200 : #ffffff,
+        A400 : #ffffff,
+        A700 : #ffffff,
+    )
+);
+$background: mat.define-palette($backgroud-palette);
+$background-component: mat.get-color-from-palette($background, 700);
+$background-component-contrast: mat.get-color-from-palette($background, '700-contrast');
 
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".
@@ -29,6 +64,10 @@ $theme: mat.define-light-theme((color: (primary: $primary,
 // that you are using.
 @include mat.all-component-themes($theme);
 
+.mat-app-background {
+    background: mat.get-color-from-palette($background, 50) !important;
+}
+
 .darkTheme {
     $theme: mat.define-dark-theme((color: (primary: $primary,
                 accent: $accent,
@@ -36,6 +75,12 @@ $theme: mat.define-light-theme((color: (primary: $primary,
             )));
 
     @include mat.all-component-themes($theme);
+    background: mat.get-color-from-palette($background, 500) !important;
+
+    .mat-drawer-side, .mat-mdc-paginator, .background-component:hover {
+        background: $background-component !important;
+        color: $background-component-contrast !important;
+    }
 }
 
 /* You can add global styles to this file, and also import other style files */
@@ -47,4 +92,9 @@ html, body {
 body {
     margin: 0;
     font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.background-component:hover {
+    background: white;
+    color: rgba(0, 0, 0, 0.87);
 }
