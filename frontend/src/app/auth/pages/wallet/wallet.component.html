@@ -1,1 +1,3 @@
-<p>wallet works!</p>
+<custom-table #customTable [columnsDisplay]="columnsDisplay" [defaultColumnSort]="'name'" [dataSource]="dataSource"
+    (onSortChange)="onSortChange($event)">
+</custom-table>

@@ -11,8 +11,8 @@
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$primary: mat.define-palette(mat.$purple-palette);
-$accent: mat.define-palette(mat.$green-palette, A200, A100, A400);
+$primary: mat.define-palette(mat.$green-palette);
+$accent: mat.define-palette(mat.$purple-palette, A200, A100, A400);
 
 // The warn palette is optional (defaults to red).
 $warn: mat.define-palette(mat.$red-palette);
@@ -49,8 +49,8 @@ $backgroud-palette: (
     )
 );
 $background: mat.define-palette($backgroud-palette);
-$background-component: mat.get-color-from-palette($background, 700);
-$background-component-contrast: mat.get-color-from-palette($background, '700-contrast');
+$background-component: white;
+$background-component-contrast: rgba(0, 0, 0, 0.87);
 
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".
@@ -73,6 +73,8 @@ $theme: mat.define-light-theme((color: (primary: $primary,
                 accent: $accent,
                 warn: $warn,
             )));
+    $background-component: mat.get-color-from-palette($background, 700);
+    $background-component-contrast: mat.get-color-from-palette($background, '700-contrast');
 
     @include mat.all-component-themes($theme);
     background: mat.get-color-from-palette($background, 500) !important;

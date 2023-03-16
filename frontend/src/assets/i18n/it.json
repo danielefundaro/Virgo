@@ -31,5 +31,12 @@
     "NOTES": {
         "NAME": "Nome",
         "WORKSPACE": "Workspace"
+    },
+    "WALLETS": {
+        "NAME": "Nome",
+        "TYPE": "Tipo",
+        "WEBSITE": "Sito web",
+        "USERNAME": "Username",
+        "WORKSPACE": "Workspace"
     }
 }
