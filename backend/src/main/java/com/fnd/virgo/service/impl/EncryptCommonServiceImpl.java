@@ -28,14 +28,14 @@ public abstract class EncryptCommonServiceImpl<C extends EncryptCommonFields, D 
     }
 
     @Override
-    public D save(@NotNull D d, JwtAuthenticationToken jwtAuthenticationToken) {
+    public D save(@NotNull D d, @NotNull JwtAuthenticationToken jwtAuthenticationToken) {
         String userId = jwtAuthenticationToken.getName();
         checkWorkspace(d, userId);
         return super.save(d, jwtAuthenticationToken);
     }
 
     @Override
-    public D update(@NotNull D d, JwtAuthenticationToken jwtAuthenticationToken) {
+    public D update(@NotNull D d, @NotNull JwtAuthenticationToken jwtAuthenticationToken) {
         String userId = jwtAuthenticationToken.getName();
         checkWorkspace(d, userId);
         return super.update(d, jwtAuthenticationToken);
