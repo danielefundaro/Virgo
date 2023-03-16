@@ -2,12 +2,13 @@
     overflow-y: auto;
 }
 
-.element {
-    cursor: pointer;
-}
+.header {
+    margin-bottom: 1rem;
+    padding: 0 0.5rem;
 
-.element+.element {
-    margin-top: 1rem;
+    .actions {
+        width: 2rem;
+    }
 }
 
 .column {
@@ -15,6 +16,26 @@
 
     span+i {
         margin-left: 1rem;
+    }
+}
+
+.element {
+    cursor: pointer;
+    border-top: 1px solid #151922;
+    box-sizing: border-box;
+    padding: 0 0.5rem;
+}
+
+.actions {
+    visibility: hidden;
+    opacity: 0;
+}
+
+.element:hover {
+    .actions {
+        visibility: visible;
+        opacity: 1;
+        transition: visibility 0.3s linear, opacity 0.3s linear;
     }
 }
 

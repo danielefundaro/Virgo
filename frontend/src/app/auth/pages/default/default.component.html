@@ -3,15 +3,15 @@
         <mat-toolbar color="primary">
             <span><strong>Virgo</strong></span>
             <div fxFlex fxLayout="row" fxLayoutAlign="space-evenly center">
-                <button mat-icon-button [matTooltip]="'MENU.WALLET' | translate" [routerLink]="['wallet']" aria-label="Wallet">
+                <a mat-icon-button [matTooltip]="'MENU.WALLET' | translate" [routerLink]="['wallet']" aria-label="Wallet">
                     <ng-container *ngTemplateOutlet="walletIcon"></ng-container>
-                </button>
-                <button mat-icon-button [matTooltip]="'MENU.PASSWORDS' | translate" [routerLink]="['passwords']" aria-label="Password">
+                </a>
+                <a mat-icon-button [matTooltip]="'MENU.PASSWORDS' | translate" [routerLink]="['passwords']" aria-label="Password">
                     <ng-container *ngTemplateOutlet="passwordsIcon"></ng-container>
-                </button>
-                <button mat-icon-button [matTooltip]="'MENU.NOTES' | translate" [routerLink]="['notes']" aria-label="Notes">
+                </a>
+                <a mat-icon-button [matTooltip]="'MENU.NOTES' | translate" [routerLink]="['notes']" aria-label="Notes">
                     <ng-container *ngTemplateOutlet="notesIcon"></ng-container>
-                </button>
+                </a>
             </div>
             <button mat-icon-button [matTooltip]="'MENU.NOTIFICATIONS' | translate" aria-label="Notifications">
                 <mat-icon class="fa fa-bell"></mat-icon>

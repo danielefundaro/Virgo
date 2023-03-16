@@ -37,6 +37,10 @@
         "TYPE": "Tipo",
         "WEBSITE": "Sito web",
         "USERNAME": "Username",
-        "WORKSPACE": "Workspace"
+        "WORKSPACE": "Workspace",
+        "ENUM": {
+            "NOTE": "Note",
+            "CREDENTIAL": "Password"
+        }
     }
 }
