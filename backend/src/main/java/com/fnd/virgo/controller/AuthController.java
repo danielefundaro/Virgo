@@ -1,7 +1,6 @@
 package com.fnd.virgo.controller;
 
 import com.fnd.virgo.service.KeycloakService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
     private final KeycloakService keycloakService;
 
-    @Autowired
     public AuthController(KeycloakService keycloakService) {
         this.keycloakService = keycloakService;
     }

@@ -8,7 +8,6 @@ import com.fnd.virgo.repository.WorkspaceRepository;
 import com.fnd.virgo.service.CredentialService;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -20,7 +19,6 @@ import java.util.Optional;
 public class CredentialServiceImpl extends EncryptCommonServiceImpl<Credential, CredentialDTO, CredentialRepository> implements CredentialService {
     private final CredentialRepository credentialRepository;
 
-    @Autowired
     public CredentialServiceImpl(CredentialRepository credentialRepository, WorkspaceRepository workspaceRepository, AuditRepository auditRepository) {
         super(workspaceRepository, auditRepository);
         this.credentialRepository = credentialRepository;

@@ -8,7 +8,6 @@ import com.fnd.virgo.repository.WorkspaceRepository;
 import com.fnd.virgo.service.NoteService;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -20,7 +19,6 @@ import java.util.Optional;
 public class NoteServiceImpl extends EncryptCommonServiceImpl<Note, NoteDTO, NoteRepository> implements NoteService {
     private final NoteRepository noteRepository;
 
-    @Autowired
     public NoteServiceImpl(NoteRepository noteRepository, WorkspaceRepository workspaceRepository, AuditRepository auditRepository) {
         super(workspaceRepository, auditRepository);
         this.noteRepository = noteRepository;

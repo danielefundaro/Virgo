@@ -8,7 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.keycloak.authorization.client.representation.TokenIntrospectionResponse;
 import org.keycloak.representations.AccessTokenResponse;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
@@ -37,7 +36,6 @@ public class KeycloakServiceImpl implements KeycloakService {
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
 
-    @Autowired
     public KeycloakServiceImpl() {
         this.restTemplate = new RestTemplate();
         this.objectMapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);

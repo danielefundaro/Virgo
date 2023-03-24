@@ -7,7 +7,6 @@ import com.fnd.virgo.repository.AuditRepository;
 import com.fnd.virgo.repository.WalletRepository;
 import com.fnd.virgo.service.WalletService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
@@ -22,7 +21,6 @@ import java.util.Optional;
 public class WalletServiceImpl extends BasicServiceImpl<Wallet, WalletDTO, WalletRepository> implements WalletService {
     private final WalletRepository walletRepository;
 
-    @Autowired
     public WalletServiceImpl(WalletRepository walletRepository, AuditRepository auditRepository) {
         super(auditRepository);
         this.walletRepository = walletRepository;

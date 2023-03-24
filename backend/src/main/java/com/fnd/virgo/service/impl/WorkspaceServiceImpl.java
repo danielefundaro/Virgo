@@ -7,7 +7,6 @@ import com.fnd.virgo.repository.WorkspaceRepository;
 import com.fnd.virgo.service.WorkspaceService;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -19,7 +18,6 @@ import java.util.Optional;
 public class WorkspaceServiceImpl extends CommonServiceImpl<Workspace, WorkspaceDTO, WorkspaceRepository> implements WorkspaceService {
     private final WorkspaceRepository workspaceRepository;
 
-    @Autowired
     public WorkspaceServiceImpl(WorkspaceRepository workspaceRepository, AuditRepository auditRepository) {
         super(auditRepository);
         this.workspaceRepository = workspaceRepository;

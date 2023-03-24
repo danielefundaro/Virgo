@@ -9,7 +9,6 @@ import com.fnd.virgo.service.CommonService;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.stereotype.Service;
@@ -20,7 +19,6 @@ import org.springframework.web.server.ResponseStatusException;
 public abstract class CommonServiceImpl<C extends CommonFields, D extends CommonFieldsDTO, R extends CommonRepository<C>> extends BasicServiceImpl<C, D, R> implements CommonService<C, D, R> {
     private final ModelMapper modelMapper;
 
-    @Autowired
     protected CommonServiceImpl(AuditRepository auditRepository) {
         super(auditRepository);
         this.modelMapper = new ModelMapper();

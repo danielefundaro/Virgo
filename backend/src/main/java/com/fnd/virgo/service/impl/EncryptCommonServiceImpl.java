@@ -8,7 +8,6 @@ import com.fnd.virgo.repository.CommonRepository;
 import com.fnd.virgo.repository.WorkspaceRepository;
 import com.fnd.virgo.service.EncryptCommonService;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.stereotype.Service;
@@ -21,7 +20,6 @@ public abstract class EncryptCommonServiceImpl<C extends EncryptCommonFields, D 
 
     private final WorkspaceRepository workspaceRepository;
 
-    @Autowired
     protected EncryptCommonServiceImpl(WorkspaceRepository workspaceRepository, AuditRepository auditRepository) {
         super(auditRepository);
         this.workspaceRepository = workspaceRepository;

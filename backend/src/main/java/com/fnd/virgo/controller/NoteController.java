@@ -4,7 +4,6 @@ import com.fnd.virgo.dto.NoteDTO;
 import com.fnd.virgo.entity.Note;
 import com.fnd.virgo.repository.NoteRepository;
 import com.fnd.virgo.service.NoteService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class NoteController implements CommonController<Note, NoteDTO, NoteRepository, NoteService> {
     private final NoteService noteService;
 
-    @Autowired
     public NoteController(NoteService noteService) {
         this.noteService = noteService;
     }

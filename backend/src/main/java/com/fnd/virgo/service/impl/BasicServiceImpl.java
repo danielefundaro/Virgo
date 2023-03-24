@@ -12,7 +12,6 @@ import com.fnd.virgo.service.BasicService;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -30,7 +29,6 @@ public abstract class BasicServiceImpl<C extends CommonFields, D extends CommonF
     private final AuditRepository auditRepository;
     protected final ModelMapper modelMapper;
 
-    @Autowired
     public BasicServiceImpl(AuditRepository auditRepository) {
         this.auditRepository = auditRepository;
         this.modelMapper = new ModelMapper();

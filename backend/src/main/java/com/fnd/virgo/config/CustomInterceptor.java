@@ -4,7 +4,6 @@ import com.fnd.virgo.service.KeycloakService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
@@ -14,7 +13,6 @@ import org.springframework.web.servlet.HandlerInterceptor;
 public class CustomInterceptor implements HandlerInterceptor {
     private final KeycloakService keycloakService;
 
-    @Autowired
     public CustomInterceptor(KeycloakService keycloakService) {
         this.keycloakService = keycloakService;
     }
