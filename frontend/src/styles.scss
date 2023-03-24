@@ -100,3 +100,9 @@ body {
     background: white;
     color: rgba(0, 0, 0, 0.87);
 }
+
+.element {
+    span, a {
+        overflow-wrap: anywhere;
+    }
+}

@@ -10,7 +10,7 @@
                     <span>{{data.name | truncate:0:50:'...'}}</span>
                 </div>
                 <div fxFlex="grow" fxFlexOffset="0.5rem">
-                    <span>{{("WALLETS.ENUMS."+data.type) | truncate:0:50:'...'}}</span>
+                    <span>{{("WALLETS.ENUMS." + data.type) | translate}}</span>
                 </div>
                 <div fxFlex="grow" fxFlexOffset="0.5rem">
                     <a href="{{data.website}}" target="_blank">{{data.website | truncate:0:50:'...'}}</a>
