@@ -1,3 +1,4 @@
+export * from './commonFields.model';
 export * from './credential.model';
 export * from './icolumn.model';
 export * from './note.model';

@@ -1,9 +1,9 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { catchError, debounceTime, map, merge, of, startWith, Subject, Subscription, switchMap } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { SettingsService, SnackBarService } from 'src/app/services';
-import { CustomTableComponent } from '../../components/custom-table/custom-table.component';
-import { Credential, IColumn, Searcher } from '../../models';
+import { AbstractTableComponent } from '../../components/abstract-table/abstract-table.component';
+import { Credential, IColumn, Page, Searcher } from '../../models';
 import { CredentialsService } from '../../services';
 
 @Component({
@@ -11,23 +11,14 @@ import { CredentialsService } from '../../services';
     templateUrl: './credentials.component.html',
     styleUrls: ['./credentials.component.scss']
 })
-export class CredentialsComponent implements OnInit, AfterViewInit, OnDestroy {
+export class CredentialsComponent extends AbstractTableComponent<Credential> {
 
-    @ViewChild(CustomTableComponent) customTable!: CustomTableComponent;
-
-    public dataSource!: Credential[];
     public columnsDisplay!: IColumn[];
 
-    private subscription!: Subscription;
-    private sortSubject: Subject<string> = new Subject<string>();
-
     constructor(private credentialsService: CredentialsService, private translate: TranslateService,
-        private snackBarService: SnackBarService, private settingService: SettingsService) {
-        this.dataSource = [];
-        this.settingService.isLoading = true;
-    }
+        private snackBarService: SnackBarService, private settingsService: SettingsService) {
+        super(settingsService);
 
-    ngOnInit(): void {
         this.columnsDisplay = [{
             name: "name",
             title: this.translate.instant("CREDENTIALS.NAME")
@@ -43,33 +34,20 @@ export class CredentialsComponent implements OnInit, AfterViewInit, OnDestroy {
         }];
     }
 
-    ngAfterViewInit(): void {
-        this.subscription = merge(this.customTable.paginator.page, this.sortSubject).pipe(
-            startWith({}),
-            debounceTime(150),
-            switchMap(() => {
-                const s: Searcher = new Searcher("", this.customTable.paginator.pageIndex, this.customTable.paginator.pageSize, [this.customTable.sort]);
-                return this.credentialsService.search(s).pipe(catchError(() => of(null)));
-            }),
-            map(data => {
-                if (data === null) {
-                    return [];
-                }
-
-                this.customTable.paginator.length = data.totalElements;
-                return data.content;
-            })
-        ).subscribe(data => {
-            this.dataSource = data;
-            this.settingService.isLoading = false;
-        });
+    public search(s: Searcher): Observable<Page<Credential>> {
+        return this.credentialsService.search(s);
     }
 
-    ngOnDestroy(): void {
-        this.subscription.unsubscribe();
+    public DisplayedColumns(): string[] {
+        return ["name", "website", "username", "workspace.name"];
     }
 
     public onSortChange(field: string): void {
-        this.sortSubject.next(field);
+        console.log(field);
+        super.sortChange(field);
+    }
+
+    public copy(data: Credential): void {
+        console.log(data);
     }
 }

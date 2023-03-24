@@ -1,33 +1,24 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { catchError, debounceTime, map, merge, of, startWith, Subject, Subscription, switchMap } from 'rxjs';
+import { Observable } from 'rxjs';
 import { SettingsService, SnackBarService } from 'src/app/services';
-import { CustomTableComponent } from '../../components/custom-table/custom-table.component';
-import { IColumn, Note, Searcher, Wallet } from '../../models';
-import { NotesService, WalletsService } from '../../services';
+import { AbstractTableComponent } from '../../components/abstract-table/abstract-table.component';
+import { IColumn, Page, Searcher, Wallet } from '../../models';
+import { WalletsService } from '../../services';
 
 @Component({
     selector: 'wallet',
     templateUrl: './wallet.component.html',
     styleUrls: ['./wallet.component.scss']
 })
-export class WalletComponent implements OnInit, AfterViewInit, OnDestroy {
+export class WalletComponent extends AbstractTableComponent<Wallet> {
 
-    @ViewChild(CustomTableComponent) customTable!: CustomTableComponent;
-
-    public dataSource!: Wallet[];
     public columnsDisplay!: IColumn[];
 
-    private subscription!: Subscription;
-    private sortSubject: Subject<string> = new Subject<string>();
-
     constructor(private walletsService: WalletsService, private translate: TranslateService,
-        private snackBarService: SnackBarService, private settingService: SettingsService) {
-        this.dataSource = [];
-        this.settingService.isLoading = true;
-    }
+        private snackBarService: SnackBarService, private settingsService: SettingsService) {
+        super(settingsService);
 
-    ngOnInit(): void {
         this.columnsDisplay = [{
             name: "name",
             title: this.translate.instant("WALLETS.NAME")
@@ -46,33 +37,20 @@ export class WalletComponent implements OnInit, AfterViewInit, OnDestroy {
         }];
     }
 
-    ngAfterViewInit(): void {
-        this.subscription = merge(this.customTable.paginator.page, this.sortSubject).pipe(
-            startWith({}),
-            debounceTime(150),
-            switchMap(() => {
-                const s: Searcher = new Searcher("", this.customTable.paginator.pageIndex, this.customTable.paginator.pageSize, [this.customTable.sort]);
-                return this.walletsService.search(s).pipe(catchError(() => of(null)));
-            }),
-            map(data => {
-                if (data === null) {
-                    return [];
-                }
-
-                this.customTable.paginator.length = data.totalElements;
-                return data.content;
-            })
-        ).subscribe(data => {
-            this.dataSource = data;
-            this.settingService.isLoading = false;
-        });
+    public search(s: Searcher): Observable<Page<Wallet>> {
+        return this.walletsService.search(s);
     }
 
-    ngOnDestroy(): void {
-        this.subscription.unsubscribe();
+    public DisplayedColumns(): string[] {
+        return ["name", "website", "username", "workspace.name"];
     }
 
     public onSortChange(field: string): void {
-        this.sortSubject.next(field);
+        console.log(field);
+        super.sortChange(field);
+    }
+
+    public copy(data: Credential): void {
+        console.log(data);
     }
 }

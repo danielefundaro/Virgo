@@ -1,3 +1,39 @@
-<custom-table #customTable [columnsDisplay]="columnsDisplay" [defaultColumnSort]="'name'" [dataSource]="dataSource"
-    (onSortChange)="onSortChange($event)">
-</custom-table>
+<div fxFill fxLayout="column" fxLayoutAlign="space-between stretch">
+    <div class="container" fxLayout="column">
+        <header [columnsDisplay]="columnsDisplay" [defaultColumnSort]="'name'"
+            (onSortChange)="onSortChange($event)">
+        </header>
+        <div class="element background-component" *ngFor="let data of dataSource" fxLayout="row">
+            <div class="rounded-icon"></div>
+            <div fxLayout.lt-md="column" fxLayoutAlign.lt-md="start start" fxLayout="row" fxLayoutAlign="start center"
+                fxFlex>
+                <div fxFlex="grow" fxFlexOffset="0.5rem">
+                    <span>{{data.name | truncate:0:50:'...'}}</span>
+                </div>
+                <div fxFlex="grow" fxFlexOffset="0.5rem">
+                    <span>{{data.workspace.name | truncate:0:50:'...'}}</span>
+                </div>
+            </div>
+            <div class="actions" fxLayoutAlign="center center"><button mat-mini-fab [matMenuTriggerFor]="menu"><mat-icon
+                        class="fa-solid fa-ellipsis"></mat-icon></button></div>
+
+            <mat-menu #menu>
+                <button mat-menu-item (click)="copy(data)">
+                    <mat-icon class="fa-solid fa-copy"></mat-icon>
+                    <span>{{'CREDENTIALS.MENU.COPY_CONTENT' | translate}}</span>
+                </button>
+                <mat-divider></mat-divider>
+                <button mat-menu-item (click)="copy(data)">
+                    <mat-icon class="fa-solid fa-folder"></mat-icon>
+                    <span>{{'CREDENTIALS.MENU.MOVE_FOLDER' | translate}}</span>
+                </button>
+                <mat-divider></mat-divider>
+                <button mat-menu-item (click)="copy(data)">
+                    <mat-icon class="fa-solid fa-edit"></mat-icon>
+                    <span>{{'CREDENTIALS.MENU.EDIT' | translate}}</span>
+                </button>
+            </mat-menu>
+        </div>
+    </div>
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 50, 100]" showFirstLastButtons></mat-paginator>
+</div>

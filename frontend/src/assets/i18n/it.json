@@ -38,7 +38,7 @@
         "WEBSITE": "Sito web",
         "USERNAME": "Username",
         "WORKSPACE": "Workspace",
-        "ENUM": {
+        "ENUMS": {
             "NOTE": "Note",
             "CREDENTIAL": "Password"
         }

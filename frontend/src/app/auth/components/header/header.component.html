@@ -1,0 +1,10 @@
+<div fxLayout="row" fxLayoutAlign="start center" class="header">
+    <div fxFlexOffset="3rem" fxHide.lt-md fxShow></div>
+    <div class="column background-component" fxFlex="grow" fxFlexOffset="0.5rem" (click)="order(column.name)"
+        *ngFor="let column of columnsDisplay">
+        <span>{{column.title}}</span>
+        <i class="fa fa-arrow-up" *ngIf="sort.substring(1) === column.name && sort.charAt(0) === '+'"></i>
+        <i class="fa fa-arrow-down" *ngIf="sort.substring(1) === column.name && sort.charAt(0) === '-'"></i>
+    </div>
+    <div fxFlexOffset="2.5rem"></div>
+</div>

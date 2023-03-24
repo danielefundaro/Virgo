@@ -1,24 +1,21 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { IColumn } from '../../models';
 
 @Component({
-    selector: 'custom-table',
-    templateUrl: './custom-table.component.html',
-    styleUrls: ['./custom-table.component.scss']
+  selector: 'header',
+  templateUrl: './header.component.html',
+  styleUrls: ['./header.component.scss']
 })
-export class CustomTableComponent implements OnInit {
+export class HeaderComponent implements OnInit {
 
     @Input() columnsDisplay!: IColumn[];
     @Input() defaultColumnSort!: string;
-    @Input() dataSource!: any[];
     @Output() onSortChange: EventEmitter<string> = new EventEmitter<string>();
-    @ViewChild(MatPaginator) paginator!: MatPaginator;
 
     public sort!: string;
 
     ngOnInit(): void {
-        this.sort = 'id';
+        this.sort = 'name';
 
         if (this.defaultColumnSort) {
             this.sort = this.defaultColumnSort;
