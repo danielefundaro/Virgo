@@ -96,6 +96,10 @@ body {
     font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
+.mat-mdc-paginator {
+    border-radius: 0.5rem;
+}
+
 .background-component:hover {
     background: white;
     color: rgba(0, 0, 0, 0.87);
