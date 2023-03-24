@@ -19,11 +19,11 @@ import { MainTranslateModule } from './main-translate/main-translate.module';
 import { KeycloakInitModule } from './init/keycloak-init.module';
 import { DefaultRoutingModule } from './auth/pages/default/default-routing.module';
 import { DefaultComponent } from './auth/pages/default/default.component';
+import { CustomTableComponent } from './auth/components/custom-table/custom-table.component';
 import { WalletComponent } from './auth/pages/wallet/wallet.component';
 import { CredentialsComponent } from './auth/pages/credentials/credentials.component';
 import { TruncatePipe } from './pipes/truncate.pipe';
 import { NotesComponent } from './auth/pages/notes/notes.component';
-import { HeaderComponent } from './auth/components/header/header.component';
 
 @NgModule({
     declarations: [
@@ -33,7 +33,7 @@ import { HeaderComponent } from './auth/components/header/header.component';
         CredentialsComponent,
         TruncatePipe,
         NotesComponent,
-        HeaderComponent,
+        CustomTableComponent,
     ],
     imports: [
         BrowserModule,

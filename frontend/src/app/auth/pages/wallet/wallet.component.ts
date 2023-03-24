@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { SettingsService, SnackBarService } from 'src/app/services';
-import { AbstractTableComponent } from '../../components/abstract-table/abstract-table.component';
+import { AbstractTableComponent } from '../../components/custom-table/abstract-table.component';
 import { IColumn, Page, Searcher, Wallet } from '../../models';
 import { WalletsService } from '../../services';
 
@@ -46,7 +46,6 @@ export class WalletComponent extends AbstractTableComponent<Wallet> {
     }
 
     public onSortChange(field: string): void {
-        console.log(field);
         super.sortChange(field);
     }
 

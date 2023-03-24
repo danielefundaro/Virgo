@@ -1,13 +1,13 @@
 import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
 import { catchError, debounceTime, map, merge, Observable, of, startWith, Subject, Subscription, switchMap } from 'rxjs';
 import { SettingsService } from 'src/app/services';
 import { CommonFields, Page, Searcher } from '../../models';
+import { CustomTableComponent } from './custom-table.component';
 
 @Component({ template: "" })
 export abstract class AbstractTableComponent<T extends CommonFields> implements OnInit, AfterViewInit, OnDestroy {
 
-    @ViewChild(MatPaginator) paginator!: MatPaginator;
+    @ViewChild(CustomTableComponent) customTable!: CustomTableComponent;
 
     protected defaultColumnSort: string = 'name';
     protected dataSource!: any[];
@@ -40,11 +40,11 @@ export abstract class AbstractTableComponent<T extends CommonFields> implements 
     }
 
     ngAfterViewInit(): void {
-        this.subscription = merge(this.paginator.page, this.sortSubject).pipe(
+        this.subscription = merge(this.customTable.paginator.page, this.sortSubject).pipe(
             startWith({}),
             debounceTime(150),
             switchMap(() => {
-                const s: Searcher = new Searcher("", this.paginator.pageIndex, this.paginator.pageSize, [this.sort]);
+                const s: Searcher = new Searcher("", this.customTable.paginator.pageIndex, this.customTable.paginator.pageSize, [this.sort]);
                 return this.search(s).pipe(catchError(() => of(null)));
             }),
             map(data => {
@@ -52,7 +52,7 @@ export abstract class AbstractTableComponent<T extends CommonFields> implements 
                     return [];
                 }
 
-                this.paginator.length = data.totalElements;
+                this.customTable.paginator.length = data.totalElements;
                 return data.content;
             })
         ).subscribe(data => {

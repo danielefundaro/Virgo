@@ -1,6 +1,12 @@
+.container {
+    overflow-y: auto;
+}
+
 .header {
     margin-bottom: 1rem;
     padding: 0 0.5rem;
+    position: sticky;
+    top: 0;
 }
 
 .column {
