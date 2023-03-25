@@ -7,6 +7,7 @@ import com.fnd.virgo.repository.AuditRepository;
 import com.fnd.virgo.repository.WalletRepository;
 import com.fnd.virgo.service.WalletService;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
@@ -47,7 +48,7 @@ public class WalletServiceImpl extends BasicServiceImpl<Wallet, WalletDTO, Walle
     }
 
     @Override
-    public WalletDTO getByIdAndType(Long id, String type, JwtAuthenticationToken jwtAuthenticationToken) {
+    public WalletDTO getByIdAndType(Long id, String type, @NotNull JwtAuthenticationToken jwtAuthenticationToken) {
         String userId = jwtAuthenticationToken.getName();
         Optional<Wallet> optionalWallet = walletRepository.findByIdAndUserIdAndType(id, userId, type);
 
