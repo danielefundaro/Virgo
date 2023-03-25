@@ -6,6 +6,7 @@ import { CommonService } from './common.service';
     providedIn: 'root'
 })
 export class CredentialsService extends CommonService<Credential> {
+
     baseApi(): string {
         return "credentials";
     }

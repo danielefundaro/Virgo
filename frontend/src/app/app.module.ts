@@ -16,6 +16,9 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatInputModule } from '@angular/material/input';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { ClipboardModule } from '@angular/cdk/clipboard';
+import { MatDialogModule } from '@angular/material/dialog';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatSelectModule } from '@angular/material/select';
 import { MainTranslateModule } from './main-translate/main-translate.module';
 import { KeycloakInitModule } from './init/keycloak-init.module';
 import { DefaultRoutingModule } from './auth/pages/default/default-routing.module';
@@ -25,6 +28,7 @@ import { WalletComponent } from './auth/pages/wallet/wallet.component';
 import { CredentialsComponent } from './auth/pages/credentials/credentials.component';
 import { TruncatePipe } from './pipes/truncate.pipe';
 import { NotesComponent } from './auth/pages/notes/notes.component';
+import { ChangeWorkspaceComponent } from './auth/components/dialog/change-workspace/change-workspace.component';
 
 @NgModule({
     declarations: [
@@ -35,6 +39,7 @@ import { NotesComponent } from './auth/pages/notes/notes.component';
         TruncatePipe,
         NotesComponent,
         CustomTableComponent,
+        ChangeWorkspaceComponent,
     ],
     imports: [
         BrowserModule,
@@ -52,6 +57,10 @@ import { NotesComponent } from './auth/pages/notes/notes.component';
         MatInputModule,
         MatPaginatorModule,
         ClipboardModule,
+        MatDialogModule,
+        FormsModule,
+        ReactiveFormsModule,
+        MatSelectModule,
         DefaultRoutingModule,
         MainTranslateModule,
         KeycloakInitModule,

@@ -1,50 +1,36 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { catchError, debounceTime, map, merge, Observable, of, startWith, Subject, Subscription, switchMap } from 'rxjs';
+import { AfterViewInit, Component, OnDestroy, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { catchError, debounceTime, firstValueFrom, map, merge, Observable, of, startWith, Subscription, switchMap } from 'rxjs';
 import { SettingsService } from 'src/app/services';
-import { CommonFields, Page, Searcher } from '../../models';
+import { EncryptCommonFields, IChangeWorkspaceRequest, IChangeWorkspaceResponse, Page, Searcher, Workspace } from '../../models';
+import { ChangeWorkspaceComponent } from '../dialog/change-workspace/change-workspace.component';
 import { CustomTableComponent } from './custom-table.component';
 
 @Component({ template: "" })
-export abstract class AbstractTableComponent<T extends CommonFields> implements OnInit, AfterViewInit, OnDestroy {
+export abstract class AbstractTableComponent<T extends EncryptCommonFields> implements AfterViewInit, OnDestroy {
 
     @ViewChild(CustomTableComponent) customTable!: CustomTableComponent;
 
-    protected defaultColumnSort: string = 'name';
     protected dataSource!: any[];
-    protected displayedColumns!: string[];
 
-    private sort!: string;
     private subscription!: Subscription;
-    private sortSubject: Subject<string> = new Subject<string>();
 
-    constructor(private settingService: SettingsService) {
+    constructor(private settingService: SettingsService, protected dialog: MatDialog) {
         this.dataSource = [];
         this.settingService.isLoading = true;
     }
 
     public abstract search(s: Searcher): Observable<Page<T>>;
-    public abstract DisplayedColumns(): string[];
-
-    ngOnInit(): void {
-        this.sort = 'id';
-
-        this.displayedColumns = this.DisplayedColumns();
-
-        if (this.defaultColumnSort) {
-            this.sort = this.defaultColumnSort;
-        } else {
-            if (this.displayedColumns.length > 0) {
-                this.sort = this.displayedColumns[0];
-            }
-        }
-    }
+    public abstract update(data: T): Observable<T>;
+    public abstract displayedColumns(): string[];
+    public abstract onChangeWorkspace(data: T, workspace: Workspace): void;
 
     ngAfterViewInit(): void {
-        this.subscription = merge(this.customTable.paginator.page, this.sortSubject).pipe(
+        this.subscription = merge(this.customTable.paginator.page, this.customTable.onSortChange).pipe(
             startWith({}),
             debounceTime(150),
             switchMap(() => {
-                const s: Searcher = new Searcher("", this.customTable.paginator.pageIndex, this.customTable.paginator.pageSize, [this.sort]);
+                const s: Searcher = new Searcher("", this.customTable.paginator.pageIndex, this.customTable.paginator.pageSize, [this.customTable.sort]);
                 return this.search(s).pipe(catchError(() => of(null)));
             }),
             map(data => {
@@ -65,8 +51,22 @@ export abstract class AbstractTableComponent<T extends CommonFields> implements 
         this.subscription.unsubscribe();
     }
 
-    protected sortChange(columnName: string): void {
-        this.sort = columnName;
-        this.sortSubject.next(columnName);
+    protected moveWorkspace(data: T): void {
+        const dialogRef = this.dialog.open<ChangeWorkspaceComponent, IChangeWorkspaceRequest, IChangeWorkspaceResponse>(ChangeWorkspaceComponent, {
+            data: { title: data.name, workspace: data.workspace },
+            disableClose: true
+        });
+
+        firstValueFrom(dialogRef.afterClosed()).then(result => {
+            if (result?.move) {
+                data.workspace = result.workspace;
+
+                firstValueFrom(this.update(data)).then(result => {
+                    console.log(result);
+                }).catch(error => {
+                    console.error(error);
+                });
+            }
+        });
     }
 }

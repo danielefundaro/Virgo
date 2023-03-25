@@ -1,6 +1,8 @@
 {
     "SHARED": {
-        "SEARCH": "Cerca"
+        "SEARCH": "Cerca",
+        "CLOSE": "Chiudi",
+        "MOVE": "Sposta"
     },
     "MENU": {
         "WALLET": "Wallet",
@@ -10,6 +12,12 @@
         "NOTIFICATIONS": "Notifiche",
         "SETTINGS": "Impostazioni",
         "USER": "Pagina utente",
+        "COPY_WEBSITE": "Copia sito web",
+        "COPY_USERNAME": "Copia username",
+        "COPY_PASSWORD": "Copia password",
+        "COPY_CONTENT": "Copia contenuto",
+        "MOVE_WORKSPACE": "Sposta in cartella",
+        "EDIT": "Modifica",
         "THEME": {
             "LIGHT": "Chiaro",
             "DARK": "Scuro"
@@ -42,5 +50,8 @@
             "NOTE": "Note",
             "CREDENTIAL": "Password"
         }
+    },
+    "DIALOG": {
+        "SELECT_WORKSPACE": "Seleziona cartella"
     }
 }

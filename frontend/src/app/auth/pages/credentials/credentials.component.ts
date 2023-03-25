@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
-import { Observable, Subject } from 'rxjs';
+import { first, firstValueFrom, Observable } from 'rxjs';
 import { SettingsService, SnackBarService } from 'src/app/services';
 import { AbstractTableComponent } from '../../components/custom-table/abstract-table.component';
-import { Credential, IColumn, Page, Searcher } from '../../models';
+import { Credential, IColumn, Page, Searcher, Workspace } from '../../models';
 import { CredentialsService } from '../../services';
 
 @Component({
@@ -13,13 +14,13 @@ import { CredentialsService } from '../../services';
 })
 export class CredentialsComponent extends AbstractTableComponent<Credential> {
 
-    public columnsDisplay!: IColumn[];
+    public iDisplayedColumns!: IColumn[];
 
     constructor(private credentialsService: CredentialsService, private translate: TranslateService,
-        private snackBarService: SnackBarService, private settingsService: SettingsService) {
-        super(settingsService);
+        private snackBarService: SnackBarService, settingsService: SettingsService, dialog: MatDialog) {
+        super(settingsService, dialog);
 
-        this.columnsDisplay = [{
+        this.iDisplayedColumns = [{
             name: "name",
             title: this.translate.instant("CREDENTIALS.NAME")
         }, {
@@ -37,16 +38,30 @@ export class CredentialsComponent extends AbstractTableComponent<Credential> {
     public search(s: Searcher): Observable<Page<Credential>> {
         return this.credentialsService.search(s);
     }
-
-    public DisplayedColumns(): string[] {
-        return ["name", "website", "username", "workspace.name"];
+    
+    public update(data: Credential): Observable<Credential> {
+        return this.credentialsService.update(data);
     }
 
-    public onSortChange(field: string): void {
-        super.sortChange(field);
+    public displayedColumns(): string[] {
+        return this.iDisplayedColumns.map(column => column.name);
+    }
+
+    public onChangeWorkspace(data: Credential, workspace: Workspace): void {
+        // data.workspace = workspace;
+
+        // firstValueFrom(this.credentialsService.update(data)).then(data => {
+        //     console.log(data);
+        // }).catch(error => {
+        //     console.error(error);
+        // });
     }
 
     public copy(data: Credential): void {
+        console.log(data);
+    }
+
+    public edit(data: Credential): void {
         console.log(data);
     }
 }

@@ -9,7 +9,7 @@ import { IColumn } from '../../models';
 })
 export class CustomTableComponent implements OnInit {
 
-    @Input() columnsDisplay!: IColumn[];
+    @Input() displayedColumns!: IColumn[];
     @Input() defaultColumnSort!: string;
     @Output() onSortChange: EventEmitter<string> = new EventEmitter<string>();
     @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -22,8 +22,8 @@ export class CustomTableComponent implements OnInit {
         if (this.defaultColumnSort) {
             this.sort = this.defaultColumnSort;
         } else {
-            if (this.columnsDisplay.length > 0) {
-                this.sort = this.columnsDisplay[0].name;
+            if (this.displayedColumns.length > 0) {
+                this.sort = this.displayedColumns[0].name;
             }
         }
     }

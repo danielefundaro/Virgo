@@ -11,19 +11,21 @@ import { BasicService } from "./basic.service";
 })
 export abstract class CommonService<T extends CommonFields | EncryptCommonFields> extends BasicService<T> {
 
+    constructor(http: HttpClient) { super(http); }
+
     public getById(id: number): Observable<T> {
-        return super.http.get<T>(`${environment.backendUrl}/${this.baseApi()}/${id}`);
+        return this.http.get<T>(`${environment.backendUrl}/${this.baseApi()}/${id}`);
     }
 
     public save(t: T): Observable<T> {
-        return super.http.post<T>(`${environment.backendUrl}/${this.baseApi()}/`, t);
+        return this.http.post<T>(`${environment.backendUrl}/${this.baseApi()}/`, t);
     }
 
     public update(t: T): Observable<T> {
-        return super.http.put<T>(`${environment.backendUrl}/${this.baseApi()}/`, t);
+        return this.http.put<T>(`${environment.backendUrl}/${this.baseApi()}/`, t);
     }
 
     public delete(id: number): Observable<T> {
-        return super.http.delete<T>(`${environment.backendUrl}/${this.baseApi()}/${id}`);
+        return this.http.delete<T>(`${environment.backendUrl}/${this.baseApi()}/${id}`);
     }
 }
