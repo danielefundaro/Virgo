@@ -15,6 +15,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatInputModule } from '@angular/material/input';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { ClipboardModule } from '@angular/cdk/clipboard';
 import { MainTranslateModule } from './main-translate/main-translate.module';
 import { KeycloakInitModule } from './init/keycloak-init.module';
 import { DefaultRoutingModule } from './auth/pages/default/default-routing.module';
@@ -50,6 +51,7 @@ import { NotesComponent } from './auth/pages/notes/notes.component';
         MatToolbarModule,
         MatInputModule,
         MatPaginatorModule,
+        ClipboardModule,
         DefaultRoutingModule,
         MainTranslateModule,
         KeycloakInitModule,

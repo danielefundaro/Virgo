@@ -24,11 +24,11 @@
                     class="fa-solid fa-ellipsis"></mat-icon></button></div>
 
         <mat-menu #menu>
-            <button mat-menu-item (click)="copy(data)">
+            <button mat-menu-item [cdkCopyToClipboard]="data.username">
                 <mat-icon class="fa-solid fa-copy"></mat-icon>
                 <span>{{'CREDENTIALS.MENU.COPY_WEBSITE' | translate}}</span>
             </button>
-            <button mat-menu-item (click)="copy(data)">
+            <button mat-menu-item [cdkCopyToClipboard]="data.username">
                 <mat-icon class="fa-solid fa-copy"></mat-icon>
                 <span>{{'CREDENTIALS.MENU.COPY_USERNAME' | translate}}</span>
             </button>
