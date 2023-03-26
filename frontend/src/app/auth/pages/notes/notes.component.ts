@@ -4,7 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { SettingsService, SnackBarService } from 'src/app/services';
 import { AbstractTableComponent } from '../../components/custom-table/abstract-table.component';
-import { IColumn, Note, Page, Searcher, Workspace } from '../../models';
+import { IColumn, Note, Page, Searcher } from '../../models';
 import { NotesService } from '../../services';
 
 @Component({
@@ -35,14 +35,6 @@ export class NotesComponent extends AbstractTableComponent<Note> {
     
     public update(data: Note): Observable<Note> {
         return this.notesService.update(data);
-    }
-
-    public displayedColumns(): string[] {
-        return ["name", "website", "username", "workspace.name"];
-    }
-
-    public onChangeWorkspace(data: Note, workspace: Workspace): void {
-        console.log(data, workspace);
     }
 
     public copy(data: Note): void {

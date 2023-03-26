@@ -22,8 +22,6 @@ export abstract class AbstractTableComponent<T extends EncryptCommonFields> impl
 
     public abstract search(s: Searcher): Observable<Page<T>>;
     public abstract update(data: T): Observable<T>;
-    public abstract displayedColumns(): string[];
-    public abstract onChangeWorkspace(data: T, workspace: Workspace): void;
 
     ngAfterViewInit(): void {
         this.subscription = merge(this.customTable.paginator.page, this.customTable.onSortChange).pipe(

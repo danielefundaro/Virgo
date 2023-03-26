@@ -4,7 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Observable, of } from 'rxjs';
 import { SettingsService, SnackBarService } from 'src/app/services';
 import { AbstractTableComponent } from '../../components/custom-table/abstract-table.component';
-import { IColumn, Page, Searcher, Wallet, Workspace } from '../../models';
+import { IColumn, Page, Searcher, Wallet } from '../../models';
 import { WalletsService } from '../../services';
 
 @Component({
@@ -44,14 +44,6 @@ export class WalletComponent extends AbstractTableComponent<Wallet> {
 
     public update(data: Wallet): Observable<Wallet> {
         return of(new Wallet());
-    }
-
-    public displayedColumns(): string[] {
-        return ["name", "website", "username", "workspace.name"];
-    }
-
-    public onChangeWorkspace(data: Wallet, workspace: Workspace): void {
-        console.log(data, workspace);
     }
 
     public copyPasswd(data: Wallet): void {
