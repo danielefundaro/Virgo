@@ -9,6 +9,7 @@ import { IColumn } from '../../models';
 })
 export class CustomTableComponent implements OnInit {
 
+    @Input() title!: string;
     @Input() displayedColumns!: IColumn[];
     @Input() defaultColumnSort!: string;
     @Output() onSortChange: EventEmitter<string> = new EventEmitter<string>();

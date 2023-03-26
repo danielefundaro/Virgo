@@ -1,3 +1,7 @@
+<div fxLayout="row" fxLayoutAlign="space-between center">
+    <div class="title">{{title}}</div>
+    <button mat-raised-button color="accent"><mat-icon class="fa fa-add"></mat-icon><ng-content select="[addButton]"></ng-content></button>
+</div>
 <div fxFill fxLayout="column" fxLayoutAlign="space-between stretch">
     <div class="container" fxLayout="column">
         <div fxLayout="row" fxLayoutAlign="start center" class="header">

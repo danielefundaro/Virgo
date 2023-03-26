@@ -58,12 +58,13 @@ export abstract class AbstractTableComponent<T extends EncryptCommonFields> impl
         firstValueFrom(dialogRef.afterClosed()).then(result => {
             if (result?.move) {
                 data.workspace = result.workspace;
+                this.settingService.isLoading = true;
 
                 firstValueFrom(this.update(data)).then(result => {
                     console.log(result);
                 }).catch(error => {
                     console.error(error);
-                });
+                }).then(() => this.settingService.isLoading = false);
             }
         });
     }

@@ -22,19 +22,19 @@ export class WalletComponent extends AbstractTableComponent<Wallet> {
 
         this.iDisplayedColumns = [{
             name: "name",
-            title: this.translate.instant("WALLETS.NAME")
+            title: this.translate.instant("WALLET.NAME")
         }, {
             name: "type",
-            title: this.translate.instant("WALLETS.TYPE")
+            title: this.translate.instant("WALLET.TYPE")
         }, {
             name: "website",
-            title: this.translate.instant("WALLETS.WEBSITE")
+            title: this.translate.instant("WALLET.WEBSITE")
         }, {
             name: "username",
-            title: this.translate.instant("WALLETS.USERNAME")
+            title: this.translate.instant("WALLET.USERNAME")
         }, {
             name: "workspace.name",
-            title: this.translate.instant("WALLETS.WORKSPACE")
+            title: this.translate.instant("WALLET.WORKSPACE")
         }];
     }
 

@@ -1,4 +1,6 @@
-<custom-table #customTable [displayedColumns]="iDisplayedColumns" [defaultColumnSort]="'name'">
+<custom-table #customTable [title]="'MENU.WALLET' | translate" [displayedColumns]="iDisplayedColumns" [defaultColumnSort]="'name'">
+    <div addButton>{{'WALLET.ADD' | translate}}</div>
+
     <div class="element background-component" *ngFor="let data of dataSource" fxLayout="row">
         <div class="rounded-icon"></div>
         <div fxLayout.lt-md="column" fxLayoutAlign.lt-md="start start" fxLayout="row" fxLayoutAlign="start center"
@@ -7,7 +9,7 @@
                 <span>{{data.name | truncate:0:50:'...'}}</span>
             </div>
             <div fxFlex="grow" fxFlexOffset="0.5rem">
-                <span>{{("WALLETS.ENUMS." + data.type) | translate}}</span>
+                <span>{{("WALLET.ENUMS." + data.type) | translate}}</span>
             </div>
             <div fxFlex="grow" fxFlexOffset="0.5rem">
                 <a href="{{data.website}}" target="_blank">{{data.website | truncate:0:50:'...'}}</a>

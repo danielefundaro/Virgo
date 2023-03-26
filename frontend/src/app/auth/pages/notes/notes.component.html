@@ -1,4 +1,6 @@
-<custom-table #customTable [displayedColumns]="iDisplayedColumns" [defaultColumnSort]="'name'">
+<custom-table #customTable [title]="'MENU.NOTES' | translate" [displayedColumns]="iDisplayedColumns" [defaultColumnSort]="'name'">
+    <div addButton>{{'NOTES.ADD' | translate}}</div>
+
     <div class="element background-component" *ngFor="let data of dataSource" fxLayout="row">
         <div class="rounded-icon"></div>
         <div fxLayout.lt-md="column" fxLayoutAlign.lt-md="start start" fxLayout="row" fxLayoutAlign="start center"

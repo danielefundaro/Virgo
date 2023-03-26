@@ -2,11 +2,12 @@
     "SHARED": {
         "SEARCH": "Cerca",
         "CLOSE": "Chiudi",
-        "MOVE": "Sposta"
+        "MOVE": "Sposta",
+        "ADD": "Aggiungi"
     },
     "MENU": {
         "WALLET": "Wallet",
-        "PASSWORDS": "Passwords",
+        "CREDENTIALS": "Passwords",
         "NOTES": "Note",
         "LOGOUT": "Logout",
         "NOTIFICATIONS": "Notifiche",
@@ -34,18 +35,21 @@
         "NAME": "Nome",
         "WEBSITE": "Sito web",
         "USERNAME": "Username",
-        "WORKSPACE": "Workspace"
+        "WORKSPACE": "Workspace",
+        "ADD": "Aggiungi password"
     },
     "NOTES": {
         "NAME": "Nome",
-        "WORKSPACE": "Workspace"
+        "WORKSPACE": "Workspace",
+        "ADD":"Aggiungi nota"
     },
-    "WALLETS": {
+    "WALLET": {
         "NAME": "Nome",
         "TYPE": "Tipo",
         "WEBSITE": "Sito web",
         "USERNAME": "Username",
         "WORKSPACE": "Workspace",
+        "ADD": "Aggiungi elemento",
         "ENUMS": {
             "NOTE": "Note",
             "CREDENTIAL": "Password"
