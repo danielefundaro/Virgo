@@ -2,7 +2,7 @@ import { Component, Inject } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { firstValueFrom } from 'rxjs';
-import { IChangeWorkspaceRequest, IChangeWorkspaceResponse, Workspace } from 'src/app/auth/models';
+import { IChangeWorkspaceRequest, Workspace } from 'src/app/auth/models';
 import { WorkspacesService } from 'src/app/auth/services';
 
 @Component({
@@ -15,7 +15,7 @@ export class ChangeWorkspaceComponent {
     public workspaces!: Workspace[];
     public workspaceControl!: FormControl;
 
-    constructor(public dialogRef: MatDialogRef<ChangeWorkspaceComponent, IChangeWorkspaceResponse>, private workspacesService: WorkspacesService,
+    constructor(public dialogRef: MatDialogRef<ChangeWorkspaceComponent, Workspace>, private workspacesService: WorkspacesService,
         @Inject(MAT_DIALOG_DATA) public data: IChangeWorkspaceRequest) {
         this.workspaceControl = new FormControl(null);
 
@@ -23,9 +23,5 @@ export class ChangeWorkspaceComponent {
             this.workspaces = workspaces;
             this.workspaceControl = new FormControl(workspaces.find(workspace => workspace.id === data.workspace.id));
         });
-    }
-
-    public close(move: boolean): void {
-        this.dialogRef.close({ move: move, workspace: this.workspaceControl.value });
     }
 }
