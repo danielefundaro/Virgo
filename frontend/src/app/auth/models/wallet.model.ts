@@ -1,7 +1,12 @@
 import { EncryptCommonFields } from "./encryptCommonFields.model";
 
+export enum TypeEnum {
+    CREDENTIAL = "CREDENTIAL",
+    NOTE = "NOTE",
+}
+
 export class Wallet extends EncryptCommonFields {
-    type!: string;
+    type!: TypeEnum;
     website!: string;
     username!: string;
     passwd!: string;

@@ -83,6 +83,11 @@ $theme: mat.define-light-theme((color: (primary: $primary,
         background: $background-component !important;
         color: $background-component-contrast !important;
     }
+
+    .mdc-text-field {
+        background: mat.get-color-from-palette($background, 800) !important;
+        color: mat.get-color-from-palette($background, '800-contrast') !important;
+    }
 }
 
 /* You can add global styles to this file, and also import other style files */

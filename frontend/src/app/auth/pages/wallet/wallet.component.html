@@ -51,6 +51,10 @@
                 <mat-icon class="fa-solid fa-edit"></mat-icon>
                 <span>{{'MENU.EDIT' | translate}}</span>
             </button>
+            <button mat-menu-item (click)="edit(data)">
+                <mat-icon class="fa-solid fa-trash"></mat-icon>
+                <span>{{'MENU.DELETE' | translate}}</span>
+            </button>
         </mat-menu>
     </div>
 </custom-table>

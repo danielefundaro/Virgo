@@ -2,7 +2,7 @@ import { AfterViewInit, Component, OnDestroy, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { catchError, debounceTime, firstValueFrom, map, merge, Observable, of, startWith, Subscription, switchMap } from 'rxjs';
 import { SettingsService } from 'src/app/services';
-import { EncryptCommonFields, IChangeWorkspaceRequest, IChangeWorkspaceResponse, Page, Searcher, Workspace } from '../../models';
+import { EncryptCommonFields, IChangeWorkspaceRequest, Page, Searcher, Workspace } from '../../models';
 import { ChangeWorkspaceComponent } from '../dialog/change-workspace/change-workspace.component';
 import { CustomTableComponent } from './custom-table.component';
 
@@ -50,14 +50,14 @@ export abstract class AbstractTableComponent<T extends EncryptCommonFields> impl
     }
 
     protected moveWorkspace(data: T): void {
-        const dialogRef = this.dialog.open<ChangeWorkspaceComponent, IChangeWorkspaceRequest, IChangeWorkspaceResponse>(ChangeWorkspaceComponent, {
+        const dialogRef = this.dialog.open<ChangeWorkspaceComponent, IChangeWorkspaceRequest, Workspace>(ChangeWorkspaceComponent, {
             data: { title: data.name, workspace: data.workspace },
             disableClose: true
         });
 
         firstValueFrom(dialogRef.afterClosed()).then(result => {
-            if (result?.move) {
-                data.workspace = result.workspace;
+            if (result) {
+                data.workspace = result;
                 this.settingService.isLoading = true;
 
                 firstValueFrom(this.update(data)).then(result => {

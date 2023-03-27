@@ -4,6 +4,7 @@ import { AuthGuard } from 'src/app/guard/auth.guard';
 import { DefaultComponent } from './default.component';
 import { WalletComponent } from '../wallet/wallet.component';
 import { CredentialsComponent } from '../credentials/credentials.component';
+import { CredentialEditComponent } from '../credential-edit/credential-edit.component';
 import { NotesComponent } from '../notes/notes.component';
 
 const routes: Routes = [{
@@ -13,6 +14,7 @@ const routes: Routes = [{
     children: [
         { path: 'wallet', component: WalletComponent },
         { path: 'passwords', component: CredentialsComponent },
+        { path: 'passwords\/:id', component: CredentialEditComponent },
         { path: 'notes', component: NotesComponent },
     ]
 }];

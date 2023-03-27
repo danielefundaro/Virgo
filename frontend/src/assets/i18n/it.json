@@ -3,7 +3,11 @@
         "SEARCH": "Cerca",
         "CLOSE": "Chiudi",
         "MOVE": "Sposta",
-        "ADD": "Aggiungi"
+        "ADD": "Aggiungi",
+        "SAVE": "Salva",
+        "BACK": "Indietro",
+        "SHOW_PASSWORD": "Mostra password",
+        "HIDDEN_PASSWORD": "Nascondi password"
     },
     "MENU": {
         "WALLET": "Wallet",
@@ -19,6 +23,7 @@
         "COPY_CONTENT": "Copia contenuto",
         "MOVE_WORKSPACE": "Sposta in cartella",
         "EDIT": "Modifica",
+        "DELETE": "Elimina",
         "THEME": {
             "LIGHT": "Chiaro",
             "DARK": "Scuro"
@@ -31,16 +36,21 @@
             }
         }
     },
-    "CREDENTIALS": {
+    "CREDENTIAL": {
         "NAME": "Nome",
         "WEBSITE": "Sito web",
         "USERNAME": "Username",
-        "WORKSPACE": "Workspace",
-        "ADD": "Aggiungi password"
+        "PASSWORD": "Password",
+        "WORKSPACE": "Cartella",
+        "NOTE": "Nota",
+        "ADD": "Aggiungi password",
+        "LOGIN_DETAIL": "Dettagli di login",
+        "OTHER": "Altro"
     },
-    "NOTES": {
+    "NOTE": {
         "NAME": "Nome",
-        "WORKSPACE": "Workspace",
+        "WORKSPACE": "Cartella",
+        "CONTENT": "Contenuto",
         "ADD":"Aggiungi nota"
     },
     "WALLET": {
@@ -48,7 +58,9 @@
         "TYPE": "Tipo",
         "WEBSITE": "Sito web",
         "USERNAME": "Username",
-        "WORKSPACE": "Workspace",
+        "WORKSPACE": "Cartella",
+        "PASSWORD": "Password",
+        "CONTENT": "Contenuto",
         "ADD": "Aggiungi elemento",
         "ENUMS": {
             "NOTE": "Note",

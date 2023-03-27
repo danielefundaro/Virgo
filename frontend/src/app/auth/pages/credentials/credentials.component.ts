@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { SettingsService, SnackBarService } from 'src/app/services';
@@ -17,21 +18,22 @@ export class CredentialsComponent extends AbstractTableComponent<Credential> {
     public iDisplayedColumns!: IColumn[];
 
     constructor(private credentialsService: CredentialsService, private translate: TranslateService,
-        private snackBarService: SnackBarService, settingsService: SettingsService, dialog: MatDialog) {
+        private snackBarService: SnackBarService, private router: Router, settingsService: SettingsService,
+        dialog: MatDialog) {
         super(settingsService, dialog);
 
         this.iDisplayedColumns = [{
             name: "name",
-            title: this.translate.instant("CREDENTIALS.NAME")
+            title: this.translate.instant("CREDENTIAL.NAME")
         }, {
             name: "website",
-            title: this.translate.instant("CREDENTIALS.WEBSITE")
+            title: this.translate.instant("CREDENTIAL.WEBSITE")
         }, {
             name: "username",
-            title: this.translate.instant("CREDENTIALS.USERNAME")
+            title: this.translate.instant("CREDENTIAL.USERNAME")
         }, {
             name: "workspace.name",
-            title: this.translate.instant("CREDENTIALS.WORKSPACE")
+            title: this.translate.instant("CREDENTIAL.WORKSPACE")
         }];
     }
 
@@ -41,6 +43,10 @@ export class CredentialsComponent extends AbstractTableComponent<Credential> {
     
     public update(data: Credential): Observable<Credential> {
         return this.credentialsService.update(data);
+    }
+
+    public addElement(): void {
+        this.router.navigate(['passwords', 'add']);
     }
 
     public copy(data: Credential): void {

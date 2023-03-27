@@ -22,10 +22,10 @@ export class NotesComponent extends AbstractTableComponent<Note> {
 
         this.iDisplayedColumns = [{
             name: "name",
-            title: this.translate.instant("NOTES.NAME")
+            title: this.translate.instant("NOTE.NAME")
         }, {
             name: "workspace.name",
-            title: this.translate.instant("NOTES.WORKSPACE")
+            title: this.translate.instant("NOTE.WORKSPACE")
         }];
     }
 

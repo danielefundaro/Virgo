@@ -12,6 +12,7 @@ export class CustomTableComponent implements OnInit {
     @Input() title!: string;
     @Input() displayedColumns!: IColumn[];
     @Input() defaultColumnSort!: string;
+    @Output() addElement: EventEmitter<void> = new EventEmitter<void>();
     @Output() onSortChange: EventEmitter<string> = new EventEmitter<string>();
     @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -27,6 +28,10 @@ export class CustomTableComponent implements OnInit {
                 this.sort = this.displayedColumns[0].name;
             }
         }
+    }
+
+    public add(): void {
+        this.addElement.emit();
     }
 
     public order(columnName: string): void {

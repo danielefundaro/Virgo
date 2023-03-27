@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Wallet } from '../models';
+import { TypeEnum, Wallet } from '../models';
 import { BasicService } from './basic.service';
 
 @Injectable({
@@ -11,7 +11,7 @@ export class WalletsService extends BasicService<Wallet> {
         return "wallets";
     }
 
-    public getByIdAndType(id: number, type: string): Observable<Wallet> {
-        return this.http.get<Wallet>(`${this.getBaseUrl}/${id}/type/${type}`);
+    public getByIdAndType(id: number, type: TypeEnum): Observable<Wallet> {
+        return this.http.get<Wallet>(`${this.getBaseUrl}/${id}/type/${type.toLowerCase()}`);
     }
 }

@@ -29,6 +29,7 @@ import { CredentialsComponent } from './auth/pages/credentials/credentials.compo
 import { TruncatePipe } from './pipes/truncate.pipe';
 import { NotesComponent } from './auth/pages/notes/notes.component';
 import { ChangeWorkspaceComponent } from './auth/components/dialog/change-workspace/change-workspace.component';
+import { CredentialEditComponent } from './auth/pages/credential-edit/credential-edit.component';
 
 @NgModule({
     declarations: [
@@ -40,6 +41,7 @@ import { ChangeWorkspaceComponent } from './auth/components/dialog/change-worksp
         NotesComponent,
         CustomTableComponent,
         ChangeWorkspaceComponent,
+        CredentialEditComponent,
     ],
     imports: [
         BrowserModule,

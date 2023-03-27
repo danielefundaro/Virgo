@@ -1,5 +1,5 @@
 <custom-table #customTable [title]="'MENU.NOTES' | translate" [displayedColumns]="iDisplayedColumns" [defaultColumnSort]="'name'">
-    <div addButton>{{'NOTES.ADD' | translate}}</div>
+    <div addButton>{{'NOTE.ADD' | translate}}</div>
 
     <div class="element background-component" *ngFor="let data of dataSource" fxLayout="row">
         <div class="rounded-icon"></div>
@@ -29,6 +29,10 @@
             <button mat-menu-item (click)="edit(data)">
                 <mat-icon class="fa-solid fa-edit"></mat-icon>
                 <span>{{'MENU.EDIT' | translate}}</span>
+            </button>
+            <button mat-menu-item (click)="edit(data)">
+                <mat-icon class="fa-solid fa-trash"></mat-icon>
+                <span>{{'MENU.DELETE' | translate}}</span>
             </button>
         </mat-menu>
     </div>
