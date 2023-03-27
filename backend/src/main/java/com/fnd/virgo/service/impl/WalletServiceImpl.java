@@ -1,10 +1,14 @@
 package com.fnd.virgo.service.impl;
 
+import com.fnd.virgo.dto.CredentialDTO;
+import com.fnd.virgo.dto.NoteDTO;
 import com.fnd.virgo.dto.WalletDTO;
 import com.fnd.virgo.entity.Wallet;
-import com.fnd.virgo.enums.AuditTypeEnum;
+import com.fnd.virgo.model.TypeEnum;
 import com.fnd.virgo.repository.AuditRepository;
 import com.fnd.virgo.repository.WalletRepository;
+import com.fnd.virgo.service.CredentialService;
+import com.fnd.virgo.service.NoteService;
 import com.fnd.virgo.service.WalletService;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
@@ -15,16 +19,18 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.Optional;
-
 @Service
 @Slf4j
 public class WalletServiceImpl extends BasicServiceImpl<Wallet, WalletDTO, WalletRepository> implements WalletService {
     private final WalletRepository walletRepository;
+    private final CredentialService credentialService;
+    private final NoteService noteService;
 
-    public WalletServiceImpl(WalletRepository walletRepository, AuditRepository auditRepository) {
+    public WalletServiceImpl(WalletRepository walletRepository, AuditRepository auditRepository, CredentialService credentialService, NoteService noteService) {
         super(auditRepository);
         this.walletRepository = walletRepository;
+        this.credentialService = credentialService;
+        this.noteService = noteService;
     }
 
     @Override
@@ -48,21 +54,50 @@ public class WalletServiceImpl extends BasicServiceImpl<Wallet, WalletDTO, Walle
     }
 
     @Override
-    public WalletDTO getByIdAndType(Long id, String type, @NotNull JwtAuthenticationToken jwtAuthenticationToken) {
-        String userId = jwtAuthenticationToken.getName();
-        Optional<Wallet> optionalWallet = walletRepository.findByIdAndUserIdAndType(id, userId, type);
-
-        if (optionalWallet.isEmpty()) {
-            String error = String.format("The user %s didn't find the %s (type %s) while searching it with id %s", userId, getClassEntity().getSimpleName(), type, id);
-            saveAuditInfo(userId, error);
-
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Object not found");
+    public WalletDTO getByIdAndType(Long id, @NotNull String type, JwtAuthenticationToken jwtAuthenticationToken) {
+        if (type.equalsIgnoreCase(TypeEnum.CREDENTIAL.name())) {
+            return modelMapper.map(credentialService.getById(id, jwtAuthenticationToken), WalletDTO.class);
+        } else if (type.equalsIgnoreCase(TypeEnum.NOTE.name())) {
+            return modelMapper.map(noteService.getById(id, jwtAuthenticationToken), WalletDTO.class);
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Type not found");
         }
+    }
 
-        Wallet wallet = optionalWallet.get();
-        String info = String.format("The user %s got the %s with id %s", userId, getClassEntity().getSimpleName(), id);
-        saveAuditInfo(wallet.getId(), userId, AuditTypeEnum.SELECT, info);
+    @Override
+    public WalletDTO save(WalletDTO walletDTO, @NotNull String type, JwtAuthenticationToken jwtAuthenticationToken) {
+        if (type.equalsIgnoreCase(TypeEnum.CREDENTIAL.name())) {
+            CredentialDTO credentialDTO = modelMapper.map(walletDTO, CredentialDTO.class);
+            return modelMapper.map(credentialService.save(credentialDTO, jwtAuthenticationToken), WalletDTO.class);
+        } else if (type.equalsIgnoreCase(TypeEnum.NOTE.name())) {
+            NoteDTO noteDTO = modelMapper.map(walletDTO, NoteDTO.class);
+            return modelMapper.map(noteService.save(noteDTO, jwtAuthenticationToken), WalletDTO.class);
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Type not found");
+        }
+    }
 
-        return super.modelMapper.map(wallet, getClassDTO());
+    @Override
+    public WalletDTO update(WalletDTO walletDTO, @NotNull String type, JwtAuthenticationToken jwtAuthenticationToken) {
+        if (type.equalsIgnoreCase(TypeEnum.CREDENTIAL.name())) {
+            CredentialDTO credentialDTO = modelMapper.map(walletDTO, CredentialDTO.class);
+            return modelMapper.map(credentialService.update(credentialDTO, jwtAuthenticationToken), WalletDTO.class);
+        } else if (type.equalsIgnoreCase(TypeEnum.NOTE.name())) {
+            NoteDTO noteDTO = modelMapper.map(walletDTO, NoteDTO.class);
+            return modelMapper.map(noteService.update(noteDTO, jwtAuthenticationToken), WalletDTO.class);
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Type not found");
+        }
+    }
+
+    @Override
+    public WalletDTO delete(Long id, @NotNull String type, JwtAuthenticationToken jwtAuthenticationToken) {
+        if (type.equalsIgnoreCase(TypeEnum.CREDENTIAL.name())) {
+            return modelMapper.map(credentialService.delete(id, jwtAuthenticationToken), WalletDTO.class);
+        } else if (type.equalsIgnoreCase(TypeEnum.NOTE.name())) {
+            return modelMapper.map(noteService.delete(id, jwtAuthenticationToken), WalletDTO.class);
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Type not found");
+        }
     }
 }

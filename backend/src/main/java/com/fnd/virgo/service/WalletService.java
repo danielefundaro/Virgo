@@ -7,4 +7,10 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 
 public interface WalletService extends BasicService<Wallet, WalletDTO, WalletRepository> {
     WalletDTO getByIdAndType(Long id, String type, JwtAuthenticationToken jwtAuthenticationToken);
+
+    WalletDTO save(WalletDTO walletDTO, String type, JwtAuthenticationToken jwtAuthenticationToken);
+
+    WalletDTO update(WalletDTO walletDTO, String type, JwtAuthenticationToken jwtAuthenticationToken);
+
+    WalletDTO delete(Long id, String type, JwtAuthenticationToken jwtAuthenticationToken);
 }

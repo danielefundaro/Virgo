@@ -30,4 +30,22 @@ public class WalletController implements BasicController<Wallet, WalletDTO, Wall
     public WalletDTO getByIdAndType(@PathVariable Long id, @PathVariable String type, JwtAuthenticationToken jwtAuthenticationToken) {
         return walletService.getByIdAndType(id, type, jwtAuthenticationToken);
     }
+
+    @PostMapping(value = "/type/{type}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(code = HttpStatus.CREATED)
+    public WalletDTO save(@RequestBody WalletDTO walletDTO, @PathVariable String type, JwtAuthenticationToken jwtAuthenticationToken) {
+        return walletService.save(walletDTO, type, jwtAuthenticationToken);
+    }
+
+    @PutMapping(value = "/type/{type}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(code = HttpStatus.OK)
+    public WalletDTO update(@RequestBody WalletDTO walletDTO, @PathVariable String type, JwtAuthenticationToken jwtAuthenticationToken) {
+        return walletService.update(walletDTO, type, jwtAuthenticationToken);
+    }
+
+    @DeleteMapping(value = "/{id}/type/{type}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(code = HttpStatus.OK)
+    public WalletDTO delete(@PathVariable Long id, @PathVariable String type, JwtAuthenticationToken jwtAuthenticationToken) {
+        return walletService.delete(id, type, jwtAuthenticationToken);
+    }
 }
