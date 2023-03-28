@@ -4,6 +4,7 @@ import { catchError, debounceTime, firstValueFrom, map, merge, Observable, of, s
 import { SettingsService } from 'src/app/services';
 import { EncryptCommonFields, IChangeWorkspaceRequest, Page, Searcher, Workspace } from '../../models';
 import { ChangeWorkspaceComponent } from '../dialog/change-workspace/change-workspace.component';
+import { ConfirmActionComponent } from '../dialog/confirm-action/confirm-action.component';
 import { CustomTableComponent } from './custom-table.component';
 
 @Component({ template: "" })
@@ -22,6 +23,12 @@ export abstract class AbstractTableComponent<T extends EncryptCommonFields> impl
 
     public abstract search(s: Searcher): Observable<Page<T>>;
     public abstract update(data: T): Observable<T>;
+    public abstract updateSuccess(data: T | any): void;
+    public abstract updateError(data: T | any): void;
+    public abstract delete(data: T): Observable<T>;
+    public abstract deleteMessage(): string;
+    public abstract deleteSuccess(data: T | any): void;
+    public abstract deleteError(data: T | any): void;
 
     ngAfterViewInit(): void {
         this.subscription = merge(this.customTable.paginator.page, this.customTable.onSortChange).pipe(
@@ -61,9 +68,28 @@ export abstract class AbstractTableComponent<T extends EncryptCommonFields> impl
                 this.settingService.isLoading = true;
 
                 firstValueFrom(this.update(data)).then(result => {
-                    console.log(result);
+                    this.updateSuccess(data);
                 }).catch(error => {
-                    console.error(error);
+                    this.updateError(error);
+                }).then(() => this.settingService.isLoading = false);
+            }
+        });
+    }
+
+    protected deleteElement(data: T): void {
+        const dialogRef = this.dialog.open<ConfirmActionComponent, any, boolean>(ConfirmActionComponent, {
+            data: { message: this.deleteMessage() },
+            disableClose: true
+        });
+
+        firstValueFrom(dialogRef.afterClosed()).then(result => {
+            if (result) {
+                this.settingService.isLoading = true;
+
+                firstValueFrom(this.delete(data)).then(result => {
+                    this.deleteSuccess(data);
+                }).catch(error => {
+                    this.deleteError(error);
                 }).then(() => this.settingService.isLoading = false);
             }
         });

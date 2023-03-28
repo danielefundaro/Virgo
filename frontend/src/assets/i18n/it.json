@@ -5,7 +5,9 @@
         "MOVE": "Sposta",
         "ADD": "Aggiungi",
         "SAVE": "Salva",
-        "BACK": "Indietro"
+        "BACK": "Indietro",
+        "CANCEL": "Annulla",
+        "CONFIRM": "Conferma"
     },
     "MENU": {
         "WALLET": "Wallet",
@@ -77,6 +79,7 @@
         }
     },
     "DIALOG": {
-        "SELECT_WORKSPACE": "Seleziona cartella"
+        "SELECT_WORKSPACE": "Seleziona cartella",
+        "DELETE": "Elimina elemento selezionato"
     }
 }

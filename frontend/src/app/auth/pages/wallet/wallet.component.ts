@@ -49,6 +49,30 @@ export class WalletComponent extends AbstractTableComponent<Wallet> {
         return this.walletsService.update(data, data.type);
     }
 
+    public updateSuccess(data: any): void {
+        console.log(data);
+    }
+
+    public updateError(data: any): void {
+        console.error(data);
+    }
+
+    public delete(data: Wallet): Observable<Wallet> {
+        return this.walletsService.delete(data.id, data.type);
+    }
+
+    public deleteMessage(): string {
+        return "";
+    }
+
+    public deleteSuccess(data: any): void {
+        console.log(data);
+    }
+
+    public deleteError(data: any): void {
+        console.error(data);
+    }
+
     public addElement(): void {
         this.router.navigate(['wallet', 'add', 'type', 'undefined']);
     }

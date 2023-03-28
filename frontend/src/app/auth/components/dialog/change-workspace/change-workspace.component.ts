@@ -15,8 +15,7 @@ export class ChangeWorkspaceComponent {
     public workspaces!: Workspace[];
     public workspaceControl!: FormControl;
 
-    constructor(public dialogRef: MatDialogRef<ChangeWorkspaceComponent, Workspace>, private workspacesService: WorkspacesService,
-        @Inject(MAT_DIALOG_DATA) public data: IChangeWorkspaceRequest) {
+    constructor(private workspacesService: WorkspacesService, @Inject(MAT_DIALOG_DATA) public data: IChangeWorkspaceRequest) {
         this.workspaceControl = new FormControl(null);
 
         firstValueFrom(this.workspacesService.getAll()).then(workspaces => {

@@ -39,6 +39,30 @@ export class NotesComponent extends AbstractTableComponent<Note> {
         return this.notesService.update(data);
     }
 
+    public updateSuccess(data: any): void {
+        console.log(data);
+    }
+
+    public updateError(data: any): void {
+        console.error(data);
+    }
+
+    public delete(data: Note): Observable<Note> {
+        return this.notesService.delete(data.id);
+    }
+
+    public deleteMessage(): string {
+        return "";
+    }
+
+    public deleteSuccess(data: any): void {
+        console.log(data);
+    }
+
+    public deleteError(data: any): void {
+        console.error(data);
+    }
+
     public addElement(): void {
         this.router.navigate(['notes', 'add']);
     }

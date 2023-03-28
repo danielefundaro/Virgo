@@ -40,9 +40,33 @@ export class CredentialsComponent extends AbstractTableComponent<Credential> {
     public search(s: Searcher): Observable<Page<Credential>> {
         return this.credentialsService.search(s);
     }
-    
+
     public update(data: Credential): Observable<Credential> {
         return this.credentialsService.update(data);
+    }
+
+    public updateSuccess(data: any): void {
+        console.log(data);
+    }
+
+    public updateError(data: any): void {
+        console.error(data);
+    }
+
+    public delete(data: Credential): Observable<Credential> {
+        return this.credentialsService.delete(data.id);
+    }
+
+    public deleteMessage(): string {
+        return "";
+    }
+
+    public deleteSuccess(data: any): void {
+        console.log(data);
+    }
+
+    public deleteError(data: any): void {
+        console.error(data);
     }
 
     public addElement(): void {
@@ -50,10 +74,6 @@ export class CredentialsComponent extends AbstractTableComponent<Credential> {
     }
 
     public copy(data: Credential): void {
-        console.log(data);
-    }
-
-    public edit(data: Credential): void {
         console.log(data);
     }
 }
