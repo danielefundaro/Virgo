@@ -5,13 +5,11 @@
         "MOVE": "Sposta",
         "ADD": "Aggiungi",
         "SAVE": "Salva",
-        "BACK": "Indietro",
-        "SHOW_PASSWORD": "Mostra password",
-        "HIDDEN_PASSWORD": "Nascondi password"
+        "BACK": "Indietro"
     },
     "MENU": {
         "WALLET": "Wallet",
-        "CREDENTIALS": "Passwords",
+        "CREDENTIALS": "Credenziali",
         "NOTES": "Note",
         "LOGOUT": "Logout",
         "NOTIFICATIONS": "Notifiche",
@@ -45,13 +43,17 @@
         "NOTE": "Nota",
         "ADD": "Aggiungi password",
         "LOGIN_DETAIL": "Dettagli di login",
-        "OTHER": "Altro"
+        "OTHER": "Altro",
+        "SHOW_PASSWORD": "Mostra password",
+        "HIDDEN_PASSWORD": "Nascondi password"
     },
     "NOTE": {
         "NAME": "Nome",
         "WORKSPACE": "Cartella",
         "CONTENT": "Contenuto",
-        "ADD":"Aggiungi nota"
+        "ADD":"Aggiungi nota",
+        "SHOW_CONTENT": "Mostra contenuto",
+        "HIDDEN_CONTENT": "Nascondi contenuto"
     },
     "WALLET": {
         "NAME": "Nome",
@@ -61,10 +63,17 @@
         "WORKSPACE": "Cartella",
         "PASSWORD": "Password",
         "CONTENT": "Contenuto",
+        "NOTE": "Nota",
         "ADD": "Aggiungi elemento",
+        "LOGIN_DETAIL": "Dettagli di login",
+        "OTHER": "Altro",
+        "SHOW_PASSWORD": "Mostra password",
+        "HIDDEN_PASSWORD": "Nascondi password",
+        "SHOW_CONTENT": "Mostra contenuto",
+        "HIDDEN_CONTENT": "Nascondi contenuto",
         "ENUMS": {
             "NOTE": "Note",
-            "CREDENTIAL": "Password"
+            "CREDENTIAL": "Credenziali"
         }
     },
     "DIALOG": {

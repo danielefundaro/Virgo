@@ -46,7 +46,7 @@ export class CredentialsComponent extends AbstractTableComponent<Credential> {
     }
 
     public addElement(): void {
-        this.router.navigate(['passwords', 'add']);
+        this.router.navigate(['credentials', 'add']);
     }
 
     public copy(data: Credential): void {

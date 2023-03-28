@@ -6,7 +6,7 @@
                 <a mat-icon-button [matTooltip]="'MENU.WALLET' | translate" [routerLink]="['wallet']" aria-label="Wallet">
                     <ng-container *ngTemplateOutlet="walletIcon"></ng-container>
                 </a>
-                <a mat-icon-button [matTooltip]="'MENU.CREDENTIALS' | translate" [routerLink]="['passwords']" aria-label="Password">
+                <a mat-icon-button [matTooltip]="'MENU.CREDENTIALS' | translate" [routerLink]="['credentials']" aria-label="Credential">
                     <ng-container *ngTemplateOutlet="passwordsIcon"></ng-container>
                 </a>
                 <a mat-icon-button [matTooltip]="'MENU.NOTES' | translate" [routerLink]="['notes']" aria-label="Notes">
@@ -52,7 +52,7 @@
                     <span mat-line fxHide.lt-md fxShow>{{'MENU.WALLET' | translate}}</span>
                 </a>
 
-                <a mat-list-item [routerLink]="['passwords']">
+                <a mat-list-item [routerLink]="['credentials']">
                     <ng-container *ngTemplateOutlet="passwordsIcon"></ng-container>
                     <mat-icon mat-list-icon fxHide.lt-md fxShow class="fa-solid fa-user-secret"></mat-icon>
                     <span mat-line fxHide.lt-md fxShow>{{'MENU.CREDENTIALS' | translate}}</span>

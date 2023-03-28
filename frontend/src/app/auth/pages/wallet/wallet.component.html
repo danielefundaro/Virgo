@@ -1,4 +1,4 @@
-<custom-table #customTable [title]="'MENU.WALLET' | translate" [displayedColumns]="iDisplayedColumns" [defaultColumnSort]="'name'">
+<custom-table #customTable [title]="'MENU.WALLET' | translate" [displayedColumns]="iDisplayedColumns" [defaultColumnSort]="'name'" (addElement)="addElement()">
     <div addButton>{{'WALLET.ADD' | translate}}</div>
 
     <div class="element background-component" *ngFor="let data of dataSource" fxLayout="row">
@@ -25,19 +25,19 @@
                     class="fa-solid fa-ellipsis"></mat-icon></button></div>
 
         <mat-menu #menu>
-            <button mat-menu-item [cdkCopyToClipboard]="data.username" *ngIf="data.type === 'CREDENTIAL'">
+            <button mat-menu-item [cdkCopyToClipboard]="data.username" *ngIf="data.type === typeEnum.CREDENTIAL">
                 <mat-icon class="fa-solid fa-copy"></mat-icon>
                 <span>{{'MENU.COPY_WEBSITE' | translate}}</span>
             </button>
-            <button mat-menu-item [cdkCopyToClipboard]="data.username" *ngIf="data.type === 'CREDENTIAL'">
+            <button mat-menu-item [cdkCopyToClipboard]="data.username" *ngIf="data.type === typeEnum.CREDENTIAL">
                 <mat-icon class="fa-solid fa-copy"></mat-icon>
                 <span>{{'MENU.COPY_USERNAME' | translate}}</span>
             </button>
-            <button mat-menu-item (click)="copyPasswd(data)" *ngIf="data.type === 'CREDENTIAL'">
+            <button mat-menu-item (click)="copyPasswd(data)" *ngIf="data.type === typeEnum.CREDENTIAL">
                 <mat-icon class="fa-solid fa-copy"></mat-icon>
                 <span>{{'MENU.COPY_PASSWORD' | translate}}</span>
             </button>
-            <button mat-menu-item (click)="copyContent(data)" *ngIf="data.type === 'NOTE'">
+            <button mat-menu-item (click)="copyContent(data)" *ngIf="data.type === typeEnum.NOTE">
                 <mat-icon class="fa-solid fa-copy"></mat-icon>
                 <span>{{'MENU.COPY_CONTENT' | translate}}</span>
             </button>
@@ -47,7 +47,7 @@
                 <span>{{'MENU.MOVE_WORKSPACE' | translate}}</span>
             </button>
             <mat-divider></mat-divider>
-            <button mat-menu-item (click)="edit(data)">
+            <button mat-menu-item [routerLink]="[data.id, 'type', data.type.toLowerCase()]">
                 <mat-icon class="fa-solid fa-edit"></mat-icon>
                 <span>{{'MENU.EDIT' | translate}}</span>
             </button>

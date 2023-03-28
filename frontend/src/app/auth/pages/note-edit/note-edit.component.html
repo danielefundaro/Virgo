@@ -1,0 +1,33 @@
+<form [formGroup]="formGroup" (ngSubmit)="save()" fxLayout="column">
+    <mat-form-field appearance="fill">
+        <mat-label>{{"NOTE.NAME" | translate}}</mat-label>
+        <input matInput formControlName="name">
+    </mat-form-field>
+
+    <button type="button" mat-stroked-button [color]="contentViewToggle ? 'primary' : 'accent'" (click)="contentViewToggle = !contentViewToggle">
+        <i class="fa-solid" [ngClass]="contentViewToggle ? 'fa-eye-slash' : 'fa-eye'"></i>
+        <span>{{("NOTE." + (contentViewToggle ? "HIDDEN_CONTENT" : "SHOW_CONTENT")) | translate}}</span>
+    </button>
+
+    <mat-form-field appearance="fill" class="content-input">
+        <mat-label>{{'NOTE.CONTENT' | translate}}</mat-label>
+        <textarea matInput cdkTextareaAutosize [rows]="15" cdkAutosizeMaxRows="25" formControlName="content"></textarea>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+        <mat-label>{{"NOTE.WORKSPACE" | translate}}</mat-label>
+        <mat-select formControlName="workspace" #select>
+            <mat-option [value]="workspaceOption" *ngFor="let workspaceOption of workspaces">{{workspaceOption.name}}</mat-option>
+        </mat-select>
+        <mat-icon matPrefix class="fa-solid" [ngClass]="select.value ? 'fa-folder-open' : 'fa-folder'"></mat-icon>
+    </mat-form-field>
+
+    <div fxLayout="row" fxLayoutAlign="end center">
+        <button type="submit" mat-raised-button color="accent" [disabled]="!formGroup.valid">
+            <mat-icon class="fa-solid fa-save"></mat-icon>{{"SHARED.SAVE" | translate}}
+        </button>
+        <button type="button" mat-raised-button [routerLink]="['/notes']" fxFlexOffset="2rem">
+            <mat-icon class="fa-solid fa-arrow-left"></mat-icon>{{"SHARED.BACK" | translate}}
+        </button>
+    </div>
+</form>

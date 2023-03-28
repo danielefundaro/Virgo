@@ -103,7 +103,7 @@ export class CredentialEditComponent implements OnInit, OnDestroy {
 
         firstValueFrom(action).then(data => {
             this.snackBar.success(this.translate.instant(`CREDENTIAL.SUCCESS.${actionMessage}`));
-            this.router.navigate(['passwords', data?.id]);
+            this.router.navigate(['credentials', data?.id]);
         }).catch(error => {
             this.snackBar.error(this.translate.instant(`CREDENTIAL.ERROR.${actionMessage}`, { 'status': error.error?.status || error.status, 'message': error.error?.error || error.message }), error.error?.status || error.status);
         }).then(() => this.settingsService.isLoading = false);

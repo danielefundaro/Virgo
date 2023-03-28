@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { SettingsService, SnackBarService } from 'src/app/services';
@@ -17,7 +18,8 @@ export class NotesComponent extends AbstractTableComponent<Note> {
     public iDisplayedColumns!: IColumn[];
 
     constructor(private notesService: NotesService, private translate: TranslateService,
-        private snackBarService: SnackBarService, settingsService: SettingsService, dialog: MatDialog) {
+        private snackBarService: SnackBarService, private router: Router, settingsService: SettingsService,
+        dialog: MatDialog) {
         super(settingsService, dialog);
 
         this.iDisplayedColumns = [{
@@ -35,6 +37,10 @@ export class NotesComponent extends AbstractTableComponent<Note> {
     
     public update(data: Note): Observable<Note> {
         return this.notesService.update(data);
+    }
+
+    public addElement(): void {
+        this.router.navigate(['notes', 'add']);
     }
 
     public copy(data: Note): void {

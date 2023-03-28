@@ -1,0 +1,69 @@
+<form [formGroup]="formGroup" (ngSubmit)="save()" fxLayout="column">
+    <mat-form-field appearance="fill">
+        <mat-label>{{"WALLET.NAME" | translate}}</mat-label>
+        <input matInput formControlName="name">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+        <mat-label>{{"WALLET.TYPE" | translate}}</mat-label>
+        <mat-select formControlName="type" (valueChange)="valueChange($event)">
+            <mat-option [value]="typeOption.key" *ngFor="let typeOption of typeEnum | keyvalue">
+                {{("WALLET.ENUMS." + typeOption.value) | translate}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <button type="button" mat-stroked-button [color]="viewToggle ? 'primary' : 'accent'" (click)="viewToggle = !viewToggle" *ngIf="type?.value === typeEnum.NOTE">
+        <i class="fa-solid" [ngClass]="viewToggle ? 'fa-eye-slash' : 'fa-eye'"></i>
+        <span>{{("WALLET." + (viewToggle ? "HIDDEN_CONTENT" : "SHOW_CONTENT")) | translate}}</span>
+    </button>
+
+    <mat-form-field appearance="fill" class="content-input" *ngIf="type?.value === typeEnum.NOTE">
+        <mat-label>{{'WALLET.CONTENT' | translate}}</mat-label>
+        <textarea matInput cdkTextareaAutosize [rows]="15" cdkAutosizeMaxRows="25" formControlName="content"></textarea>
+    </mat-form-field>
+
+    <h3 *ngIf="type?.value === typeEnum.CREDENTIAL">{{"WALLET.LOGIN_DETAIL" | translate}}</h3>
+
+    <mat-form-field appearance="fill" *ngIf="type?.value === typeEnum.CREDENTIAL">
+        <mat-label>{{"WALLET.WEBSITE" | translate}}</mat-label>
+        <input matInput formControlName="website">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" *ngIf="type?.value === typeEnum.CREDENTIAL">
+        <mat-label>{{"WALLET.USERNAME" | translate}}</mat-label>
+        <input matInput formControlName="username">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="password-input" *ngIf="type?.value === typeEnum.CREDENTIAL">
+        <mat-label>{{"WALLET.PASSWORD" | translate}}</mat-label>
+        <input matInput [type]="viewToggle ? 'text' : 'password'" formControlName="password">
+        <button type="button" matSuffix mat-icon-button class="toggle-button" (click)="viewToggle = !viewToggle" [matTooltip]="('WALLET.' + (viewToggle ? 'HIDDEN_PASSWORD' : 'SHOW_PASSWORD')) | translate">
+            <i class="fa-solid" [ngClass]="viewToggle ? 'fa-eye-slash' : 'fa-eye'"></i>
+        </button>
+    </mat-form-field>
+
+    <h3 *ngIf="type?.value === typeEnum.CREDENTIAL">{{"WALLET.OTHER" | translate}}</h3>
+
+    <mat-form-field appearance="fill">
+        <mat-label>{{"WALLET.WORKSPACE" | translate}}</mat-label>
+        <mat-select formControlName="workspace" #select>
+            <mat-option [value]="workspaceOption" *ngFor="let workspaceOption of workspaces">{{workspaceOption.name}}</mat-option>
+        </mat-select>
+        <mat-icon matPrefix class="fa-solid" [ngClass]="select.value ? 'fa-folder-open' : 'fa-folder'"></mat-icon>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" *ngIf="type?.value === typeEnum.CREDENTIAL">
+        <mat-label>{{'WALLET.NOTE' | translate}}</mat-label>
+        <textarea matInput cdkTextareaAutosize [rows]="4" cdkAutosizeMaxRows="7" formControlName="note"></textarea>
+    </mat-form-field>
+
+    <div fxLayout="row" fxLayoutAlign="end center">
+        <button type="submit" mat-raised-button color="accent" [disabled]="!formGroup.valid">
+            <mat-icon class="fa-solid fa-save"></mat-icon>{{"SHARED.SAVE" | translate}}
+        </button>
+        <button type="button" mat-raised-button [routerLink]="['/wallet']" fxFlexOffset="2rem">
+            <mat-icon class="fa-solid fa-arrow-left"></mat-icon>{{"SHARED.BACK" | translate}}
+        </button>
+    </div>
+</form>

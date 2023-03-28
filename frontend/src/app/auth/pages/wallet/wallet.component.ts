@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable, of } from 'rxjs';
 import { SettingsService, SnackBarService } from 'src/app/services';
 import { AbstractTableComponent } from '../../components/custom-table/abstract-table.component';
-import { IColumn, Page, Searcher, Wallet } from '../../models';
+import { IColumn, Page, Searcher, TypeEnum, Wallet } from '../../models';
 import { WalletsService } from '../../services';
 
 @Component({
@@ -15,9 +16,11 @@ import { WalletsService } from '../../services';
 export class WalletComponent extends AbstractTableComponent<Wallet> {
 
     public iDisplayedColumns!: IColumn[];
+    public typeEnum = TypeEnum;
 
     constructor(private walletsService: WalletsService, private translate: TranslateService,
-        private snackBarService: SnackBarService, settingsService: SettingsService, dialog: MatDialog) {
+        private snackBarService: SnackBarService, private router: Router, settingsService: SettingsService,
+        dialog: MatDialog) {
         super(settingsService, dialog);
 
         this.iDisplayedColumns = [{
@@ -43,7 +46,11 @@ export class WalletComponent extends AbstractTableComponent<Wallet> {
     }
 
     public update(data: Wallet): Observable<Wallet> {
-        return of(new Wallet());
+        return this.walletsService.update(data, data.type);
+    }
+
+    public addElement(): void {
+        this.router.navigate(['wallet', 'add', 'type', 'undefined']);
     }
 
     public copyPasswd(data: Wallet): void {

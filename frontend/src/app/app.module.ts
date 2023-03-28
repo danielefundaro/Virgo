@@ -30,6 +30,8 @@ import { TruncatePipe } from './pipes/truncate.pipe';
 import { NotesComponent } from './auth/pages/notes/notes.component';
 import { ChangeWorkspaceComponent } from './auth/components/dialog/change-workspace/change-workspace.component';
 import { CredentialEditComponent } from './auth/pages/credential-edit/credential-edit.component';
+import { NoteEditComponent } from './auth/pages/note-edit/note-edit.component';
+import { WalletEditComponent } from './auth/pages/wallet-edit/wallet-edit.component';
 
 @NgModule({
     declarations: [
@@ -42,6 +44,8 @@ import { CredentialEditComponent } from './auth/pages/credential-edit/credential
         CustomTableComponent,
         ChangeWorkspaceComponent,
         CredentialEditComponent,
+        NoteEditComponent,
+        WalletEditComponent,
     ],
     imports: [
         BrowserModule,
