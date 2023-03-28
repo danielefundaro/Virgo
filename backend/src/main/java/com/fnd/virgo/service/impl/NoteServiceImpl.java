@@ -47,6 +47,6 @@ public class NoteServiceImpl extends EncryptCommonServiceImpl<Note, NoteDTO, Not
 
     @Override
     public Page<Note> findAllByFilter(String value, String userId, PageRequest pageRequest) {
-        return noteRepository.findAllByUserIdAndNameContainsIgnoreCase(userId, value, pageRequest);
+        return noteRepository.findAllByUserIdAndFilter(userId, value, value, pageRequest);
     }
 }

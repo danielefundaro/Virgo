@@ -5,10 +5,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.Query;
 
-import java.util.Optional;
-
 public interface WalletRepository extends CommonRepository<Wallet> {
-    Optional<Wallet> findByIdAndUserIdAndType(Long id, String userId, String type);
-    @Query(value = "SELECT w FROM Wallet w WHERE w.userId = :userId AND (w.deleted IS NULL OR w.deleted = false) AND (w.website LIKE %:website% OR w.username LIKE %:username% OR w.name LIKE %:name% OR w.content LIKE %:content%)")
-    Page<Wallet> findAllByUserIdAndFilter(String userId, String website, String username, String name, String content, PageRequest pageRequest);
+    @Query(value = "SELECT wa FROM Wallet wa " +
+            "LEFT JOIN Workspace wo ON wo=wa.workspace " +
+            "WHERE wa.userId = :userId AND (wa.website ILIKE %:website% OR wa.username ILIKE %:username% OR wa.name ILIKE %:name% OR wo.name ILIKE %:workspace%)")
+    Page<Wallet> findAllByUserIdAndFilter(String userId, String website, String username, String name, String workspace, PageRequest pageRequest);
 }

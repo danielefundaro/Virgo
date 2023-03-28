@@ -12,6 +12,8 @@ import java.util.Optional;
 public interface CredentialRepository extends CommonRepository<Credential> {
     Optional<Credential> findCredentialByUserIdAndWebsiteAndUsername(String userId, String website, String username);
 
-    @Query(value = "SELECT c FROM Credential c WHERE c.userId = :userId AND (c.deleted IS NULL OR c.deleted = false) AND (c.website LIKE %:website% OR c.username LIKE %:username% OR c.name LIKE %:name%)")
-    Page<Credential> findAllByUserIdAndFilter(String userId, String website, String username, String name, PageRequest pageRequest);
+    @Query(value = "SELECT c FROM Credential c " +
+            "LEFT JOIN Workspace w ON w=c.workspace " +
+            "WHERE c.userId = :userId AND (c.website ILIKE %:website% OR c.username ILIKE %:username% OR c.name ILIKE %:name% OR w.name ILIKE %:workspace%)")
+    Page<Credential> findAllByUserIdAndFilter(String userId, String website, String username, String name, String workspace, PageRequest pageRequest);
 }

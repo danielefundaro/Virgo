@@ -47,6 +47,6 @@ public class CredentialServiceImpl extends EncryptCommonServiceImpl<Credential, 
 
     @Override
     public Page<Credential> findAllByFilter(String value, String userId, PageRequest pageRequest) {
-        return credentialRepository.findAllByUserIdAndFilter(userId, value, value, value, pageRequest);
+        return credentialRepository.findAllByUserIdAndFilter(userId, value, value, value, value, pageRequest);
     }
 }
