@@ -43,7 +43,7 @@
         "PASSWORD": "Password",
         "WORKSPACE": "Cartella",
         "NOTE": "Nota",
-        "ADD": "Aggiungi password",
+        "ADD": "Aggiungi credenziali",
         "LOGIN_DETAIL": "Dettagli di login",
         "OTHER": "Altro",
         "SHOW_PASSWORD": "Mostra password",

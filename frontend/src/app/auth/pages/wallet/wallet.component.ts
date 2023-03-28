@@ -62,7 +62,7 @@ export class WalletComponent extends AbstractTableComponent<Wallet> {
     }
 
     public deleteMessage(): string {
-        return "";
+        return this.translate.instant("WALLET.DELETE.MESSAGE");
     }
 
     public deleteSuccess(data: any): void {

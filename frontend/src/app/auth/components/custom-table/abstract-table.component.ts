@@ -1,4 +1,5 @@
-import { AfterViewInit, Component, OnDestroy, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { MatCheckbox } from '@angular/material/checkbox';
 import { MatDialog } from '@angular/material/dialog';
 import { catchError, debounceTime, firstValueFrom, map, merge, Observable, of, startWith, Subscription, switchMap } from 'rxjs';
 import { SettingsService } from 'src/app/services';
@@ -11,8 +12,12 @@ import { CustomTableComponent } from './custom-table.component';
 export abstract class AbstractTableComponent<T extends EncryptCommonFields> implements AfterViewInit, OnDestroy {
 
     @ViewChild(CustomTableComponent) customTable!: CustomTableComponent;
+    @ViewChildren(MatCheckbox) checkBoxes!: QueryList<MatCheckbox>;
 
     protected dataSource!: any[];
+    protected showCheckBox: boolean = false;
+    protected checked: boolean = false;
+    protected indeterminate: boolean = false;
 
     private subscription!: Subscription;
 
@@ -31,11 +36,11 @@ export abstract class AbstractTableComponent<T extends EncryptCommonFields> impl
     public abstract deleteError(data: T | any): void;
 
     ngAfterViewInit(): void {
-        this.subscription = merge(this.customTable.paginator.page, this.customTable.onSortChange).pipe(
+        this.subscription = merge(this.customTable.paginator.page, this.customTable.onSortChange, this.settingService.onSearchChanged).pipe(
             startWith({}),
             debounceTime(150),
             switchMap(() => {
-                const s: Searcher = new Searcher("", this.customTable.paginator.pageIndex, this.customTable.paginator.pageSize, [this.customTable.sort]);
+                const s: Searcher = new Searcher(this.settingService.search, this.customTable.paginator.pageIndex, this.customTable.paginator.pageSize, [this.customTable.sort]);
                 return this.search(s).pipe(catchError(() => of(null)));
             }),
             map(data => {
@@ -54,6 +59,17 @@ export abstract class AbstractTableComponent<T extends EncryptCommonFields> impl
 
     ngOnDestroy(): void {
         this.subscription.unsubscribe();
+    }
+
+    protected onCheckAll(isChecked: boolean): void {
+        this.showCheckBox = isChecked;
+        this.checkBoxes.forEach(checkBox => checkBox.checked = isChecked);
+    }
+
+    protected onCheck(): void {
+        this.showCheckBox = this.checkBoxes.some(checkBox => checkBox.checked);
+        this.checked = this.checkBoxes.map(checkBox => checkBox.checked).every(value => value);
+        this.indeterminate = this.checkBoxes.some(checkBox => checkBox.checked) && this.checkBoxes.some(checkBox => !checkBox.checked);
     }
 
     protected moveWorkspace(data: T): void {
@@ -88,6 +104,7 @@ export abstract class AbstractTableComponent<T extends EncryptCommonFields> impl
 
                 firstValueFrom(this.delete(data)).then(result => {
                     this.deleteSuccess(data);
+                    this.ngAfterViewInit();
                 }).catch(error => {
                     this.deleteError(error);
                 }).then(() => this.settingService.isLoading = false);

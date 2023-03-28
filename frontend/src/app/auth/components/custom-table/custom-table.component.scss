@@ -17,6 +17,7 @@
 
 .container {
     overflow-y: auto;
+    height: 100%;
 }
 
 .header {
@@ -26,10 +27,41 @@
     top: 0;
 }
 
+.actions {
+    visibility: hidden;
+    opacity: 0;
+}
+
+.header:hover {
+    .actions {
+        visibility: visible;
+        opacity: 1;
+        transition: visibility 0.3s linear, opacity 0.3s linear;
+    }
+}
+
 .column {
     cursor: pointer;
 
     span+i {
         margin-left: 1rem;
+    }
+}
+
+.column:hover {
+    .move {
+        visibility: visible;
+        opacity: 1;
+        transform: translateY(0);
+        transition: visibility 0.3s linear, opacity 0.3s linear, transform 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
+    }
+}
+
+.column:not(:hover) {
+    .move {
+        visibility: hidden;
+        opacity: 0;
+        transform: translateY(0.5rem);
+        transition: visibility 0.3s linear, opacity 0.3s linear, transform 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
     }
 }

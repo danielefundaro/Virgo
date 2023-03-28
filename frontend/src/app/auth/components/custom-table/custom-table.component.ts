@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatPaginator } from '@angular/material/paginator';
 import { IColumn } from '../../models';
 
@@ -12,7 +13,10 @@ export class CustomTableComponent implements OnInit {
     @Input() title!: string;
     @Input() displayedColumns!: IColumn[];
     @Input() defaultColumnSort!: string;
+    @Input() checked: boolean = false;
+    @Input() indeterminate: boolean = false;
     @Output() addElement: EventEmitter<void> = new EventEmitter<void>();
+    @Output() onCheckAll: EventEmitter<boolean> = new EventEmitter<boolean>();
     @Output() onSortChange: EventEmitter<string> = new EventEmitter<string>();
     @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -32,6 +36,10 @@ export class CustomTableComponent implements OnInit {
 
     public add(): void {
         this.addElement.emit();
+    }
+
+    public onCheck(event: MatCheckboxChange) {
+        this.onCheckAll.emit(event.checked);
     }
 
     public order(columnName: string): void {

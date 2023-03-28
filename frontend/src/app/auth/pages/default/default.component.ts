@@ -16,7 +16,7 @@ export class DefaultComponent implements OnDestroy {
     public isLoading!: boolean;
     private loadState: Subscription;
 
-    constructor(private userService: UserService, private settingsService: SettingsService) {
+    constructor(private userService: UserService, public settingsService: SettingsService) {
         this.languages = settingsService.languages;
         this.isDarkTheme = this.settingsService.isDarkTheme;
 

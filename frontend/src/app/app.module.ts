@@ -19,6 +19,7 @@ import { ClipboardModule } from '@angular/cdk/clipboard';
 import { MatDialogModule } from '@angular/material/dialog';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MainTranslateModule } from './main-translate/main-translate.module';
 import { KeycloakInitModule } from './init/keycloak-init.module';
 import { DefaultRoutingModule } from './auth/pages/default/default-routing.module';
@@ -69,6 +70,7 @@ import { ConfirmActionComponent } from './auth/components/dialog/confirm-action/
         FormsModule,
         ReactiveFormsModule,
         MatSelectModule,
+        MatCheckboxModule,
         DefaultRoutingModule,
         MainTranslateModule,
         KeycloakInitModule,

@@ -58,7 +58,7 @@ export class CredentialsComponent extends AbstractTableComponent<Credential> {
     }
 
     public deleteMessage(): string {
-        return "";
+        return this.translate.instant("CREDENTIAL.DELETE.MESSAGE");
     }
 
     public deleteSuccess(data: any): void {

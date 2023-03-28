@@ -1,5 +1,10 @@
-import { Injectable } from "@angular/core";
+import { EventEmitter, Injectable } from "@angular/core";
 import { Observable, Subject } from "rxjs";
+
+export class Search {
+    value: string = "";
+    onSearchChanged: EventEmitter<string> = new EventEmitter<string>();
+}
 
 @Injectable({
     providedIn: 'root'
@@ -7,6 +12,7 @@ import { Observable, Subject } from "rxjs";
 export class SettingsService {
     private _languageChanged = new Subject<string>();
     private _loadingChanged = new Subject<boolean>();
+    private _search: Search = new Search();
     private _languages: string[] = ['it', 'en'];
     private _isDarkTheme: boolean = !!localStorage.getItem("darkTheme") && localStorage.getItem("darkTheme") === "true" || !localStorage.getItem("darkTheme") && window.matchMedia("(prefers-color-scheme: dark)").matches;
 
@@ -22,6 +28,12 @@ export class SettingsService {
     }
     public get isDarkTheme(): boolean { return this._isDarkTheme; }
     public set isLoading(value: boolean) { this._loadingChanged.next(value); }
+    public get onSearchChanged(): EventEmitter<string> { return this._search.onSearchChanged; }
+    public get search(): string { return this._search.value; }
+    public set search(value: string) {
+        this._search.value = value;
+        this._search.onSearchChanged.emit(value);
+    }
 
     public languageChanged(): Observable<string> {
         return this._languageChanged.asObservable();

@@ -52,7 +52,7 @@ export class NotesComponent extends AbstractTableComponent<Note> {
     }
 
     public deleteMessage(): string {
-        return "";
+        return this.translate.instant("NOTE.DELETE.MESSAGE");
     }
 
     public deleteSuccess(data: any): void {
