@@ -63,6 +63,8 @@ export abstract class AbstractTableComponent<T extends EncryptCommonFields> impl
 
     protected onCheckAll(isChecked: boolean): void {
         this.showCheckBox = isChecked;
+        this.checked = isChecked;
+        this.indeterminate = false;
         this.checkBoxes.forEach(checkBox => checkBox.checked = isChecked);
     }
 
