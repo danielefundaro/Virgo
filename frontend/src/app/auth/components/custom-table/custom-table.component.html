@@ -29,3 +29,7 @@
     </div>
     <mat-paginator [pageSizeOptions]=" [10, 25, 50]" showFirstLastButtons></mat-paginator>
 </div>
+
+<massive-actions [itemSelected]="itemSelected" [disabled]="!((checked || indeterminate) && !closeMassive)" class="massive"
+    [ngClass]="{'massive-move': (checked || indeterminate) && !closeMassive}" (moveEvent)="onMoveEvent()" (deleteEvent)="onDeleteEvent()"
+    (closeEvent)="onCloseEvent()"></massive-actions>

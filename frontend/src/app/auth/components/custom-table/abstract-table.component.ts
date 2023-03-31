@@ -18,6 +18,7 @@ export abstract class AbstractTableComponent<T extends EncryptCommonFields> impl
     protected showCheckBox: boolean = false;
     protected checked: boolean = false;
     protected indeterminate: boolean = false;
+    protected itemSelected: number = 0;
 
     private subscription!: Subscription;
 
@@ -66,12 +67,14 @@ export abstract class AbstractTableComponent<T extends EncryptCommonFields> impl
         this.checked = isChecked;
         this.indeterminate = false;
         this.checkBoxes.forEach(checkBox => checkBox.checked = isChecked);
+        this.itemSelected = this.dataSource.length;
     }
 
     protected onCheck(): void {
         this.showCheckBox = this.checkBoxes.some(checkBox => checkBox.checked);
         this.checked = this.checkBoxes.map(checkBox => checkBox.checked).every(value => value);
         this.indeterminate = this.checkBoxes.some(checkBox => checkBox.checked) && this.checkBoxes.some(checkBox => !checkBox.checked);
+        this.itemSelected = this.checkBoxes.filter(checkBox => checkBox.checked).length;
     }
 
     protected moveWorkspace(data: T): void {

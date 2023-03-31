@@ -34,6 +34,7 @@ import { CredentialEditComponent } from './auth/pages/credential-edit/credential
 import { NoteEditComponent } from './auth/pages/note-edit/note-edit.component';
 import { WalletEditComponent } from './auth/pages/wallet-edit/wallet-edit.component';
 import { ConfirmActionComponent } from './auth/components/dialog/confirm-action/confirm-action.component';
+import { MassiveActionsComponent } from './auth/components/massive-actions/massive-actions.component';
 
 @NgModule({
     declarations: [
@@ -49,6 +50,7 @@ import { ConfirmActionComponent } from './auth/components/dialog/confirm-action/
         NoteEditComponent,
         WalletEditComponent,
         ConfirmActionComponent,
+        MassiveActionsComponent,
     ],
     imports: [
         BrowserModule,

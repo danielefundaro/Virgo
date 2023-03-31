@@ -1,0 +1,19 @@
+@use '@angular/material' as mat;
+@import './../../../../constants.scss';
+
+:host {
+    position: relative;
+    width: 25rem;
+    bottom: 8rem;
+    margin: auto;
+    background-color: mat.get-color-from-palette($primary-palette, 400);
+    border: 1px solid mat.get-color-from-palette($primary-palette, 900);
+    color: mat.get-color-from-palette($primary-palette, '400-contrast');
+    box-shadow: 0.2rem 0.5rem 0.5rem mat.get-color-from-palette($backgroud-palette, 800);
+    border-radius: 1.5rem;
+    padding-left: 1rem;
+}
+
+mat-divider {
+    height: 3rem;
+}

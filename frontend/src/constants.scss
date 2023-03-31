@@ -1,0 +1,51 @@
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@use '@angular/material' as mat;
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat.core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$primary-palette: mat.$green-palette;
+$accent-palette: mat.$purple-palette;
+$warn-palette: mat.$red-palette;
+$backgroud-palette: (
+    50 : #f4f4f5,
+    100 : #c2c2c6,
+    200 : #9a9aa0,
+    300 : #71727a,
+    400 : #52535e,
+    500 : #343541,
+    600 : #2f303b,
+    700 : #272832,
+    800 : #21222a,
+    900 : #15161c,
+    A100 : #2289f9,
+    A200 : #066ad8,
+    A400 : #005ec5,
+    A700 : #0057b5,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #ffffff,
+        400 : #ffffff,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #ffffff,
+        A200 : #ffffff,
+        A400 : #ffffff,
+        A700 : #ffffff,
+    )
+);
+$background: mat.define-palette($backgroud-palette);
+$background-component: white;
+$background-component-contrast: rgba(0, 0, 0, 0.87);

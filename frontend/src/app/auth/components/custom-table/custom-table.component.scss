@@ -65,3 +65,17 @@
         transition: visibility 0.3s linear, opacity 0.3s linear, transform 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
     }
 }
+
+.massive {
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(2rem);
+    transition: visibility 0.3s linear, opacity 0.3s linear, transform 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.massive.massive-move {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0rem);
+    transition: visibility 0.3s linear, opacity 0.3s linear, transform 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
+}

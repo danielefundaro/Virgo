@@ -7,7 +7,8 @@
         "SAVE": "Salva",
         "BACK": "Indietro",
         "CANCEL": "Annulla",
-        "CONFIRM": "Conferma"
+        "CONFIRM": "Conferma",
+        "ITEM_SELECTED": "Elementi selezionati"
     },
     "MENU": {
         "WALLET": "Wallet",
