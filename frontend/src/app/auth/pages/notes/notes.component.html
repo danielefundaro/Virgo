@@ -1,14 +1,14 @@
-<custom-table #customTable [title]="'MENU.NOTES' | translate" [displayedColumns]="iDisplayedColumns"
-    [defaultColumnSort]="'name'" (addElement)="addElement()" (onCheckAll)="onCheckAll($event)" [checked]="checked"
-    [indeterminate]="indeterminate" [itemSelected]="itemSelected">
+<custom-table #customTable [title]="'MENU.NOTES' | translate" [displayedColumns]="iDisplayedColumns" [checked]="checked"
+    [indeterminate]="indeterminate" [itemSelected]="itemSelected" (addElement)="addElement()"
+    (onCheckAll)="onCheckAll($event)" (moveEvent)="onMoveMassive()" (deleteEvent)="onDeleteMassive()">
     <div addButton>{{'NOTE.ADD' | translate}}</div>
 
     <div class="element background-component" *ngFor="let data of dataSource" fxLayout="row">
         <div fxLayoutAlign="center center" [ngClass]="{'actions': !showCheckBox}">
-            <mat-checkbox (change)="onCheck()"></mat-checkbox>
+            <mat-checkbox #checkItem (change)="onCheck()"></mat-checkbox>
         </div>
         <div fxLayout.lt-md="column" fxLayoutAlign.lt-md="start start" fxLayout="row" fxLayoutAlign="start center"
-            fxFlex>
+            fxFlex (click)="checkItem.checked = !checkItem.checked; onCheck()">
             <div fxFlex="grow" fxFlexOffset="0.5rem">
                 <span>{{data.name | truncate:0:50:'...'}}</span>
             </div>

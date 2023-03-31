@@ -29,12 +29,18 @@ export abstract class AbstractTableComponent<T extends EncryptCommonFields> impl
 
     public abstract search(s: Searcher): Observable<Page<T>>;
     public abstract update(data: T): Observable<T>;
-    public abstract updateSuccess(data: T | any): void;
-    public abstract updateError(data: T | any): void;
+    public abstract updateMassiveMessage(): string;
+    public abstract updateSuccess(data: T): void;
+    public abstract updateSuccessMassive(): void;
+    public abstract updateError(data: any): void;
+    public abstract updateErrorMassive(data: any): void;
     public abstract delete(data: T): Observable<T>;
     public abstract deleteMessage(): string;
-    public abstract deleteSuccess(data: T | any): void;
-    public abstract deleteError(data: T | any): void;
+    public abstract deleteMassiveMessage(): string;
+    public abstract deleteSuccess(data: T): void;
+    public abstract deleteSuccessMassive(): void;
+    public abstract deleteError(data: any): void;
+    public abstract deleteErrorMassive(data: any): void;
 
     ngAfterViewInit(): void {
         this.subscription = merge(this.customTable.paginator.page, this.customTable.onSortChange, this.settingService.onSearchChanged).pipe(
@@ -75,6 +81,66 @@ export abstract class AbstractTableComponent<T extends EncryptCommonFields> impl
         this.checked = this.checkBoxes.map(checkBox => checkBox.checked).every(value => value);
         this.indeterminate = this.checkBoxes.some(checkBox => checkBox.checked) && this.checkBoxes.some(checkBox => !checkBox.checked);
         this.itemSelected = this.checkBoxes.filter(checkBox => checkBox.checked).length;
+    }
+
+    protected onMoveMassive(): void {
+        const dialogRef = this.dialog.open<ChangeWorkspaceComponent, IChangeWorkspaceRequest, Workspace>(ChangeWorkspaceComponent, {
+            data: { title: this.updateMassiveMessage(), workspace: undefined },
+            disableClose: true
+        });
+
+        firstValueFrom(dialogRef.afterClosed()).then(result => {
+            if (result) {
+                const calls: Promise<T>[] = [];
+                this.settingService.isLoading = true;
+
+                this.checkBoxes.forEach((checkBox, i) => {
+                    if (checkBox.checked) {
+                        this.dataSource[i].workspace = result;
+                        calls.push(firstValueFrom(this.update(this.dataSource[i])));
+                        checkBox.checked = false;
+                        checkBox.change.emit();
+                    }
+                });
+
+                Promise.all(calls).then(result => {
+                    this.updateSuccessMassive();
+                    this.ngAfterViewInit();
+                }).catch(error => {
+                    this.updateErrorMassive(error);
+                }).then(() => this.settingService.isLoading = false);
+            }
+        });
+
+    }
+
+    protected onDeleteMassive(): void {
+        const dialogRef = this.dialog.open<ConfirmActionComponent, any, boolean>(ConfirmActionComponent, {
+            data: { message: this.deleteMassiveMessage() },
+            disableClose: true
+        });
+
+        firstValueFrom(dialogRef.afterClosed()).then(result => {
+            if (result) {
+                const calls: Promise<T>[] = [];
+                this.settingService.isLoading = true;
+
+                this.checkBoxes.forEach((checkBox, i) => {
+                    if (checkBox.checked) {
+                        calls.push(firstValueFrom(this.delete(this.dataSource[i])));
+                        checkBox.checked = false;
+                        checkBox.change.emit();
+                    }
+                });
+
+                Promise.all(calls).then(result => {
+                    this.deleteSuccessMassive();
+                    this.ngAfterViewInit();
+                }).catch(error => {
+                    this.deleteErrorMassive(error);
+                }).then(() => this.settingService.isLoading = false);
+            }
+        });
     }
 
     protected moveWorkspace(data: T): void {

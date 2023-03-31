@@ -20,7 +20,7 @@ export class ChangeWorkspaceComponent {
 
         firstValueFrom(this.workspacesService.getAll()).then(workspaces => {
             this.workspaces = workspaces;
-            this.workspaceControl = new FormControl(workspaces.find(workspace => workspace.id === data.workspace.id));
+            this.workspaceControl = new FormControl(workspaces.find(workspace => workspace.id === data.workspace?.id));
         });
     }
 }

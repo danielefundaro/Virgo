@@ -9,5 +9,5 @@
 </div>
 <div mat-dialog-actions>
     <button mat-button [mat-dialog-close]="null" cdkFocusInitial>{{"SHARED.CLOSE" | translate}}</button>
-    <button mat-button [mat-dialog-close]="workspaceControl.value">{{"SHARED.MOVE" | translate}}</button>
+    <button mat-button [mat-dialog-close]="workspaceControl.value" [disabled]="!workspaceControl.value">{{"SHARED.MOVE" | translate}}</button>
 </div>

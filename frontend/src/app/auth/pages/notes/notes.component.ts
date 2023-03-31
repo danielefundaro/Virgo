@@ -39,11 +39,23 @@ export class NotesComponent extends AbstractTableComponent<Note> {
         return this.notesService.update(data);
     }
 
-    public updateSuccess(data: any): void {
+    public updateMassiveMessage(): string {
+        return this.translate.instant("NOTE.UPDATE.MESSAGE");
+    }
+
+    public updateSuccess(data: Note): void {
         console.log(data);
     }
 
+    public updateSuccessMassive(): void {
+        console.log();
+    }
+
     public updateError(data: any): void {
+        console.error(data);
+    }
+
+    public updateErrorMassive(data: any): void {
         console.error(data);
     }
 
@@ -55,11 +67,23 @@ export class NotesComponent extends AbstractTableComponent<Note> {
         return this.translate.instant("NOTE.DELETE.MESSAGE");
     }
 
+    public deleteMassiveMessage(): string {
+        return this.translate.instant("NOTE.DELETE.MASSIVE_MESSAGE");
+    }
+
     public deleteSuccess(data: any): void {
         console.log(data);
     }
 
+    public deleteSuccessMassive(): void {
+        console.log();
+    }
+
     public deleteError(data: any): void {
+        console.error(data);
+    }
+
+    public deleteErrorMassive(data: any): void {
         console.error(data);
     }
 

@@ -12,7 +12,6 @@ export class CustomTableComponent implements OnInit, OnChanges {
 
     @Input() title!: string;
     @Input() displayedColumns!: IColumn[];
-    @Input() defaultColumnSort!: string;
     @Input() checked: boolean = false;
     @Input() indeterminate: boolean = false;
     @Input() itemSelected!: number;
@@ -26,16 +25,10 @@ export class CustomTableComponent implements OnInit, OnChanges {
     public sort!: string;
     public closeMassive: boolean = false;
 
-    ngOnInit(): void {
-        this.sort = 'id';
+    private defaultColumnSort: string = 'id';
 
-        if (this.defaultColumnSort) {
-            this.sort = this.defaultColumnSort;
-        } else {
-            if (this.displayedColumns.length > 0) {
-                this.sort = this.displayedColumns[0].name;
-            }
-        }
+    ngOnInit(): void {
+        this.sort = this.defaultColumnSort;
     }
 
     ngOnChanges(changes: SimpleChanges): void {

@@ -45,11 +45,23 @@ export class CredentialsComponent extends AbstractTableComponent<Credential> {
         return this.credentialsService.update(data);
     }
 
-    public updateSuccess(data: any): void {
+    public updateMassiveMessage(): string {
+        return this.translate.instant("CREDENTIAL.UPDATE.MESSAGE");
+    }
+
+    public updateSuccess(data: Credential): void {
         console.log(data);
     }
 
+    public updateSuccessMassive(): void {
+        console.log();
+    }
+
     public updateError(data: any): void {
+        console.error(data);
+    }
+
+    public updateErrorMassive(data: any): void {
         console.error(data);
     }
 
@@ -61,11 +73,23 @@ export class CredentialsComponent extends AbstractTableComponent<Credential> {
         return this.translate.instant("CREDENTIAL.DELETE.MESSAGE");
     }
 
-    public deleteSuccess(data: any): void {
+    public deleteMassiveMessage(): string {
+        return this.translate.instant("CREDENTIAL.DELETE.MASSIVE_MESSAGE");
+    }
+
+    public deleteSuccess(data: Credential): void {
         console.log(data);
     }
 
+    public deleteSuccessMassive(): void {
+        console.log();
+    }
+
     public deleteError(data: any): void {
+        console.error(data);
+    }
+
+    public deleteErrorMassive(data: any): void {
         console.error(data);
     }
 
