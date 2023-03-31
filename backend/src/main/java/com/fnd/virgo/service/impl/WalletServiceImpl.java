@@ -52,6 +52,9 @@ public class WalletServiceImpl extends BasicServiceImpl<Wallet, WalletDTO, Walle
 
     @Override
     public Page<Wallet> findAllByFilter(String value, String userId, PageRequest pageRequest) {
+        if (value == null || value.isBlank())
+            return walletRepository.findAllByUserId(userId, pageRequest);
+
         return walletRepository.findAllByUserIdAndFilter(userId, value, value, value, value, pageRequest);
     }
 
