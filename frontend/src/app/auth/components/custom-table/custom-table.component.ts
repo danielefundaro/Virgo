@@ -1,14 +1,15 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatPaginator } from '@angular/material/paginator';
-import { EncryptCommonFields, IColumn } from '../../models';
+import { IColumn } from '../../models';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'custom-table',
     templateUrl: './custom-table.component.html',
     styleUrls: ['./custom-table.component.scss']
 })
-export class CustomTableComponent implements OnInit, OnChanges {
+export class CustomTableComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
 
     @Input() title!: string;
     @Input() displayedColumns!: IColumn[];
@@ -26,15 +27,24 @@ export class CustomTableComponent implements OnInit, OnChanges {
     public closeMassive: boolean = false;
 
     private defaultColumnSort: string = 'id';
+    private subscription!: Subscription;
 
     ngOnInit(): void {
         this.sort = this.defaultColumnSort;
+    }
+
+    ngAfterViewInit(): void {
+        this.subscription = this.paginator.page.subscribe(() => this.resetCheckAll());
     }
 
     ngOnChanges(changes: SimpleChanges): void {
         if (changes['checked'] || changes['indeterminate'] || changes['itemSelected']) {
             this.closeMassive = false;
         }
+    }
+
+    ngOnDestroy(): void {
+        this.subscription.unsubscribe();
     }
 
     public add(): void {
@@ -46,9 +56,7 @@ export class CustomTableComponent implements OnInit, OnChanges {
     }
 
     public order(columnName: string): void {
-        const event = new MatCheckboxChange();
-        event.checked = false;
-        this.onCheck(event);
+        this.resetCheckAll();
 
         if (columnName != undefined && columnName.length > 0) {
             const sign = this.sort.charAt(0);
@@ -81,5 +89,11 @@ export class CustomTableComponent implements OnInit, OnChanges {
 
     public onCloseEvent(): void {
         this.closeMassive = true;
+    }
+
+    private resetCheckAll() {
+        const event = new MatCheckboxChange();
+        event.checked = false;
+        this.onCheck(event);
     }
 }
