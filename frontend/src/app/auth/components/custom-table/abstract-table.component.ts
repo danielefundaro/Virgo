@@ -19,6 +19,7 @@ export abstract class AbstractTableComponent<T extends EncryptCommonFields> impl
     protected checked: boolean = false;
     protected indeterminate: boolean = false;
     protected itemSelected: number = 0;
+    protected clicked: number = -1;
 
     private subscription!: Subscription;
 
@@ -181,5 +182,9 @@ export abstract class AbstractTableComponent<T extends EncryptCommonFields> impl
                 }).then(() => this.settingService.isLoading = false);
             }
         });
+    }
+
+    protected menuClose() {
+        this.clicked = -1;
     }
 }

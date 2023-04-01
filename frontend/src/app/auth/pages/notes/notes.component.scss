@@ -17,3 +17,8 @@
         transition: visibility 0.3s linear, opacity 0.3s linear;
     }
 }
+
+.show {
+    visibility: visible !important;
+    opacity: 1 !important;
+}

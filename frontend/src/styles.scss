@@ -49,7 +49,7 @@ $theme: mat.define-light-theme((color: (primary: $primary,
         color: $background-component-contrast !important;
     }
 
-    .background-component:hover {
+    .background-component:hover, .background-component-selected {
         background: mat.get-color-from-palette($background, 600) !important;
         color: mat.get-color-from-palette($background, '600-contrast') !important;
     }
@@ -86,7 +86,7 @@ body {
     border-radius: 0.5rem;
 }
 
-.background-component:hover {
+.background-component:hover, .background-component-selected {
     background: white;
     color: rgba(0, 0, 0, 0.87);
 }
