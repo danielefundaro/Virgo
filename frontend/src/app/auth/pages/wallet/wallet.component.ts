@@ -101,6 +101,10 @@ export class WalletComponent extends AbstractTableComponent<Wallet> {
         this.router.navigate(['wallet', 'add', 'type', 'undefined']);
     }
 
+    public copyField(field: string) {
+        this.snackBarService.info(this.translate.instant(`CREDENTIAL.COPY.${field.toUpperCase()}`));
+    }
+
     public copyPasswd(data: Wallet): void {
         console.log(data);
     }

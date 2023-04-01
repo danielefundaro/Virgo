@@ -97,6 +97,10 @@ export class CredentialsComponent extends AbstractTableComponent<Credential> {
         this.router.navigate(['credentials', 'add']);
     }
 
+    public copyField(field: string) {
+        this.snackBarService.info(this.translate.instant(`CREDENTIAL.COPY.${field.toUpperCase()}`));
+    }
+
     public copy(data: Credential): void {
         console.log(data);
     }

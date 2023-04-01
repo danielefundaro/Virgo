@@ -49,6 +49,10 @@
         "OTHER": "Altro",
         "SHOW_PASSWORD": "Mostra password",
         "HIDDEN_PASSWORD": "Nascondi password",
+        "COPY": {
+            "WEBSITE": "Sito web copiato",
+            "USERNAME": "Username copiato"
+        },
         "SAVE": {
             "SUCCESS": "Credenziali salvate con successo",
             "ERROR": "Errore durante il salvataggio delle credenziali"
