@@ -82,7 +82,7 @@ export class WalletEditComponent implements OnInit, OnDestroy {
                         
                         this.valueChange(wallet.type);
                     }).catch(error => {
-                        this.snackBar.error(this.translate.instant("WALLET.ERROR.LOAD", { 'status': error.error?.status || error.status, 'message': error.error?.error || error.message }), error.error?.status || error.status);
+                        this.snackBar.error(this.translate.instant("WALLET.ERROR.LOAD"), error);
                     }).then(() => this.settingsService.isLoading = false);
                 } else {
                     this.iv?.setValue(crypto.randomUUID().replaceAll("-", ""));
@@ -133,10 +133,10 @@ export class WalletEditComponent implements OnInit, OnDestroy {
         const actionMessage = wallet.id ? "UPDATE" : "SAVE";
 
         firstValueFrom(action).then(data => {
-            this.snackBar.success(this.translate.instant(`WALLET.SUCCESS.${actionMessage}`));
+            this.snackBar.success(this.translate.instant(`WALLET.${actionMessage}.SUCCESS`));
             this.router.navigate(['wallet', data?.id, "type", data.type.toLowerCase()]);
         }).catch(error => {
-            this.snackBar.error(this.translate.instant(`WALLET.ERROR.${actionMessage}`, { 'status': error.error?.status || error.status, 'message': error.error?.error || error.message }), error.error?.status || error.status);
+            this.snackBar.error(this.translate.instant(`WALLET.${actionMessage}.ERROR`), error);
         }).then(() => this.settingsService.isLoading = false);
     }
 }

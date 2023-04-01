@@ -40,23 +40,23 @@ export class NotesComponent extends AbstractTableComponent<Note> {
     }
 
     public updateMassiveMessage(): string {
-        return this.translate.instant("NOTE.UPDATE.MESSAGE");
+        return this.translate.instant("NOTE.UPDATE.MASSIVE.MESSAGE");
     }
 
-    public updateSuccess(data: Note): void {
-        console.log(data);
+    public updateSuccess(): void {
+        this.snackBarService.success(this.translate.instant("NOTE.UPDATE.SUCCESS"));
     }
 
     public updateSuccessMassive(): void {
-        console.log();
+        this.snackBarService.success(this.translate.instant("NOTE.UPDATE.MASSIVE.SUCCESS"));
     }
 
-    public updateError(data: any): void {
-        console.error(data);
+    public updateError(error: any): void {
+        this.snackBarService.error(this.translate.instant("NOTE.UPDATE.ERROR"), error);
     }
 
-    public updateErrorMassive(data: any): void {
-        console.error(data);
+    public updateErrorMassive(error: any): void {
+        this.snackBarService.error(this.translate.instant("NOTE.UPDATE.MASSIVE.ERROR"), error);
     }
 
     public delete(data: Note): Observable<Note> {
@@ -68,23 +68,23 @@ export class NotesComponent extends AbstractTableComponent<Note> {
     }
 
     public deleteMassiveMessage(): string {
-        return this.translate.instant("NOTE.DELETE.MASSIVE_MESSAGE");
+        return this.translate.instant("NOTE.DELETE.MASSIVE.MESSAGE");
     }
 
-    public deleteSuccess(data: any): void {
-        console.log(data);
+    public deleteSuccess(): void {
+        this.snackBarService.success(this.translate.instant("NOTE.DELETE.SUCCESS"));
     }
 
     public deleteSuccessMassive(): void {
-        console.log();
+        this.snackBarService.success(this.translate.instant("NOTE.DELETE.MASSIVE.SUCCESS"));
     }
 
-    public deleteError(data: any): void {
-        console.error(data);
+    public deleteError(error: any): void {
+        this.snackBarService.error(this.translate.instant("NOTE.DELETE.ERROR"), error);
     }
 
-    public deleteErrorMassive(data: any): void {
-        console.error(data);
+    public deleteErrorMassive(error: any): void {
+        this.snackBarService.error(this.translate.instant("NOTE.DELETE.MASSIVE.ERROR"), error);
     }
 
     public addElement(): void {

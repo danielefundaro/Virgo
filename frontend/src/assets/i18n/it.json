@@ -48,7 +48,30 @@
         "LOGIN_DETAIL": "Dettagli di login",
         "OTHER": "Altro",
         "SHOW_PASSWORD": "Mostra password",
-        "HIDDEN_PASSWORD": "Nascondi password"
+        "HIDDEN_PASSWORD": "Nascondi password",
+        "SAVE": {
+            "SUCCESS": "Credenziali salvate con successo",
+            "ERROR": "Errore durante il salvataggio delle credenziali"
+        },
+        "UPDATE": {
+            "SUCCESS": "Credenziali aggiornate con successo",
+            "ERROR": "Errore durante l'aggiornamento delle credenziali",
+            "MASSIVE": {
+                "MESSAGE": "Spostare tutte le credenziali selezionate nella cartella",
+                "SUCCESS": "Tutte le credenziali selezionate sono state aggiornate con successo",
+                "ERROR": "Errore durante l'aggiornamento di una o più credenziali"
+            }
+        },
+        "DELETE": {
+            "MESSAGE": "Si desidera eliminare le credenziali selezionate?",
+            "SUCCESS": "Credenziali eliminate con successo",
+            "ERROR": "Errore durante l'eliminazione delle credenziali",
+            "MASSIVE": {
+                "MESSAGE": "Si desidera eliminare tutte le credenziali selezionate?",
+                "SUCCESS": "Tutte le credenziali selezionate sono state eliminate con successo",
+                "ERROR": "Errore durante l'eliminazione di una o più credenziali"
+            }
+        }
     },
     "NOTE": {
         "NAME": "Nome",
@@ -56,7 +79,30 @@
         "CONTENT": "Contenuto",
         "ADD":"Aggiungi nota",
         "SHOW_CONTENT": "Mostra contenuto",
-        "HIDDEN_CONTENT": "Nascondi contenuto"
+        "HIDDEN_CONTENT": "Nascondi contenuto",
+        "SAVE": {
+            "SUCCESS": "Nota salvata con successo",
+            "ERROR": "Errore durante il salvataggio della nota"
+        },
+        "UPDATE": {
+            "SUCCESS": "Nota aggiornata con successo",
+            "ERROR": "Errore durante l'aggiornamento della nota",
+            "MASSIVE": {
+                "MESSAGE": "Spostare tutte le note selezionate nella cartella",
+                "SUCCESS": "Tutte le note selezionate sono state aggiornate con successo",
+                "ERROR": "Errore durante l'aggiornamento di una o più note"
+            }
+        },
+        "DELETE": {
+            "MESSAGE": "Si desidera eliminare la nota selezionata?",
+            "SUCCESS": "Nota eliminata con successo",
+            "ERROR": "Errore durante l'eliminazione della nota",
+            "MASSIVE": {
+                "MESSAGE": "Si desidera eliminare tutte le note selezionate?",
+                "SUCCESS": "Tutte le note selezionate sono state eliminate con successo",
+                "ERROR": "Errore durante l'eliminazione di una o più note"
+            }
+        }
     },
     "WALLET": {
         "NAME": "Nome",
@@ -77,6 +123,29 @@
         "ENUMS": {
             "NOTE": "Note",
             "CREDENTIAL": "Credenziali"
+        },
+        "SAVE": {
+            "SUCCESS": "Elemento salvato con successo",
+            "ERROR": "Errore durante il salvataggio dell'elemento"
+        },
+        "UPDATE": {
+            "SUCCESS": "Elemento aggiornato con successo",
+            "ERROR": "Errore durante l'aggiornamento dell'elemento",
+            "MASSIVE": {
+                "MESSAGE": "Spostare tutti gli elementi selezionati nella cartella",
+                "SUCCESS": "Tutti gli elementi selezionatei sono stati aggiornati con successo",
+                "ERROR": "Errore durante l'aggiornamento di uno o più elementi"
+            }
+        },
+        "DELETE": {
+            "MESSAGE": "Si desidera eliminare l'elemento selezionato?",
+            "SUCCESS": "Elemento eliminato con successo",
+            "ERROR": "Errore durante l'eliminazione dell'elemento",
+            "MASSIVE": {
+                "MESSAGE": "Si desidera eliminare tutti gli elementi selezionati?",
+                "SUCCESS": "Tutti gli elementi selezionati sono stati eliminati con successo",
+                "ERROR": "Errore durante l'eliminazione di uno o più elementi"
+            }
         }
     },
     "DIALOG": {

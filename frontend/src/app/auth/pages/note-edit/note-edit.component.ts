@@ -59,7 +59,7 @@ export class NoteEditComponent implements OnInit, OnDestroy {
                         this.iv?.setValue(note.iv);
                         this.salt?.setValue(note.salt);
                     }).catch(error => {
-                        this.snackBar.error(this.translate.instant("NOTE.ERROR.LOAD", { 'status': error.error?.status || error.status, 'message': error.error?.error || error.message }), error.error?.status || error.status);
+                        this.snackBar.error(this.translate.instant("NOTE.ERROR.LOAD"), error);
                     }).then(() => this.settingsService.isLoading = false);
                 } else {
                     this.iv?.setValue(crypto.randomUUID().replaceAll("-", ""));
@@ -90,10 +90,10 @@ export class NoteEditComponent implements OnInit, OnDestroy {
         const actionMessage = note.id ? "UPDATE" : "SAVE";
 
         firstValueFrom(action).then(data => {
-            this.snackBar.success(this.translate.instant(`NOTE.SUCCESS.${actionMessage}`));
-            this.router.navigate(['credentials', data?.id]);
+            this.snackBar.success(this.translate.instant(`NOTE.${actionMessage}.SUCCESS`));
+            this.router.navigate(['notes', data?.id]);
         }).catch(error => {
-            this.snackBar.error(this.translate.instant(`NOTE.ERROR.${actionMessage}`, { 'status': error.error?.status || error.status, 'message': error.error?.error || error.message }), error.error?.status || error.status);
+            this.snackBar.error(this.translate.instant(`NOTE.${actionMessage}.ERROR`), error);
         }).then(() => this.settingsService.isLoading = false);
     }
 }

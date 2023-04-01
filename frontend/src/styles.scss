@@ -92,9 +92,36 @@ body {
 }
 
 .element {
-
     span,
     a {
         overflow-wrap: anywhere;
+    }
+}
+
+.mat-mdc-snack-bar-container {
+    --mdc-shape-small: 0.5rem;
+
+    &.mat-snackbar-info {
+        --mdc-snackbar-container-color: #c3c3c3;
+        --mat-mdc-snack-bar-button-color: rgba(0, 0, 0, 0.87);
+        --mdc-snackbar-supporting-text-color: rgba(0, 0, 0, 0.87);
+    }
+
+    &.mat-snackbar-success {
+        --mdc-snackbar-container-color: #69f0ae;
+        --mat-mdc-snack-bar-button-color: rgba(0, 0, 0, 0.87);
+        --mdc-snackbar-supporting-text-color: rgba(0, 0, 0, 0.87);
+    }
+
+    &.mat-snackbar-warn {
+        --mdc-snackbar-container-color: #f4ab36;
+        --mat-mdc-snack-bar-button-color: rgba(0, 0, 0, 0.87);
+        --mdc-snackbar-supporting-text-color: rgba(0, 0, 0, 0.87);
+    }
+
+    &.mat-snackbar-error {
+        --mdc-snackbar-container-color: #f44336;
+        --mat-mdc-snack-bar-button-color: rgba(0, 0, 0, 0.87);
+        --mdc-snackbar-supporting-text-color: rgba(0, 0, 0, 0.87);
     }
 }

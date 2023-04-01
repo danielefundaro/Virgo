@@ -46,23 +46,23 @@ export class CredentialsComponent extends AbstractTableComponent<Credential> {
     }
 
     public updateMassiveMessage(): string {
-        return this.translate.instant("CREDENTIAL.UPDATE.MESSAGE");
+        return this.translate.instant("CREDENTIAL.UPDATE.MASSIVE.MESSAGE");
     }
 
-    public updateSuccess(data: Credential): void {
-        console.log(data);
+    public updateSuccess(): void {
+        this.snackBarService.success(this.translate.instant("CREDENTIAL.UPDATE.SUCCESS"));
     }
 
     public updateSuccessMassive(): void {
-        console.log();
+        this.snackBarService.success(this.translate.instant("CREDENTIAL.UPDATE.MASSIVE.SUCCESS"));
     }
 
-    public updateError(data: any): void {
-        console.error(data);
+    public updateError(error: any): void {
+        this.snackBarService.error(this.translate.instant("CREDENTIAL.UPDATE.ERROR"), error);
     }
 
-    public updateErrorMassive(data: any): void {
-        console.error(data);
+    public updateErrorMassive(error: any): void {
+        this.snackBarService.error(this.translate.instant("CREDENTIAL.UPDATE.MASSIVE.ERROR"), error);
     }
 
     public delete(data: Credential): Observable<Credential> {
@@ -74,23 +74,23 @@ export class CredentialsComponent extends AbstractTableComponent<Credential> {
     }
 
     public deleteMassiveMessage(): string {
-        return this.translate.instant("CREDENTIAL.DELETE.MASSIVE_MESSAGE");
+        return this.translate.instant("CREDENTIAL.DELETE.MASSIVE.MESSAGE");
     }
 
-    public deleteSuccess(data: Credential): void {
-        console.log(data);
+    public deleteSuccess(): void {
+        this.snackBarService.success(this.translate.instant("CREDENTIAL.DELETE.SUCCESS"));
     }
 
     public deleteSuccessMassive(): void {
-        console.log();
+        this.snackBarService.success(this.translate.instant("CREDENTIAL.DELETE.MASSIVE.SUCCESS"));
     }
 
-    public deleteError(data: any): void {
-        console.error(data);
+    public deleteError(error: any): void {
+        this.snackBarService.error(this.translate.instant("CREDENTIAL.DELETE.ERROR"), error);
     }
 
-    public deleteErrorMassive(data: any): void {
-        console.error(data);
+    public deleteErrorMassive(error: any): void {
+        this.snackBarService.error(this.translate.instant("CREDENTIAL.DELETE.MASSIVE.ERROR"), error);
     }
 
     public addElement(): void {

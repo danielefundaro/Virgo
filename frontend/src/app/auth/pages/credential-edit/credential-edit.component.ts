@@ -68,7 +68,7 @@ export class CredentialEditComponent implements OnInit, OnDestroy {
                         this.iv?.setValue(credential.iv);
                         this.salt?.setValue(credential.salt);
                     }).catch(error => {
-                        this.snackBar.error(this.translate.instant("CREDENTIAL.ERROR.LOAD", { 'status': error.error?.status || error.status, 'message': error.error?.error || error.message }), error.error?.status || error.status);
+                        this.snackBar.error(this.translate.instant("CREDENTIAL.ERROR.LOAD"), error);
                     }).then(() => this.settingsService.isLoading = false);
                 } else {
                     this.iv?.setValue(crypto.randomUUID().replaceAll("-", ""));
@@ -102,10 +102,10 @@ export class CredentialEditComponent implements OnInit, OnDestroy {
         const actionMessage = credential.id ? "UPDATE" : "SAVE";
 
         firstValueFrom(action).then(data => {
-            this.snackBar.success(this.translate.instant(`CREDENTIAL.SUCCESS.${actionMessage}`));
+            this.snackBar.success(this.translate.instant(`CREDENTIAL.${actionMessage}.SUCCESS`));
             this.router.navigate(['credentials', data?.id]);
         }).catch(error => {
-            this.snackBar.error(this.translate.instant(`CREDENTIAL.ERROR.${actionMessage}`, { 'status': error.error?.status || error.status, 'message': error.error?.error || error.message }), error.error?.status || error.status);
+            this.snackBar.error(this.translate.instant(`CREDENTIAL.${actionMessage}.ERROR`), error);
         }).then(() => this.settingsService.isLoading = false);
     }
 }

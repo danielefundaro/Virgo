@@ -50,23 +50,23 @@ export class WalletComponent extends AbstractTableComponent<Wallet> {
     }
 
     public updateMassiveMessage(): string {
-        return this.translate.instant("WALLET.UPDATE.MESSAGE");
+        return this.translate.instant("WALLET.UPDATE.MASSIVE.MESSAGE");
     }
 
-    public updateSuccess(data: Wallet): void {
-        console.log(data);
+    public updateSuccess(): void {
+        this.snackBarService.success(this.translate.instant("WALLET.UPDATE.SUCCESS"));
     }
 
     public updateSuccessMassive(): void {
-        console.log();
+        this.snackBarService.success(this.translate.instant("WALLET.UPDATE.MASSIVE.SUCCESS"));
     }
 
-    public updateError(data: any): void {
-        console.error(data);
+    public updateError(error: any): void {
+        this.snackBarService.error(this.translate.instant("WALLET.UPDATE.ERROR"), error);
     }
 
-    public updateErrorMassive(data: any): void {
-        console.error(data);
+    public updateErrorMassive(error: any): void {
+        this.snackBarService.error(this.translate.instant("WALLET.UPDATE.MASSIVE.ERROR"), error);
     }
 
     public delete(data: Wallet): Observable<Wallet> {
@@ -78,23 +78,23 @@ export class WalletComponent extends AbstractTableComponent<Wallet> {
     }
 
     public deleteMassiveMessage(): string {
-        return this.translate.instant("WALLET.DELETE.MASSIVE_MESSAGE");
+        return this.translate.instant("WALLET.DELETE.MASSIVE.MESSAGE");
     }
 
-    public deleteSuccess(data: any): void {
-        console.log(data);
+    public deleteSuccess(): void {
+        this.snackBarService.success(this.translate.instant("WALLET.DELETE.SUCCESS"));
     }
 
     public deleteSuccessMassive(): void {
-        console.log();
+        this.snackBarService.success(this.translate.instant("WALLET.DELETE.MASSIVE.SUCCESS"));
     }
 
-    public deleteError(data: any): void {
-        console.error(data);
+    public deleteError(error: any): void {
+        this.snackBarService.error(this.translate.instant("WALLET.DELETE.ERROR"), error);
     }
 
-    public deleteErrorMassive(data: any): void {
-        console.error(data);
+    public deleteErrorMassive(error: any): void {
+        this.snackBarService.error(this.translate.instant("WALLET.DELETE.MASSIVE.ERROR"), error);
     }
 
     public addElement(): void {
