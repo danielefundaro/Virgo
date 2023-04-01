@@ -46,6 +46,10 @@ export class CustomTableComponent implements OnInit, OnChanges {
     }
 
     public order(columnName: string): void {
+        const event = new MatCheckboxChange();
+        event.checked = false;
+        this.onCheck(event);
+
         if (columnName != undefined && columnName.length > 0) {
             const sign = this.sort.charAt(0);
 
