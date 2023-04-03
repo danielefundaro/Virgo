@@ -20,6 +20,9 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatSliderModule } from '@angular/material/slider';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MainTranslateModule } from './main-translate/main-translate.module';
 import { KeycloakInitModule } from './init/keycloak-init.module';
 import { DefaultRoutingModule } from './auth/pages/default/default-routing.module';
@@ -35,6 +38,7 @@ import { NoteEditComponent } from './auth/pages/note-edit/note-edit.component';
 import { WalletEditComponent } from './auth/pages/wallet-edit/wallet-edit.component';
 import { ConfirmActionComponent } from './auth/components/dialog/confirm-action/confirm-action.component';
 import { MassiveActionsComponent } from './auth/components/massive-actions/massive-actions.component';
+import { PasswordGeneratorComponent } from './auth/pages/password-generator/password-generator.component';
 
 @NgModule({
     declarations: [
@@ -51,6 +55,7 @@ import { MassiveActionsComponent } from './auth/components/massive-actions/massi
         WalletEditComponent,
         ConfirmActionComponent,
         MassiveActionsComponent,
+        PasswordGeneratorComponent,
     ],
     imports: [
         BrowserModule,
@@ -73,6 +78,9 @@ import { MassiveActionsComponent } from './auth/components/massive-actions/massi
         ReactiveFormsModule,
         MatSelectModule,
         MatCheckboxModule,
+        MatSlideToggleModule,
+        MatSliderModule,
+        MatProgressBarModule,
         DefaultRoutingModule,
         MainTranslateModule,
         KeycloakInitModule,

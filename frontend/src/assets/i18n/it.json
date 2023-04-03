@@ -14,6 +14,7 @@
         "WALLET": "Wallet",
         "CREDENTIALS": "Credenziali",
         "NOTES": "Note",
+        "PASSWORD_GENERATOR": "Genera password",
         "LOGOUT": "Logout",
         "NOTIFICATIONS": "Notifiche",
         "SETTINGS": "Impostazioni",
@@ -150,6 +151,20 @@
                 "SUCCESS": "Tutti gli elementi selezionati sono stati eliminati con successo",
                 "ERROR": "Errore durante l'eliminazione di uno o più elementi"
             }
+        }
+    },
+    "PASSWORD_GENERATOR": {
+        "LENGTH": "Lunghezza password",
+        "UPPERCASE": "Includi caratteri capitalizzati (A-Z)",
+        "NUMBERS": "Includi numeri (0-9)",
+        "SYMBOLS": "Includi simboli",
+        "COPY": "Password copiata",
+        "ENUMS": {
+            "VERY_WEAK": "Molto debole",
+            "WEAK": "Debole",
+            "MODERATE": "Moderata",
+            "STRONG": "Forte",
+            "VERY_STRONG": "Molto forte"
         }
     },
     "DIALOG": {

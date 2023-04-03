@@ -9,10 +9,14 @@
                 </a>
                 <a mat-icon-button [matTooltip]="'MENU.CREDENTIALS' | translate" [routerLink]="['credentials']"
                     aria-label="Credential">
-                    <ng-container *ngTemplateOutlet="passwordsIcon"></ng-container>
+                    <ng-container *ngTemplateOutlet="credentialsIcon"></ng-container>
                 </a>
                 <a mat-icon-button [matTooltip]="'MENU.NOTES' | translate" [routerLink]="['notes']" aria-label="Notes">
                     <ng-container *ngTemplateOutlet="notesIcon"></ng-container>
+                </a>
+                <a mat-icon-button [matTooltip]="'MENU.PASSWORD_GENERATOR' | translate"
+                    [routerLink]="['password-generator']" aria-label="Password generator">
+                    <ng-container *ngTemplateOutlet="passwordIcon"></ng-container>
                 </a>
             </div>
             <button mat-icon-button [matTooltip]="'MENU.NOTIFICATIONS' | translate" aria-label="Notifications">
@@ -59,7 +63,7 @@
                 </a>
 
                 <a mat-list-item [routerLink]="['credentials']">
-                    <ng-container *ngTemplateOutlet="passwordsIcon"></ng-container>
+                    <ng-container *ngTemplateOutlet="credentialsIcon"></ng-container>
                     <mat-icon mat-list-icon fxHide.lt-md fxShow class="fa-solid fa-user-secret"></mat-icon>
                     <span mat-line fxHide.lt-md fxShow>{{'MENU.CREDENTIALS' | translate}}</span>
                 </a>
@@ -68,6 +72,14 @@
                     <ng-container *ngTemplateOutlet="notesIcon"></ng-container>
                     <mat-icon mat-list-icon fxHide.lt-md fxShow class="fa-solid fa-note-sticky"></mat-icon>
                     <span mat-line fxHide.lt-md fxShow>{{'MENU.NOTES' | translate}}</span>
+                </a>
+
+                <mat-divider></mat-divider>
+
+                <a mat-list-item [routerLink]="['password-generator']">
+                    <ng-container *ngTemplateOutlet="passwordIcon"></ng-container>
+                    <mat-icon mat-list-icon fxHide.lt-md fxShow class="fa-solid fa-shield"></mat-icon>
+                    <span mat-line fxHide.lt-md fxShow>{{'MENU.PASSWORD_GENERATOR' | translate}}</span>
                 </a>
 
                 <mat-divider></mat-divider>
@@ -90,7 +102,7 @@
         [matTooltip]="'MENU.WALLET' | translate"></mat-icon>
 </ng-template>
 
-<ng-template #passwordsIcon>
+<ng-template #credentialsIcon>
     <mat-icon mat-list-icon fxHide fxShow.lt-md class="fa-solid fa-user-secret"
         [matTooltip]="'MENU.CREDENTIALS' | translate"></mat-icon>
 </ng-template>
@@ -98,6 +110,11 @@
 <ng-template #notesIcon>
     <mat-icon mat-list-icon fxHide fxShow.lt-md class="fa-solid fa-note-sticky"
         [matTooltip]="'MENU.NOTES' | translate"></mat-icon>
+</ng-template>
+
+<ng-template #passwordIcon>
+    <mat-icon mat-list-icon fxHide fxShow.lt-md class="fa-solid fa-shield"
+        [matTooltip]="'MENU.PASSWORD_GENERATOR' | translate"></mat-icon>
 </ng-template>
 
 <ng-template #logoutIcon>
