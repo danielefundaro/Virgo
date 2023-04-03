@@ -104,7 +104,7 @@ export abstract class AbstractTableComponent<T extends EncryptCommonFields> impl
                     }
                 });
 
-                Promise.all(calls).then(result => {
+                Promise.all(calls).then(() => {
                     this.updateSuccessMassive();
                     this.ngAfterViewInit();
                 }).catch(error => {
@@ -134,7 +134,7 @@ export abstract class AbstractTableComponent<T extends EncryptCommonFields> impl
                     }
                 });
 
-                Promise.all(calls).then(result => {
+                Promise.all(calls).then(() => {
                     this.deleteSuccessMassive();
                     this.ngAfterViewInit();
                 }).catch(error => {
