@@ -1,7 +1,13 @@
 import { Component, OnDestroy } from '@angular/core';
 import { KeycloakProfile } from 'keycloak-js';
-import { Subscription } from 'rxjs';
-import { SettingsService, UserService } from 'src/app/services';
+import { Subscription, firstValueFrom } from 'rxjs';
+import { SettingsService, SnackBarService, UserService } from 'src/app/services';
+import { WorkspacesService } from '../../services';
+import { Workspace } from '../../models';
+import { TranslateService } from '@ngx-translate/core';
+import { MatDialog } from '@angular/material/dialog';
+import { AddWorkspaceComponent } from '../../components/dialog/add-workspace/add-workspace.component';
+import { ConfirmActionComponent } from '../../components/dialog/confirm-action/confirm-action.component';
 
 @Component({
     selector: 'default',
@@ -14,14 +20,18 @@ export class DefaultComponent implements OnDestroy {
     public isLoggedIn!: boolean;
     public isDarkTheme: boolean;
     public isLoading!: boolean;
+    public workspaces?: Workspace[];
     private loadState: Subscription;
 
-    constructor(private userService: UserService, public settingsService: SettingsService) {
+    constructor(private userService: UserService, public settingsService: SettingsService,
+        private workspacesService: WorkspacesService, private snackBar: SnackBarService,
+        private translate: TranslateService, private dialog: MatDialog) {
         this.languages = settingsService.languages;
         this.isDarkTheme = this.settingsService.isDarkTheme;
 
         this.userService.isLoggedIn().then(data => this.isLoggedIn = data);
         this.userService.loadUserProfile().then(data => this.user = data);
+        this.loadWorkspaces();
 
         // Set default theme
         this.settingsService.setDefalutTheme();
@@ -47,7 +57,49 @@ export class DefaultComponent implements OnDestroy {
         this.settingsService.currentLang = lang;
     }
 
+    public addWorkspace(): void {
+        const dialogRef = this.dialog.open(AddWorkspaceComponent, {
+            disableClose: true
+        });
+
+        firstValueFrom(dialogRef.afterClosed()).then(result => {
+            if (result) {
+                this.loadWorkspaces();
+            }
+        });
+    }
+
+    public removeWorkspace(workspace: Workspace): void {
+        const dialogRef = this.dialog.open<ConfirmActionComponent, any, boolean>(ConfirmActionComponent, {
+            data: { message: this.translate.instant("WORKSPACE.DELETE.MESSAGE") },
+            disableClose: true
+        });
+
+        firstValueFrom(dialogRef.afterClosed()).then(result => {
+            if (result) {
+                this.settingsService.isLoading = true;
+
+                firstValueFrom(this.workspacesService.delete(workspace.id)).then(() => {
+                    this.snackBar.success(this.translate.instant("WORKSPACE.DELETE.SUCCESS"));
+                    this.loadWorkspaces();
+                }).catch(error => {
+                    this.snackBar.error(this.translate.instant("WORKSPACE.DELETE.ERROR"), error);
+                }).then(() => this.settingsService.isLoading = false);
+            }
+        })
+    }
+
     public signout(): void {
         this.userService.logout();
+    }
+
+    private loadWorkspaces() {
+        this.settingsService.isLoading = true;
+
+        firstValueFrom(this.workspacesService.getAll()).then(data => {
+            this.workspaces = data;
+        }).catch(error => {
+            this.snackBar.error(this.translate.instant("SHARED.WORKSPACE.GET_ALL.ERROR"), error);
+        }).then(() => this.settingsService.isLoading = false);
     }
 }

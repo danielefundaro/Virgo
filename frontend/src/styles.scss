@@ -13,7 +13,6 @@ $accent: mat.define-palette($accent-palette, A200, A100, A400);
 // The warn palette is optional (defaults to red).
 $warn: mat.define-palette($warn-palette);
 
-$background: mat.define-palette($backgroud-palette);
 
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".
@@ -38,6 +37,8 @@ $theme: mat.define-light-theme((color: (primary: $primary,
             )));
     $background-component: mat.get-color-from-palette($background, 700);
     $background-component-contrast: mat.get-color-from-palette($background, '700-contrast');
+    $background-dialog: mat.get-color-from-palette($background, 100);
+    $background-dialog-contrast: mat.get-color-from-palette($background, '100-contrast');
 
     @include mat.all-component-themes($theme);
     background: mat.get-color-from-palette($background, 500) !important;
@@ -54,9 +55,13 @@ $theme: mat.define-light-theme((color: (primary: $primary,
         color: mat.get-color-from-palette($background, '600-contrast') !important;
     }
 
-    .mdc-text-field {
+    .mdc-text-field, .mat-expansion-panel {
         background: mat.get-color-from-palette($background, 800) !important;
         color: mat.get-color-from-palette($background, '800-contrast') !important;
+    }
+
+    .mat-mdc-dialog-container {
+        --mdc-dialog-container-color: #2f303b !important;
     }
 
     .main-page-container {

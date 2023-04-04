@@ -8,12 +8,14 @@
         "BACK": "Indietro",
         "CANCEL": "Annulla",
         "CONFIRM": "Conferma",
-        "ITEM_SELECTED": "elementi selezionati"
+        "ITEM_SELECTED": "elementi selezionati",
+        "NO_DATA": "Nessun dato presente"
     },
     "MENU": {
         "WALLET": "Wallet",
         "CREDENTIALS": "Credenziali",
         "NOTES": "Note",
+        "WORKSPACES": "Cartelle",
         "PASSWORD_GENERATOR": "Genera password",
         "LOGOUT": "Logout",
         "NOTIFICATIONS": "Notifiche",
@@ -153,6 +155,19 @@
             }
         }
     },
+    "WORKSPACE": {
+        "ADD": "Aggiungi nuova cartella",
+        "REMOVE": "Rimuovi cartella",
+        "SAVE": {
+            "SUCCESS": "Cartella salvata con successo",
+            "ERROR": "Errore durante il salvataggio della cartella"
+        },
+        "DELETE": {
+            "MESSAGE": "Si desidera eliminare la cartella selezionata?",
+            "SUCCESS": "Cartella eliminata con successo",
+            "ERROR": "Errore durante l'eliminazione della cartella"
+        }
+    },
     "PASSWORD_GENERATOR": {
         "LENGTH": "Lunghezza password",
         "UPPERCASE": "Includi caratteri capitalizzati (A-Z)",
@@ -169,6 +184,9 @@
     },
     "DIALOG": {
         "SELECT_WORKSPACE": "Seleziona cartella",
-        "DELETE": "Elimina elemento selezionato"
+        "DELETE": "Elimina elemento selezionato",
+        "NEW_WORKSPACE": "Nuova cartella",
+        "INSERT_WORKSPACE_NAME": "Inserire il nome della nuova cartella",
+        "WORKSPACE_NAME": "I.e. cartella 1"
     }
 }

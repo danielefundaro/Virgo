@@ -26,8 +26,11 @@
             <div fxFlexOffset="2.5rem"></div>
         </div>
         <ng-content></ng-content>
+        <div *ngIf="paginator.length === 0 && !settingsService.isLoading" fxLayout="row" fxLayoutAlign="center">
+            <h3 class="weight-500">{{"SHARED.NO_DATA" | translate}}</h3>
+        </div>
     </div>
-    <mat-paginator [pageSizeOptions]=" [10, 25, 50]" showFirstLastButtons></mat-paginator>
+    <mat-paginator #paginator [pageSizeOptions]=" [10, 25, 50]" showFirstLastButtons></mat-paginator>
 </div>
 
 <massive-actions [itemSelected]="itemSelected" [disabled]="!((checked || indeterminate) && !closeMassive)" class="massive"

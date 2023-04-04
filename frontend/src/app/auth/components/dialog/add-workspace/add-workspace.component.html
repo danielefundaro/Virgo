@@ -1,0 +1,11 @@
+<h1 mat-dialog-title>{{"DIALOG.NEW_WORKSPACE" | translate}}</h1>
+<div mat-dialog-content>
+    <mat-form-field>
+        <mat-label>{{"DIALOG.INSERT_WORKSPACE_NAME" | translate}}</mat-label>
+        <input matInput [(ngModel)]="workspace.name" [placeholder]="'DIALOG.WORKSPACE_NAME' | translate">
+    </mat-form-field>
+</div>
+<div mat-dialog-actions>
+    <button mat-button cdkFocusInitial (click)="save(false)">{{"SHARED.CANCEL" | translate}}</button>
+    <button mat-button [disabled]="!workspace.name" (click)="save(true)">{{"SHARED.SAVE" | translate}}</button>
+</div>

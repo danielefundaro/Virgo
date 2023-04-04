@@ -3,6 +3,7 @@ import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatPaginator } from '@angular/material/paginator';
 import { IColumn } from '../../models';
 import { Subscription } from 'rxjs';
+import { SettingsService } from 'src/app/services';
 
 @Component({
     selector: 'custom-table',
@@ -28,6 +29,8 @@ export class CustomTableComponent implements OnInit, AfterViewInit, OnChanges, O
 
     private defaultColumnSort: string = 'id';
     private subscription!: Subscription;
+
+    constructor(public settingsService: SettingsService) { }
 
     ngOnInit(): void {
         this.sort = this.defaultColumnSort;
