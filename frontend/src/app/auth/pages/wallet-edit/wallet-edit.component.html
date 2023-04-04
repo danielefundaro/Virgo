@@ -48,6 +48,10 @@
     <mat-form-field appearance="fill">
         <mat-label>{{"WALLET.WORKSPACE" | translate}}</mat-label>
         <mat-select formControlName="workspace" #select>
+            <mat-option [value]="undefined" (click)="addWorkspace()">
+                <mat-icon class="fa-solid fa-add"></mat-icon>
+                <label>{{'WORKSPACE.ADD' | translate}}</label>
+            </mat-option>
             <mat-option [value]="workspaceOption" *ngFor="let workspaceOption of workspaces">{{workspaceOption.name}}</mat-option>
         </mat-select>
         <mat-icon matPrefix class="fa-solid" [ngClass]="select.value ? 'fa-folder-open' : 'fa-folder'"></mat-icon>

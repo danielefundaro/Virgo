@@ -6,6 +6,8 @@ import { firstValueFrom, Subscription } from 'rxjs';
 import { SettingsService, SnackBarService } from 'src/app/services';
 import { TypeEnum, Wallet, Workspace } from '../../models';
 import { WalletsService, WorkspacesService } from '../../services';
+import { AddWorkspaceComponent } from '../../components/dialog/add-workspace/add-workspace.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'wallet-edit',
@@ -35,7 +37,7 @@ export class WalletEditComponent implements OnInit, OnDestroy {
 
     constructor(private router: Router, private route: ActivatedRoute, private walletsService: WalletsService,
         private workspacesService: WorkspacesService, private translate: TranslateService, private snackBar: SnackBarService,
-        private settingsService: SettingsService) {
+        private settingsService: SettingsService, private dialog: MatDialog) {
         this.settingsService.isLoading = true;
         this.viewToggle = false;
 
@@ -55,6 +57,8 @@ export class WalletEditComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
+        this.settingsService.isLoading = true;
+
         this.param = this.route.params.subscribe(data => {
             const id = data['id'];
             const type = data['type'];
@@ -138,5 +142,18 @@ export class WalletEditComponent implements OnInit, OnDestroy {
         }).catch(error => {
             this.snackBar.error(this.translate.instant(`WALLET.${actionMessage}.ERROR`), error);
         }).then(() => this.settingsService.isLoading = false);
+    }
+
+    public addWorkspace(): void {
+        const dialogRef = this.dialog.open(AddWorkspaceComponent, {
+            disableClose: true
+        });
+
+        firstValueFrom(dialogRef.afterClosed()).then(result => {
+            if (result) {
+                this.settingsService.onUpdateWorkspaces.emit();
+                this.ngOnInit();
+            }
+        });
     }
 }

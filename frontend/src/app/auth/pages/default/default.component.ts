@@ -22,6 +22,7 @@ export class DefaultComponent implements OnDestroy {
     public isLoading!: boolean;
     public workspaces?: Workspace[];
     private loadState: Subscription;
+    private workspaceList: Subscription;
 
     constructor(private userService: UserService, public settingsService: SettingsService,
         private workspacesService: WorkspacesService, private snackBar: SnackBarService,
@@ -39,10 +40,14 @@ export class DefaultComponent implements OnDestroy {
 
         // Check loading state
         this.loadState = this.settingsService.loadStateChanged().subscribe(data => this.isLoading = data);
+
+        // Check workspace list
+        this.workspaceList = this.settingsService.onUpateWorkspacesEvent().subscribe(() => this.loadWorkspaces());
     }
 
     ngOnDestroy(): void {
         this.loadState.unsubscribe();
+        this.workspaceList.unsubscribe();
     }
 
     public openProfile(): void {

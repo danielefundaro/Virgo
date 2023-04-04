@@ -6,6 +6,8 @@ import { firstValueFrom, Subscription } from 'rxjs';
 import { SettingsService, SnackBarService } from 'src/app/services';
 import { Credential, Workspace } from '../../models';
 import { CredentialsService, WorkspacesService } from '../../services';
+import { AddWorkspaceComponent } from '../../components/dialog/add-workspace/add-workspace.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
     selector: 'credential-edit',
@@ -32,7 +34,7 @@ export class CredentialEditComponent implements OnInit, OnDestroy {
 
     constructor(private router: Router, private route: ActivatedRoute, private credentialsService: CredentialsService,
         private workspacesService: WorkspacesService, private translate: TranslateService, private snackBar: SnackBarService,
-        private settingsService: SettingsService) {
+        private settingsService: SettingsService, private dialog: MatDialog) {
         this.settingsService.isLoading = true;
         this.passwordViewToggle = false;
 
@@ -50,6 +52,8 @@ export class CredentialEditComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
+        this.settingsService.isLoading = true;
+
         this.param = this.route.params.subscribe(data => {
             const id = data['id'];
 
@@ -107,5 +111,18 @@ export class CredentialEditComponent implements OnInit, OnDestroy {
         }).catch(error => {
             this.snackBar.error(this.translate.instant(`CREDENTIAL.${actionMessage}.ERROR`), error);
         }).then(() => this.settingsService.isLoading = false);
+    }
+
+    public addWorkspace(): void {
+        const dialogRef = this.dialog.open(AddWorkspaceComponent, {
+            disableClose: true
+        });
+
+        firstValueFrom(dialogRef.afterClosed()).then(result => {
+            if (result) {
+                this.settingsService.onUpdateWorkspaces.emit();
+                this.ngOnInit();
+            }
+        });
     }
 }
