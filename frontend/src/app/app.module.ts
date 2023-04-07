@@ -41,6 +41,7 @@ import { ConfirmActionComponent } from './auth/components/dialog/confirm-action/
 import { MassiveActionsComponent } from './auth/components/massive-actions/massive-actions.component';
 import { PasswordGeneratorComponent } from './auth/pages/password-generator/password-generator.component';
 import { AddWorkspaceComponent } from './auth/components/dialog/add-workspace/add-workspace.component';
+import { LoadingSpinnerComponent } from './auth/components/loading-spinner/loading-spinner.component';
 
 @NgModule({
     declarations: [
@@ -59,6 +60,7 @@ import { AddWorkspaceComponent } from './auth/components/dialog/add-workspace/ad
         MassiveActionsComponent,
         PasswordGeneratorComponent,
         AddWorkspaceComponent,
+        LoadingSpinnerComponent,
     ],
     imports: [
         BrowserModule,

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { SnackBarService } from 'src/app/services';
+import { SettingsService, SnackBarService } from 'src/app/services';
 import { StrengthEnum } from '../../models';
 
 @Component({
@@ -23,7 +23,8 @@ export class PasswordGeneratorComponent {
     private numbers: string;
     private symbols: string;
 
-    constructor(private snackBarService: SnackBarService, private translate: TranslateService) {
+    constructor(private snackBarService: SnackBarService, private translate: TranslateService,
+        private settingsService: SettingsService) {
         this.value = this.min;
         this.strength = 0;
         this.strengthLabel = StrengthEnum.VERY_WEAK;
@@ -38,6 +39,7 @@ export class PasswordGeneratorComponent {
     }
 
     public generate(): void {
+        this.settingsService.isLoading = true;
         this.password = "";
         let chars = this.characterers;
 
@@ -76,6 +78,8 @@ export class PasswordGeneratorComponent {
         } else {
             this.strengthLabel = StrengthEnum.VERY_STRONG;
         }
+
+        this.settingsService.isLoading = false;
     }
 
     public copy(): void {

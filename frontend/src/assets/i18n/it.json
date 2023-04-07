@@ -9,7 +9,8 @@
         "CANCEL": "Annulla",
         "CONFIRM": "Conferma",
         "ITEM_SELECTED": "elementi selezionati",
-        "NO_DATA": "Nessun dato presente"
+        "NO_DATA": "Nessun dato presente",
+        "LOADING": "Caricamento..."
     },
     "MENU": {
         "WALLET": "Wallet",
