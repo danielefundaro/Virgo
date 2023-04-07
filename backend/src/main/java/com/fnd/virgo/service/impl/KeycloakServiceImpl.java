@@ -3,6 +3,7 @@ package com.fnd.virgo.service.impl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fnd.virgo.model.KeycloakUser;
 import com.fnd.virgo.service.KeycloakService;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
@@ -88,10 +89,11 @@ public class KeycloakServiceImpl implements KeycloakService {
     }
 
     @Override
-    public boolean tokenIsActive(String accessToken) {
+    public KeycloakUser tokenIsActive(String accessToken) {
         String url = String.format("%s/introspect", keycloakTokenUri);
         HttpHeaders httpHeaders = new HttpHeaders();
         MultiValueMap<String, String> form = new LinkedMultiValueMap<>();
+        String id = null;
         boolean isActive = false;
 
         form.add("token", accessToken.replace("Bearer ", ""));
@@ -108,14 +110,15 @@ public class KeycloakServiceImpl implements KeycloakService {
                 if (realmAccess != null)
                     roles = (List<?>) realmAccess.get("roles");
 
+                id = tokenIntrospectionResponse.getId();
                 isActive = tokenIntrospectionResponse.getActive() && !roles.isEmpty() && roles.contains("user");
             } catch (JsonProcessingException e) {
-                return false;
+                e.printStackTrace();
             }
         }
 
         log.trace(String.format("Token is active %s", isActive));
-        return isActive;
+        return new KeycloakUser(id, isActive);
     }
 
     private AccessTokenResponse getAccessToken(MultiValueMap<String, String> form) {
