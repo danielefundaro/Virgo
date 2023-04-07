@@ -8,8 +8,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class MasterPasswordDTO {
-    private Long id;
-    private String userId;
     private String hashPasswd;
     private String salt;
 }

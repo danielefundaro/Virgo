@@ -110,7 +110,7 @@ public class KeycloakServiceImpl implements KeycloakService {
                 if (realmAccess != null)
                     roles = (List<?>) realmAccess.get("roles");
 
-                id = tokenIntrospectionResponse.getId();
+                id = tokenIntrospectionResponse.getSubject();
                 isActive = tokenIntrospectionResponse.getActive() && !roles.isEmpty() && roles.contains("user");
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
