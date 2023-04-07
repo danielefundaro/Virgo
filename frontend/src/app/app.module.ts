@@ -42,6 +42,7 @@ import { MassiveActionsComponent } from './auth/components/massive-actions/massi
 import { PasswordGeneratorComponent } from './auth/pages/password-generator/password-generator.component';
 import { AddWorkspaceComponent } from './auth/components/dialog/add-workspace/add-workspace.component';
 import { LoadingSpinnerComponent } from './auth/components/loading-spinner/loading-spinner.component';
+import { MasterPasswordComponent } from './auth/pages/master-password/master-password.component';
 
 @NgModule({
     declarations: [
@@ -61,6 +62,7 @@ import { LoadingSpinnerComponent } from './auth/components/loading-spinner/loadi
         PasswordGeneratorComponent,
         AddWorkspaceComponent,
         LoadingSpinnerComponent,
+        MasterPasswordComponent,
     ],
     imports: [
         BrowserModule,

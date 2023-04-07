@@ -35,6 +35,10 @@ export class NotesComponent extends AbstractTableComponent<Note> {
         return this.notesService.search(s);
     }
     
+    public override getError(error: any): void {
+        this.snackBarService.error("", error);
+    }
+    
     public update(data: Note): Observable<Note> {
         return this.notesService.update(data);
     }
@@ -92,10 +96,6 @@ export class NotesComponent extends AbstractTableComponent<Note> {
     }
 
     public copy(data: Note): void {
-        console.log(data);
-    }
-
-    public edit(data: Note): void {
         console.log(data);
     }
 }

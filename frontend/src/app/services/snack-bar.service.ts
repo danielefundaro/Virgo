@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { MasterPasswordEnum } from '../auth/models';
 
 @Injectable({
     providedIn: 'root'
@@ -23,11 +24,18 @@ export class SnackBarService {
 
     error(message: string, error?: any, duration: number = 5000): void {
         const status = error?.error?.status || error?.status || error;
-        this.open(message, duration, ['mat-snackbar-error']);
+        const messageError: { code: string, reason: string } = JSON.parse(error?.error?.message || {});
 
         if (status == 404) {
             this.router.navigate(['404']);
         }
+
+        if (status === 409 && messageError.code === "001") {
+            this.router.navigate(['master-password'], {fragment: MasterPasswordEnum.FIRST_INSERT});
+            return;
+        }
+
+        this.open(message, duration, ['mat-snackbar-error']);
     }
 
     private open(message: string, duration?: number, panelClass?: string | string[]) {

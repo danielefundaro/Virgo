@@ -33,19 +33,20 @@ export abstract class AbstractTableComponent<T extends EncryptCommonFields> impl
     }
 
     public abstract search(s: Searcher): Observable<Page<T>>;
+    public abstract getError(error: any): void;
     public abstract update(data: T): Observable<T>;
     public abstract updateMassiveMessage(): string;
-    public abstract updateSuccess(data: T): void;
+    public abstract updateSuccess(): void;
     public abstract updateSuccessMassive(): void;
-    public abstract updateError(data: any): void;
-    public abstract updateErrorMassive(data: any): void;
+    public abstract updateError(error: any): void;
+    public abstract updateErrorMassive(error: any): void;
     public abstract delete(data: T): Observable<T>;
     public abstract deleteMessage(): string;
     public abstract deleteMassiveMessage(): string;
-    public abstract deleteSuccess(data: T): void;
+    public abstract deleteSuccess(): void;
     public abstract deleteSuccessMassive(): void;
-    public abstract deleteError(data: any): void;
-    public abstract deleteErrorMassive(data: any): void;
+    public abstract deleteError(error: any): void;
+    public abstract deleteErrorMassive(error: any): void;
 
     ngAfterViewInit(): void {
         this.subscription = merge(this.customTable.paginator.page, this.customTable.onSortChange, this.settingsService.onSearchChanged).pipe(
@@ -53,7 +54,10 @@ export abstract class AbstractTableComponent<T extends EncryptCommonFields> impl
             debounceTime(150),
             switchMap(() => {
                 const s: Searcher = new Searcher(this.settingsService.search, this.customTable.paginator.pageIndex, this.customTable.paginator.pageSize, [this.customTable.sort]);
-                return this.search(s).pipe(catchError(() => of(null)));
+                return this.search(s).pipe(catchError(error => {
+                    this.getError(error);
+                    return of(null);
+                }));
             }),
             map(data => {
                 if (data === null) {
@@ -161,7 +165,7 @@ export abstract class AbstractTableComponent<T extends EncryptCommonFields> impl
                 this.settingsService.isLoading = true;
 
                 firstValueFrom(this.update(data)).then(result => {
-                    this.updateSuccess(data);
+                    this.updateSuccess();
                 }).catch(error => {
                     this.updateError(error);
                 }).then(() => this.settingsService.isLoading = false);
@@ -180,7 +184,7 @@ export abstract class AbstractTableComponent<T extends EncryptCommonFields> impl
                 this.settingsService.isLoading = true;
 
                 firstValueFrom(this.delete(data)).then(result => {
-                    this.deleteSuccess(data);
+                    this.deleteSuccess();
                     this.ngAfterViewInit();
                 }).catch(error => {
                     this.deleteError(error);

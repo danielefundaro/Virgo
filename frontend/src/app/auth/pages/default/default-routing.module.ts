@@ -9,6 +9,7 @@ import { CredentialEditComponent } from '../credential-edit/credential-edit.comp
 import { NotesComponent } from '../notes/notes.component';
 import { NoteEditComponent } from '../note-edit/note-edit.component';
 import { PasswordGeneratorComponent } from '../password-generator/password-generator.component';
+import { MasterPasswordComponent } from '../master-password/master-password.component';
 
 const routes: Routes = [{
     path: '',
@@ -22,6 +23,7 @@ const routes: Routes = [{
         { path: 'notes', component: NotesComponent },
         { path: 'notes\/:id', component: NoteEditComponent },
         { path: 'password-generator', component: PasswordGeneratorComponent},
+        { path: 'master-password', component: MasterPasswordComponent, pathMatch: 'full'},
     ]
 }];
 

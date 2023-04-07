@@ -3,6 +3,7 @@ export * from './credential.model';
 export * from './encryptCommonFields.model';
 export * from './iChangeWorkspace';
 export * from './iColumn.model';
+export * from './masterPasswordEnum.model';
 export * from './note.model';
 export * from './page.model';
 export * from './searcher.model';

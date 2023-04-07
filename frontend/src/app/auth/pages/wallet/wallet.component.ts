@@ -44,6 +44,10 @@ export class WalletComponent extends AbstractTableComponent<Wallet> {
     public search(s: Searcher): Observable<Page<Wallet>> {
         return this.walletsService.search(s);
     }
+    
+    public override getError(error: any): void {
+        this.snackBarService.error("", error);
+    }
 
     public update(data: Wallet): Observable<Wallet> {
         return this.walletsService.update(data, data.type);
@@ -110,10 +114,6 @@ export class WalletComponent extends AbstractTableComponent<Wallet> {
     }
 
     public copyContent(data: Wallet): void {
-        console.log(data);
-    }
-
-    public edit(data: Wallet): void {
         console.log(data);
     }
 }

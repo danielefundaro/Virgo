@@ -13,7 +13,6 @@ export class UserService {
         try {
             return this.keycloakService.getKeycloakInstance().idTokenParsed;
         } catch (e) {
-            console.error(e);
             return undefined;
         }
     }

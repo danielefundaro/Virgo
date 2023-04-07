@@ -40,6 +40,10 @@ export class CredentialsComponent extends AbstractTableComponent<Credential> {
     public search(s: Searcher): Observable<Page<Credential>> {
         return this.credentialsService.search(s);
     }
+    
+    public override getError(error: any): void {
+        this.snackBarService.error("", error);
+    }
 
     public update(data: Credential): Observable<Credential> {
         return this.credentialsService.update(data);
