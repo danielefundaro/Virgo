@@ -94,12 +94,14 @@
                         <mat-icon class="fa-solid fa-folder-plus"></mat-icon>
                         <span>{{'WORKSPACE.ADD' | translate}}</span>
                     </button>
-                    <div *ngFor="let workspace of workspaces" fxLayout="row" fxLayoutAlign="space-between center">
-                        <span class="workspace-name">{{workspace.name | truncate:0:20:'...'}}</span>
-                        <button mat-icon-button color="warn" [matTooltip]="'WORKSPACE.REMOVE' | translate"
-                            (click)="removeWorkspace(workspace)">
-                            <mat-icon class="fa-solid fa-folder-minus"></mat-icon>
-                        </button>
+                    <div class="workspace-container">
+                        <div *ngFor="let workspace of workspaces" fxLayout="row" fxLayoutAlign="space-between center">
+                            <span class="workspace-name">{{workspace.name | truncate:0:20:'...'}}</span>
+                            <button mat-icon-button color="warn" [matTooltip]="'WORKSPACE.REMOVE' | translate"
+                                (click)="removeWorkspace(workspace)">
+                                <mat-icon class="fa-solid fa-folder-minus"></mat-icon>
+                            </button>
+                        </div>
                     </div>
                 </mat-expansion-panel>
 

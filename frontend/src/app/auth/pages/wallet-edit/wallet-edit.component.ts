@@ -34,6 +34,7 @@ export class WalletEditComponent implements OnInit, OnDestroy {
     public typeEnum = TypeEnum;
 
     private param?: Subscription;
+    private workspaceList: Subscription;
 
     constructor(private router: Router, private route: ActivatedRoute, private walletsService: WalletsService,
         private workspacesService: WorkspacesService, private translate: TranslateService, private snackBar: SnackBarService,
@@ -54,6 +55,9 @@ export class WalletEditComponent implements OnInit, OnDestroy {
             salt: new FormControl(undefined, [Validators.required]),
             type: new FormControl(undefined, [Validators.required]),
         });
+
+        // Check workspace list
+        this.workspaceList = this.settingsService.onUpateWorkspacesEvent().subscribe(() => this.ngOnInit());
     }
 
     ngOnInit(): void {
@@ -99,6 +103,7 @@ export class WalletEditComponent implements OnInit, OnDestroy {
 
     ngOnDestroy(): void {
         this.param?.unsubscribe();
+        this.workspaceList.unsubscribe();
     }
 
     public valueChange(type: TypeEnum): void {

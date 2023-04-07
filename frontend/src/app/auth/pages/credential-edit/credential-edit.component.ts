@@ -31,6 +31,7 @@ export class CredentialEditComponent implements OnInit, OnDestroy {
     public passwordViewToggle: boolean;
 
     private param?: Subscription;
+    private workspaceList: Subscription;
 
     constructor(private router: Router, private route: ActivatedRoute, private credentialsService: CredentialsService,
         private workspacesService: WorkspacesService, private translate: TranslateService, private snackBar: SnackBarService,
@@ -49,6 +50,9 @@ export class CredentialEditComponent implements OnInit, OnDestroy {
             iv: new FormControl(undefined, [Validators.required]),
             salt: new FormControl(undefined, [Validators.required]),
         });
+
+        // Check workspace list
+        this.workspaceList = this.settingsService.onUpateWorkspacesEvent().subscribe(() => this.ngOnInit());
     }
 
     ngOnInit(): void {
@@ -85,6 +89,7 @@ export class CredentialEditComponent implements OnInit, OnDestroy {
 
     ngOnDestroy(): void {
         this.param?.unsubscribe();
+        this.workspaceList.unsubscribe();
     }
 
     public save(): void {

@@ -18,6 +18,10 @@
     }
 }
 
+.details>* {
+    padding: 0 0.2rem;
+}
+
 .show {
     visibility: visible !important;
     opacity: 1 !important;

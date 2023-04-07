@@ -42,9 +42,10 @@
 
 .column {
     cursor: pointer;
+    padding: 0 0.2rem;
 
     span+i {
-        margin-left: 1rem;
+        margin-left: 0.2rem;
     }
 }
 

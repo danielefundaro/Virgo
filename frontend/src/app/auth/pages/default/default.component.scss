@@ -27,6 +27,12 @@
     background: yellowgreen;
 }
 
+.workspace-container {
+    height: 15rem;
+    overflow-y: auto;
+    margin-top: 1rem;
+}
+
 .workspace-name {
     overflow-wrap: anywhere;
 }

@@ -69,7 +69,7 @@ export class DefaultComponent implements OnDestroy {
 
         firstValueFrom(dialogRef.afterClosed()).then(result => {
             if (result) {
-                this.loadWorkspaces();
+                this.settingsService.onUpdateWorkspaces.emit();
             }
         });
     }
