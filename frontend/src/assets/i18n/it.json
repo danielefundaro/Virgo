@@ -164,7 +164,7 @@
             "ERROR": "Errore durante il salvataggio della cartella"
         },
         "DELETE": {
-            "MESSAGE": "Si desidera eliminare la cartella selezionata?",
+            "MESSAGE": "Si desidera eliminare la cartella selezionata e il suo relativo contenuto?",
             "SUCCESS": "Cartella eliminata con successo",
             "ERROR": "Errore durante l'eliminazione della cartella"
         }
