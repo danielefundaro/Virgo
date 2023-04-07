@@ -37,7 +37,7 @@ public abstract class BasicServiceImpl<C extends CommonFields, D extends CommonF
     @Override
     public List<D> getAll(@NotNull JwtAuthenticationToken keycloakAuthenticationToken) {
         String userId = keycloakAuthenticationToken.getName();
-        List<C> cList = getRepository().findAllByUserId(userId);
+        List<C> cList = getRepository().findAllByUserIdOrderByName(userId);
 
         // Save the audit info into db
         String info = String.format("The user %s got all %ss. Count %s", userId, getClassEntity().getSimpleName(), cList.size());

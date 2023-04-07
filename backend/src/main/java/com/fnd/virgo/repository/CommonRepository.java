@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @NoRepositoryBean
 public interface CommonRepository<C extends CommonFields> extends PagingAndSortingRepository<C, Long>, JpaSpecificationExecutor<C>, JpaRepository<C, Long> {
-    List<C> findAllByUserId(String userId);
+    List<C> findAllByUserIdOrderByName(String userId);
 
     Optional<C> findByIdAndUserId(Long id, String userId);
 }
