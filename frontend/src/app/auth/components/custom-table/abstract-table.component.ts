@@ -22,10 +22,14 @@ export abstract class AbstractTableComponent<T extends EncryptCommonFields> impl
     protected clicked: number = -1;
 
     private subscription!: Subscription;
+    private workspaceList: Subscription;
 
-    constructor(private settingService: SettingsService, protected dialog: MatDialog) {
+    constructor(private settingsService: SettingsService, protected dialog: MatDialog) {
         this.dataSource = [];
-        this.settingService.isLoading = true;
+        this.settingsService.isLoading = true;
+
+        // Check workspace list
+        this.workspaceList = this.settingsService.onUpateWorkspacesEvent().subscribe(() => this.ngAfterViewInit());
     }
 
     public abstract search(s: Searcher): Observable<Page<T>>;
@@ -44,11 +48,11 @@ export abstract class AbstractTableComponent<T extends EncryptCommonFields> impl
     public abstract deleteErrorMassive(data: any): void;
 
     ngAfterViewInit(): void {
-        this.subscription = merge(this.customTable.paginator.page, this.customTable.onSortChange, this.settingService.onSearchChanged).pipe(
+        this.subscription = merge(this.customTable.paginator.page, this.customTable.onSortChange, this.settingsService.onSearchChanged).pipe(
             startWith({}),
             debounceTime(150),
             switchMap(() => {
-                const s: Searcher = new Searcher(this.settingService.search, this.customTable.paginator.pageIndex, this.customTable.paginator.pageSize, [this.customTable.sort]);
+                const s: Searcher = new Searcher(this.settingsService.search, this.customTable.paginator.pageIndex, this.customTable.paginator.pageSize, [this.customTable.sort]);
                 return this.search(s).pipe(catchError(() => of(null)));
             }),
             map(data => {
@@ -61,12 +65,13 @@ export abstract class AbstractTableComponent<T extends EncryptCommonFields> impl
             })
         ).subscribe(data => {
             this.dataSource = data;
-            this.settingService.isLoading = false;
+            this.settingsService.isLoading = false;
         });
     }
 
     ngOnDestroy(): void {
         this.subscription.unsubscribe();
+        this.workspaceList.unsubscribe();
     }
 
     protected onCheckAll(isChecked: boolean): void {
@@ -93,7 +98,7 @@ export abstract class AbstractTableComponent<T extends EncryptCommonFields> impl
         firstValueFrom(dialogRef.afterClosed()).then(result => {
             if (result) {
                 const calls: Promise<T>[] = [];
-                this.settingService.isLoading = true;
+                this.settingsService.isLoading = true;
 
                 this.checkBoxes.forEach((checkBox, i) => {
                     if (checkBox.checked) {
@@ -109,7 +114,7 @@ export abstract class AbstractTableComponent<T extends EncryptCommonFields> impl
                     this.ngAfterViewInit();
                 }).catch(error => {
                     this.updateErrorMassive(error);
-                }).then(() => this.settingService.isLoading = false);
+                }).then(() => this.settingsService.isLoading = false);
             }
         });
 
@@ -124,7 +129,7 @@ export abstract class AbstractTableComponent<T extends EncryptCommonFields> impl
         firstValueFrom(dialogRef.afterClosed()).then(result => {
             if (result) {
                 const calls: Promise<T>[] = [];
-                this.settingService.isLoading = true;
+                this.settingsService.isLoading = true;
 
                 this.checkBoxes.forEach((checkBox, i) => {
                     if (checkBox.checked) {
@@ -139,7 +144,7 @@ export abstract class AbstractTableComponent<T extends EncryptCommonFields> impl
                     this.ngAfterViewInit();
                 }).catch(error => {
                     this.deleteErrorMassive(error);
-                }).then(() => this.settingService.isLoading = false);
+                }).then(() => this.settingsService.isLoading = false);
             }
         });
     }
@@ -153,13 +158,13 @@ export abstract class AbstractTableComponent<T extends EncryptCommonFields> impl
         firstValueFrom(dialogRef.afterClosed()).then(result => {
             if (result) {
                 data.workspace = result;
-                this.settingService.isLoading = true;
+                this.settingsService.isLoading = true;
 
                 firstValueFrom(this.update(data)).then(result => {
                     this.updateSuccess(data);
                 }).catch(error => {
                     this.updateError(error);
-                }).then(() => this.settingService.isLoading = false);
+                }).then(() => this.settingsService.isLoading = false);
             }
         });
     }
@@ -172,14 +177,14 @@ export abstract class AbstractTableComponent<T extends EncryptCommonFields> impl
 
         firstValueFrom(dialogRef.afterClosed()).then(result => {
             if (result) {
-                this.settingService.isLoading = true;
+                this.settingsService.isLoading = true;
 
                 firstValueFrom(this.delete(data)).then(result => {
                     this.deleteSuccess(data);
                     this.ngAfterViewInit();
                 }).catch(error => {
                     this.deleteError(error);
-                }).then(() => this.settingService.isLoading = false);
+                }).then(() => this.settingsService.isLoading = false);
             }
         });
     }

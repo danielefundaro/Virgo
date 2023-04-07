@@ -86,7 +86,7 @@ export class DefaultComponent implements OnDestroy {
 
                 firstValueFrom(this.workspacesService.delete(workspace.id)).then(() => {
                     this.snackBar.success(this.translate.instant("WORKSPACE.DELETE.SUCCESS"));
-                    this.loadWorkspaces();
+                    this.settingsService.onUpdateWorkspaces.emit();
                 }).catch(error => {
                     this.snackBar.error(this.translate.instant("WORKSPACE.DELETE.ERROR"), error);
                 }).then(() => this.settingsService.isLoading = false);
