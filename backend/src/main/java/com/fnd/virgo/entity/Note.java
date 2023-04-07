@@ -1,7 +1,7 @@
 package com.fnd.virgo.entity;
 
 
-import com.fnd.virgo.model.TypeEnum;
+import com.fnd.virgo.enums.TypeEnum;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;

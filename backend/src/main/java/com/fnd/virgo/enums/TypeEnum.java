@@ -1,4 +1,4 @@
-package com.fnd.virgo.model;
+package com.fnd.virgo.enums;
 
 public enum TypeEnum {
     CREDENTIAL,

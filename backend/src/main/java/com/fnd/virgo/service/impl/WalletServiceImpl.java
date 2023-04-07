@@ -4,7 +4,7 @@ import com.fnd.virgo.dto.CredentialDTO;
 import com.fnd.virgo.dto.NoteDTO;
 import com.fnd.virgo.dto.WalletDTO;
 import com.fnd.virgo.entity.Wallet;
-import com.fnd.virgo.model.TypeEnum;
+import com.fnd.virgo.enums.TypeEnum;
 import com.fnd.virgo.repository.AuditRepository;
 import com.fnd.virgo.repository.WalletRepository;
 import com.fnd.virgo.service.CredentialService;
