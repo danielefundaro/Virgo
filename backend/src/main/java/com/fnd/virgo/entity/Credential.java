@@ -1,6 +1,7 @@
 package com.fnd.virgo.entity;
 
 
+import com.fnd.virgo.model.TypeEnum;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -13,9 +14,11 @@ import org.hibernate.annotations.Where;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "credentials")
-@Where(clause = "deleted = false")
+@Table(name = "wallet")
+@Where(clause = "deleted = false and type = 'CREDENTIAL'")
 public class Credential extends EncryptCommonFields {
+    @Column(name = "type", nullable = false, updatable = false)
+    private String type = TypeEnum.CREDENTIAL.name();
     @Column(name = "website", nullable = false)
     private String website;
     @Column(name = "username")

@@ -13,7 +13,7 @@ import org.hibernate.annotations.Where;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "wallets")
+@Table(name = "wallet")
 @Where(clause = "deleted = false")
 public class Wallet extends EncryptCommonFields {
     @Column(name = "type", nullable = false)
