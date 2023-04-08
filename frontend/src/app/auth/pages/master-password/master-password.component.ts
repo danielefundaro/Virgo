@@ -1,10 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AbstractControl, AbstractControlOptions, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { KeycloakProfile } from 'keycloak-js';
-import { Subscription } from 'rxjs';
-import { UserService } from 'src/app/services';
-import { MasterPasswordEnum } from '../../models';
+import { Subscription, firstValueFrom } from 'rxjs';
+import { SnackBarService, UserService } from 'src/app/services';
+import { MasterPassword, MasterPasswordEnum } from '../../models';
+import { CryptoService, MasterPasswordService } from '../../services';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'master-password',
@@ -25,7 +27,10 @@ export class MasterPasswordComponent implements OnInit, OnDestroy {
 
     private fragmentSubscription?: Subscription;
 
-    constructor(private userService: UserService, private route: ActivatedRoute) {
+    constructor(private userService: UserService, private route: ActivatedRoute,
+        private router: Router, private masterPasswordService: MasterPasswordService,
+        private snackBar: SnackBarService, private translate: TranslateService,
+        private cryptoService: CryptoService) {
         this.oldPasswordViewToggle = false;
         this.passwordViewToggle = false;
 
@@ -72,19 +77,75 @@ export class MasterPasswordComponent implements OnInit, OnDestroy {
     }
 
     public unlock(): void {
-        console.log(this.password?.value);
+        switch (this.fragment) {
+            case MasterPasswordEnum.FIRST_INSERT:
+                const salt = this.cryptoService.getUUID();
+                this.cryptoService.getHash(this.password?.value, salt).then(hashPass => {
+                    const masterPassword = new MasterPassword(hashPass, salt);
+
+                    firstValueFrom(this.masterPasswordService.save(masterPassword)).then(data => {
+                        this.navigate();
+                    }).catch(error => {
+                        this.snackBar.error(this.translate.instant("MASTER-PASSWORD.NOT-VALID"));
+                    });
+                }).catch(error => {
+                    this.snackBar.error(this.translate.instant("MASTER-PASSWORD.HASH.ERROR"));
+                });
+                break;
+            case MasterPasswordEnum.VALIDATE:
+                this.getMasterPassword(this.password?.value, this.navigate);
+                break;
+            case MasterPasswordEnum.CHANGE:
+                this.getMasterPassword(this.oldPassword?.value, this.updateMasterPassword);
+                break;
+        }
     }
 
     public signout(): void {
         this.userService.logout();
     }
 
-    passwordMatchValidator(password: AbstractControl | null, confirmPassword: AbstractControl | null) {
+    private passwordMatchValidator(password: AbstractControl | null, confirmPassword: AbstractControl | null) {
         return () => {
             if (password?.value !== confirmPassword?.value)
                 return { match_error: 'Value does not match' };
 
             return null;
         };
+    }
+
+    private navigate = (): void => {
+        this.router.navigate(['wallet']);
+    }
+
+    private getMasterPassword(password: string, callback: () => void) {
+        firstValueFrom(this.masterPasswordService.get()).then(data => {
+            this.cryptoService.getHash(password, data.salt).then(hashPass => {
+                if (data.hashPasswd === hashPass) {
+                    callback();
+                } else {
+                    this.snackBar.error(this.translate.instant("MASTER-PASSWORD.NOT-VALID"));
+                }
+            }).catch(error => {
+                this.snackBar.error(this.translate.instant("MASTER-PASSWORD.HASH.ERROR"));
+            });
+        }).catch(error => {
+            this.snackBar.error(this.translate.instant("MASTER-PASSWORD.NOT-PRESENT"), error);
+        });
+    }
+
+    private updateMasterPassword = () => {
+        const salt = this.cryptoService.getUUID();
+        this.cryptoService.getHash(this.password?.value, salt).then(hashPass => {
+            const masterPassword = new MasterPassword(hashPass, salt);
+
+            firstValueFrom(this.masterPasswordService.update(masterPassword)).then(data => {
+                this.navigate();
+            }).catch(error => {
+                this.snackBar.error(this.translate.instant("MASTER-PASSWORD.NOT-VALID"));
+            });
+        }).catch(error => {
+            this.snackBar.error(this.translate.instant("MASTER-PASSWORD.HASH.ERROR"));
+        });
     }
 }

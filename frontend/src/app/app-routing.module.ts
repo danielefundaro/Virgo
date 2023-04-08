@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
-    { path: '', redirectTo: '/wallet', pathMatch: 'full' },
+    { path: '', redirectTo: '/master-password#validate', pathMatch: 'full' },
 ];
 
 @NgModule({

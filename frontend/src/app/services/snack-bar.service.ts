@@ -24,13 +24,19 @@ export class SnackBarService {
 
     error(message: string, error?: any, duration: number = 5000): void {
         const status = error?.error?.status || error?.status || error;
-        const messageError: { code: string, reason: string } = JSON.parse(error?.error?.message || {});
+        let messageError: { code: string, reason: string } | undefined = undefined;
+
+        try {
+            messageError = JSON.parse(error?.error?.message || {});
+        } catch {
+
+        }
 
         if (status == 404) {
             this.router.navigate(['404']);
         }
 
-        if (status === 409 && messageError.code === "001") {
+        if (status === 409 && messageError?.code === "001") {
             this.router.navigate(['master-password'], {fragment: MasterPasswordEnum.FIRST_INSERT});
             return;
         }
