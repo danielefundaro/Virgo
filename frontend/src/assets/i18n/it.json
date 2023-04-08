@@ -21,7 +21,8 @@
         "LOGOUT": "Logout",
         "NOTIFICATIONS": "Notifiche",
         "SETTINGS": "Impostazioni",
-        "USER": "Pagina utente",
+        "LOCK": "Blocca applicazione",
+        "MASTER-PASSWORD_UPDATE": "Aggiorna master password",
         "COPY_WEBSITE": "Copia sito web",
         "COPY_USERNAME": "Copia username",
         "COPY_PASSWORD": "Copia password",
@@ -181,6 +182,23 @@
             "MODERATE": "Moderata",
             "STRONG": "Forte",
             "VERY_STRONG": "Molto forte"
+        }
+    },
+    "MASTER-PASSWORD": {
+        "ENTER-PASSWORD": "Inserisci la master password",
+        "OLD-PASSWORD": "Vecchia master password",
+        "PASSWORD": "Master passoword",
+        "CONFIRM-PASSWORD": "Conferma master password",
+        "UNLOCK": "Sblocca",
+        "NOT-VALID": "Master password inserita non valida",
+        "GET": {
+            "ERROR": "Non esiste nessuna master password associata all'utente"
+        },
+        "SAVE": {
+            "ERROR": "Errore durante il salvataggio della master password"
+        },
+        "UPDATE": {
+            "ERROR": "Errore durante l'aggiornamento della master password"
         }
     },
     "DIALOG": {

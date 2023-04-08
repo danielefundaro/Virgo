@@ -3,7 +3,7 @@ import { KeycloakProfile } from 'keycloak-js';
 import { Subscription, firstValueFrom } from 'rxjs';
 import { SettingsService, SnackBarService, UserService } from 'src/app/services';
 import { WorkspacesService } from '../../services';
-import { Workspace } from '../../models';
+import { MasterPasswordEnum, Workspace } from '../../models';
 import { TranslateService } from '@ngx-translate/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AddWorkspaceComponent } from '../../components/dialog/add-workspace/add-workspace.component';
@@ -21,6 +21,8 @@ export class DefaultComponent implements OnDestroy {
     public isDarkTheme: boolean;
     public isLoading!: boolean;
     public workspaces?: Workspace[];
+    public updateMasterPassword = MasterPasswordEnum.CHANGE;
+
     private loadState: Subscription;
     private workspaceList: Subscription;
 

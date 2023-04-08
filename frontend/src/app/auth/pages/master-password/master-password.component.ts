@@ -22,7 +22,7 @@ export class MasterPasswordComponent implements OnInit, OnDestroy {
     public formGroup: FormGroup;
     public oldPasswordViewToggle: boolean;
     public passwordViewToggle: boolean;
-    public fragment?: string | null;
+    public fragment: string | null = MasterPasswordEnum.LOCK;
     public masterPasswordEnum = MasterPasswordEnum;
 
     private fragmentSubscription?: Subscription;
@@ -44,30 +44,30 @@ export class MasterPasswordComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        this.fragmentSubscription = this.route.fragment.subscribe(fragment => {
-            this.fragment = fragment;
+        this.lockFunction();
 
-            switch (fragment) {
-                case MasterPasswordEnum.FIRST_INSERT:
-                    this.oldPassword?.setValidators(null);
-                    this.oldPassword?.setErrors(null);
-                    this.password?.setValidators(Validators.required);
-                    this.confirmPassword?.setValidators(Validators.required);
-                    this.formGroup.addValidators(this.passwordMatchValidator(this.password, this.confirmPassword));
-                    break;
-                case MasterPasswordEnum.VALIDATE:
-                    this.oldPassword?.setValidators(null);
-                    this.oldPassword?.setErrors(null);
-                    this.password?.setValidators(Validators.required);
-                    this.confirmPassword?.setValidators(null);
-                    this.confirmPassword?.setErrors(null);
-                    break;
-                case MasterPasswordEnum.CHANGE:
-                    this.oldPassword?.setValidators(Validators.required);
-                    this.password?.setValidators(Validators.required);
-                    this.confirmPassword?.setValidators(Validators.required);
-                    this.formGroup.addValidators(this.passwordMatchValidator(this.password, this.confirmPassword));
-                    break;
+        this.fragmentSubscription = this.route.fragment.subscribe(fragment => {
+            if (fragment) {
+                this.fragment = fragment;
+
+                switch (fragment) {
+                    case MasterPasswordEnum.FIRST_INSERT:
+                        this.oldPassword?.setValidators(null);
+                        this.oldPassword?.setErrors(null);
+                        this.password?.setValidators(Validators.required);
+                        this.confirmPassword?.setValidators(Validators.required);
+                        this.formGroup.addValidators(this.passwordMatchValidator(this.password, this.confirmPassword));
+                        break;
+                    case MasterPasswordEnum.LOCK:
+                        this.lockFunction();
+                        break;
+                    case MasterPasswordEnum.CHANGE:
+                        this.oldPassword?.setValidators(Validators.required);
+                        this.password?.setValidators(Validators.required);
+                        this.confirmPassword?.setValidators(Validators.required);
+                        this.formGroup.addValidators(this.passwordMatchValidator(this.password, this.confirmPassword));
+                        break;
+                }
             }
         });
     }
@@ -80,19 +80,19 @@ export class MasterPasswordComponent implements OnInit, OnDestroy {
         switch (this.fragment) {
             case MasterPasswordEnum.FIRST_INSERT:
                 const salt = this.cryptoService.getUUID();
-                this.cryptoService.getHash(this.password?.value, salt).then(hashPass => {
+                this.cryptoService.sha512(this.password?.value, salt).then(hashPass => {
                     const masterPassword = new MasterPassword(hashPass, salt);
 
                     firstValueFrom(this.masterPasswordService.save(masterPassword)).then(data => {
                         this.navigate();
                     }).catch(error => {
-                        this.snackBar.error(this.translate.instant("MASTER-PASSWORD.NOT-VALID"));
+                        this.snackBar.error(this.translate.instant("MASTER-PASSWORD.SAVE.ERROR"), error);
                     });
                 }).catch(error => {
                     this.snackBar.error(this.translate.instant("MASTER-PASSWORD.HASH.ERROR"));
                 });
                 break;
-            case MasterPasswordEnum.VALIDATE:
+            case MasterPasswordEnum.LOCK:
                 this.getMasterPassword(this.password?.value, this.navigate);
                 break;
             case MasterPasswordEnum.CHANGE:
@@ -103,6 +103,14 @@ export class MasterPasswordComponent implements OnInit, OnDestroy {
 
     public signout(): void {
         this.userService.logout();
+    }
+
+    private lockFunction() {
+        this.oldPassword?.setValidators(null);
+        this.oldPassword?.setErrors(null);
+        this.password?.setValidators(Validators.required);
+        this.confirmPassword?.setValidators(null);
+        this.confirmPassword?.setErrors(null);
     }
 
     private passwordMatchValidator(password: AbstractControl | null, confirmPassword: AbstractControl | null) {
@@ -120,7 +128,7 @@ export class MasterPasswordComponent implements OnInit, OnDestroy {
 
     private getMasterPassword(password: string, callback: () => void) {
         firstValueFrom(this.masterPasswordService.get()).then(data => {
-            this.cryptoService.getHash(password, data.salt).then(hashPass => {
+            this.cryptoService.sha512(password, data.salt).then(hashPass => {
                 if (data.hashPasswd === hashPass) {
                     callback();
                 } else {
@@ -130,19 +138,19 @@ export class MasterPasswordComponent implements OnInit, OnDestroy {
                 this.snackBar.error(this.translate.instant("MASTER-PASSWORD.HASH.ERROR"));
             });
         }).catch(error => {
-            this.snackBar.error(this.translate.instant("MASTER-PASSWORD.NOT-PRESENT"), error);
+            this.snackBar.error(this.translate.instant("MASTER-PASSWORD.GET.ERROR"), error);
         });
     }
 
     private updateMasterPassword = () => {
         const salt = this.cryptoService.getUUID();
-        this.cryptoService.getHash(this.password?.value, salt).then(hashPass => {
+        this.cryptoService.sha512(this.password?.value, salt).then(hashPass => {
             const masterPassword = new MasterPassword(hashPass, salt);
 
             firstValueFrom(this.masterPasswordService.update(masterPassword)).then(data => {
                 this.navigate();
             }).catch(error => {
-                this.snackBar.error(this.translate.instant("MASTER-PASSWORD.NOT-VALID"));
+                this.snackBar.error(this.translate.instant("MASTER-PASSWORD.UPDATE.ERROR"), error);
             });
         }).catch(error => {
             this.snackBar.error(this.translate.instant("MASTER-PASSWORD.HASH.ERROR"));

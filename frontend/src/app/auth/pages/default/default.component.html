@@ -144,15 +144,19 @@
 </ng-template>
 
 <mat-menu #settings>
-    <button mat-menu-item *ngIf="user">
-        <mat-icon>person_outline</mat-icon>
+    <button mat-menu-item *ngIf="user" (click)="openProfile()">
+        <mat-icon class="fa-solid fa-person"></mat-icon>
         <span>{{user.firstName}} {{user.lastName}}</span>
         <div class="inline-block" [ngClass]="{'isLoggedId': isLoggedIn}"></div>
     </button>
     <mat-divider></mat-divider>
-    <button mat-menu-item (click)="openProfile()">
-        <mat-icon>apps</mat-icon>
-        <span>{{'MENU.USER' | translate}}</span>
+    <button mat-menu-item [routerLink]="['master-password']">
+        <mat-icon class="fa-solid fa-lock"></mat-icon>
+        <span>{{'MENU.LOCK' | translate}}</span>
+    </button>
+    <button mat-menu-item [routerLink]="['master-password']" [fragment]="updateMasterPassword">
+        <mat-icon class="fa-solid fa-key"></mat-icon>
+        <span>{{'MENU.MASTER-PASSWORD_UPDATE' | translate}}</span>
     </button>
     <button mat-menu-item (click)="changeTheme()">
         <mat-icon>{{isDarkTheme ? "brightness_7" : "brightness_2"}}</mat-icon>
