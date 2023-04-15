@@ -5,7 +5,7 @@ import { KeycloakProfile } from 'keycloak-js';
 import { Subscription, firstValueFrom } from 'rxjs';
 import { SnackBarService, UserService } from 'src/app/services';
 import { MasterPassword, MasterPasswordEnum } from '../../models';
-import { CryptoService, MasterPasswordService } from '../../services';
+import { CryptographyService, MasterPasswordService } from '../../services';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
@@ -30,7 +30,7 @@ export class MasterPasswordComponent implements OnInit, OnDestroy {
     constructor(private userService: UserService, private route: ActivatedRoute,
         private router: Router, private masterPasswordService: MasterPasswordService,
         private snackBar: SnackBarService, private translate: TranslateService,
-        private cryptoService: CryptoService) {
+        private cryptoService: CryptographyService) {
         this.oldPasswordViewToggle = false;
         this.passwordViewToggle = false;
 
@@ -79,16 +79,15 @@ export class MasterPasswordComponent implements OnInit, OnDestroy {
     public unlock(): void {
         switch (this.fragment) {
             case MasterPasswordEnum.FIRST_INSERT:
-                const salt = this.cryptoService.getUUID();
-                this.cryptoService.sha512(this.password?.value, salt).then(hashPass => {
-                    const masterPassword = new MasterPassword(hashPass, salt);
+                this.cryptoService.hash(this.password?.value).then(result => {
+                    const masterPassword = new MasterPassword(result.hash, result.salt);
 
                     firstValueFrom(this.masterPasswordService.save(masterPassword)).then(data => {
                         this.navigate();
                     }).catch(error => {
                         this.snackBar.error(this.translate.instant("MASTER-PASSWORD.SAVE.ERROR"), error);
                     });
-                }).catch(error => {
+                }).catch((error: any) => {
                     this.snackBar.error(this.translate.instant("MASTER-PASSWORD.HASH.ERROR"));
                 });
                 break;
@@ -128,13 +127,13 @@ export class MasterPasswordComponent implements OnInit, OnDestroy {
 
     private getMasterPassword(password: string, callback: () => void) {
         firstValueFrom(this.masterPasswordService.get()).then(data => {
-            this.cryptoService.sha512(password, data.salt).then(hashPass => {
-                if (data.hashPasswd === hashPass) {
+            this.cryptoService.hash(password, data.salt).then(result => {
+                if (data.hashPasswd === result.hash) {
                     callback();
                 } else {
                     this.snackBar.error(this.translate.instant("MASTER-PASSWORD.NOT-VALID"));
                 }
-            }).catch(error => {
+            }).catch((error: any) => {
                 this.snackBar.error(this.translate.instant("MASTER-PASSWORD.HASH.ERROR"));
             });
         }).catch(error => {
@@ -143,16 +142,15 @@ export class MasterPasswordComponent implements OnInit, OnDestroy {
     }
 
     private updateMasterPassword = () => {
-        const salt = this.cryptoService.getUUID();
-        this.cryptoService.sha512(this.password?.value, salt).then(hashPass => {
-            const masterPassword = new MasterPassword(hashPass, salt);
+        this.cryptoService.hash(this.password?.value).then(result => {
+            const masterPassword = new MasterPassword(result.hash, result.salt);
 
             firstValueFrom(this.masterPasswordService.update(masterPassword)).then(data => {
                 this.navigate();
             }).catch(error => {
                 this.snackBar.error(this.translate.instant("MASTER-PASSWORD.UPDATE.ERROR"), error);
             });
-        }).catch(error => {
+        }).catch((error: any) => {
             this.snackBar.error(this.translate.instant("MASTER-PASSWORD.HASH.ERROR"));
         });
     }
