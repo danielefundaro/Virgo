@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Clipboard } from '@angular/cdk/clipboard';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -6,7 +7,7 @@ import { Observable } from 'rxjs';
 import { SettingsService, SnackBarService } from 'src/app/services';
 import { AbstractTableComponent } from '../../components/custom-table/abstract-table.component';
 import { IColumn, Note, Page, Searcher } from '../../models';
-import { NotesService } from '../../services';
+import { NotesService, UtilsService } from '../../services';
 
 @Component({
     selector: 'notes',
@@ -18,9 +19,9 @@ export class NotesComponent extends AbstractTableComponent<Note> {
     public iDisplayedColumns!: IColumn[];
 
     constructor(private notesService: NotesService, private translate: TranslateService,
-        private snackBarService: SnackBarService, private router: Router, settingsService: SettingsService,
-        dialog: MatDialog) {
-        super(settingsService, dialog);
+        private snackBarService: SnackBarService, private router: Router, private clipboard: Clipboard,
+        settingsService: SettingsService, utilsService: UtilsService, dialog: MatDialog) {
+        super(settingsService, utilsService, dialog);
 
         this.iDisplayedColumns = [{
             name: "name",
@@ -95,7 +96,12 @@ export class NotesComponent extends AbstractTableComponent<Note> {
         this.router.navigate(['notes', 'add']);
     }
 
-    public copy(data: Note): void {
-        console.log(data);
+    public copyContent(data: Note): void {
+        super.copy(data.content, data.iv, data.salt, this.successCopy);
+    }
+
+    private successCopy = (content: string): void => {
+        this.clipboard.copy(content);
+        this.snackBarService.info(this.translate.instant("NOTE.COPY.CONTENT"));
     }
 }

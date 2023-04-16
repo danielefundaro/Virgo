@@ -1,18 +1,19 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, FormRecord, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { firstValueFrom, Subscription } from 'rxjs';
 import { SettingsService, SnackBarService } from 'src/app/services';
 import { TypeEnum, Wallet, Workspace } from '../../models';
-import { WalletsService, WorkspacesService } from '../../services';
+import { CryptographyService, UtilsService, WalletsService, WorkspacesService } from '../../services';
 import { AddWorkspaceComponent } from '../../components/dialog/add-workspace/add-workspace.component';
 import { MatDialog } from '@angular/material/dialog';
+import { ConfirmMasterPasswordComponent } from '../../components/dialog/confirm-master-password/confirm-master-password.component';
 
 @Component({
-  selector: 'wallet-edit',
-  templateUrl: './wallet-edit.component.html',
-  styleUrls: ['./wallet-edit.component.scss']
+    selector: 'wallet-edit',
+    templateUrl: './wallet-edit.component.html',
+    styleUrls: ['./wallet-edit.component.scss']
 })
 export class WalletEditComponent implements OnInit, OnDestroy {
 
@@ -35,10 +36,14 @@ export class WalletEditComponent implements OnInit, OnDestroy {
 
     private param?: Subscription;
     private workspaceList: Subscription;
+    private paramId!: any;
+    private oldPassword?: string;
+    private oldContent?: string;
 
     constructor(private router: Router, private route: ActivatedRoute, private walletsService: WalletsService,
         private workspacesService: WorkspacesService, private translate: TranslateService, private snackBar: SnackBarService,
-        private settingsService: SettingsService, private dialog: MatDialog) {
+        private cryptographyService: CryptographyService, private settingsService: SettingsService,
+        private utilsService: UtilsService, private dialog: MatDialog) {
         this.settingsService.isLoading = true;
         this.viewToggle = false;
 
@@ -64,7 +69,7 @@ export class WalletEditComponent implements OnInit, OnDestroy {
         this.settingsService.isLoading = true;
 
         this.param = this.route.params.subscribe(data => {
-            const id = data['id'];
+            this.paramId = data['id'];
             const type = data['type'];
 
             if (type !== "undefined") {
@@ -74,8 +79,8 @@ export class WalletEditComponent implements OnInit, OnDestroy {
             firstValueFrom(this.workspacesService.getAll()).then(workspaces => {
                 this.workspaces = workspaces;
 
-                if (id !== 'add') {
-                    firstValueFrom(this.walletsService.getByIdAndType(id, type)).then(wallet => {
+                if (this.paramId !== 'add') {
+                    firstValueFrom(this.walletsService.getByIdAndType(this.paramId, type)).then(wallet => {
                         this.id?.setValue(wallet.id);
                         this.name?.setValue(wallet.name);
                         this.website?.setValue(wallet.website);
@@ -87,14 +92,19 @@ export class WalletEditComponent implements OnInit, OnDestroy {
                         this.note?.setValue(wallet.note);
                         this.iv?.setValue(wallet.iv);
                         this.salt?.setValue(wallet.salt);
-                        
+
                         this.valueChange(wallet.type);
+
+                        this.oldPassword = wallet.passwd;
+                        this.oldContent = wallet.content;
                     }).catch(error => {
                         this.snackBar.error(this.translate.instant("WALLET.ERROR.LOAD"), error);
                     }).then(() => this.settingsService.isLoading = false);
                 } else {
-                    this.iv?.setValue(crypto.randomUUID().replaceAll("-", ""));
-                    this.salt?.setValue(crypto.randomUUID().replaceAll("-", ""));
+                    this.iv?.setValidators(null);
+                    this.iv?.setErrors(null);
+                    this.salt?.setValidators(null);
+                    this.salt?.setErrors(null);
                     this.settingsService.isLoading = false;
                 }
             });
@@ -122,31 +132,15 @@ export class WalletEditComponent implements OnInit, OnDestroy {
     }
 
     public save(): void {
-        const wallet = new Wallet();
+        const dialogRef = this.dialog.open(ConfirmMasterPasswordComponent, {
+            disableClose: true
+        });
 
-        wallet.id = this.id?.value;
-        wallet.name = this.name?.value;
-        wallet.website = this.website?.value;
-        wallet.username = this.username?.value;
-        wallet.passwd = this.password?.value;
-        wallet.content = this.content?.value;
-        wallet.workspace = this.workspace?.value;
-        wallet.type = this.type?.value;
-        wallet.note = this.note?.value;
-        wallet.iv = this.iv?.value;
-        wallet.salt = this.salt?.value;
-
-        this.settingsService.isLoading = true;
-
-        const action = wallet.id ? this.walletsService.update(wallet, wallet.type) : this.walletsService.save(wallet, wallet.type);
-        const actionMessage = wallet.id ? "UPDATE" : "SAVE";
-
-        firstValueFrom(action).then(data => {
-            this.snackBar.success(this.translate.instant(`WALLET.${actionMessage}.SUCCESS`));
-            this.router.navigate(['wallet', data?.id, "type", data.type.toLowerCase()]);
-        }).catch(error => {
-            this.snackBar.error(this.translate.instant(`WALLET.${actionMessage}.ERROR`), error);
-        }).then(() => this.settingsService.isLoading = false);
+        firstValueFrom(dialogRef.afterClosed()).then(result => {
+            if (result) {
+                this.utilsService.checkMasterPassword(result, this.saveWallet);
+            }
+        });
     }
 
     public addWorkspace(): void {
@@ -160,5 +154,56 @@ export class WalletEditComponent implements OnInit, OnDestroy {
                 this.ngOnInit();
             }
         });
+    }
+
+    private saveWallet = (masterPassword: string): void => {
+        this.settingsService.isLoading = true;
+
+        if (this.type?.value === TypeEnum.CREDENTIAL) {
+            if (this.paramId !== "add" && this.oldPassword === this.password?.value) {
+                this.saveInfo(this.password?.value, this.iv?.value, this.salt?.value);
+            } else {
+                this.encryptAndSave(this.password?.value, masterPassword);
+            }
+        } else {
+            if (this.paramId !== "add" && this.oldContent === this.content?.value) {
+                this.saveInfo(this.content?.value, this.iv?.value, this.salt?.value);
+            } else {
+                this.encryptAndSave(this.content?.value, masterPassword);
+            }
+        }
+    }
+
+    private encryptAndSave(data: string, masterPassword: string, iv: string | null = null, salt: string | null = null): void {
+        this.cryptographyService.encrypt(data, masterPassword, iv, salt).then(payload => {
+            this.saveInfo(payload.cipher, payload.iv, payload.salt);
+        });
+    }
+
+    private saveInfo(cipher: string, iv: string, salt: string) {
+        const wallet = new Wallet();
+
+        wallet.id = this.id?.value;
+        wallet.name = this.name?.value;
+        wallet.website = this.website?.value;
+        wallet.username = this.username?.value;
+        wallet.passwd = this.type?.value === TypeEnum.CREDENTIAL ? cipher : this.password?.value;
+        wallet.content = this.type?.value === TypeEnum.NOTE ? cipher : this.content?.value;
+        wallet.workspace = this.workspace?.value;
+        wallet.type = this.type?.value;
+        wallet.note = this.note?.value;
+        wallet.iv = iv;
+        wallet.salt = salt;
+
+        const action = wallet.id ? this.walletsService.update(wallet, wallet.type) : this.walletsService.save(wallet, wallet.type);
+        const actionMessage = wallet.id ? "UPDATE" : "SAVE";
+
+        firstValueFrom(action).then(data => {
+            this.snackBar.success(this.translate.instant(`WALLET.${actionMessage}.SUCCESS`));
+            this.router.navigate(['wallet', data?.id, "type", data.type.toLowerCase()]);
+            this.ngOnInit();
+        }).catch(error => {
+            this.snackBar.error(this.translate.instant(`WALLET.${actionMessage}.ERROR`), error);
+        }).then(() => this.settingsService.isLoading = false);
     }
 }

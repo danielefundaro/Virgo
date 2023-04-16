@@ -5,9 +5,8 @@ import { KeycloakProfile } from 'keycloak-js';
 import { Subscription, firstValueFrom } from 'rxjs';
 import { SettingsService, SnackBarService, UserService } from 'src/app/services';
 import { MasterPassword, MasterPasswordEnum } from '../../models';
-import { CryptographyService, MasterPasswordService } from '../../services';
+import { CryptographyService, MasterPasswordService, UtilsService } from '../../services';
 import { TranslateService } from '@ngx-translate/core';
-import { UtilsService } from '../../services/utils.service';
 
 @Component({
     selector: 'master-password',

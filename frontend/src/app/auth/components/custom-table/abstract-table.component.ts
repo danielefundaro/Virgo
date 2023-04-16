@@ -7,6 +7,7 @@ import { EncryptCommonFields, IChangeWorkspaceRequest, Page, Searcher, Workspace
 import { ChangeWorkspaceComponent } from '../dialog/change-workspace/change-workspace.component';
 import { ConfirmActionComponent } from '../dialog/confirm-action/confirm-action.component';
 import { CustomTableComponent } from './custom-table.component';
+import { UtilsService } from '../../services';
 
 @Component({ template: "" })
 export abstract class AbstractTableComponent<T extends EncryptCommonFields> implements AfterViewInit, OnDestroy {
@@ -24,7 +25,7 @@ export abstract class AbstractTableComponent<T extends EncryptCommonFields> impl
     private subscription!: Subscription;
     private workspaceList: Subscription;
 
-    constructor(protected settingsService: SettingsService, protected dialog: MatDialog) {
+    constructor(protected settingsService: SettingsService, protected utilsService: UtilsService, protected dialog: MatDialog) {
         this.dataSource = [];
         this.settingsService.isLoading = true;
 
@@ -195,5 +196,9 @@ export abstract class AbstractTableComponent<T extends EncryptCommonFields> impl
 
     protected menuClose() {
         this.clicked = -1;
+    }
+
+    protected copy(data: string, iv: string, salt: string, callback: (data: string) => void): void {
+        this.utilsService.decryptData(data, iv, salt, callback);
     }
 }

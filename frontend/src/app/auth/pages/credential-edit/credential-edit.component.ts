@@ -5,11 +5,10 @@ import { TranslateService } from '@ngx-translate/core';
 import { firstValueFrom, Subscription } from 'rxjs';
 import { SettingsService, SnackBarService } from 'src/app/services';
 import { Credential, Workspace } from '../../models';
-import { CredentialsService, CryptographyService, MasterPasswordService, WorkspacesService } from '../../services';
+import { CredentialsService, CryptographyService, UtilsService, WorkspacesService } from '../../services';
 import { AddWorkspaceComponent } from '../../components/dialog/add-workspace/add-workspace.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmMasterPasswordComponent } from '../../components/dialog/confirm-master-password/confirm-master-password.component';
-import { UtilsService } from '../../services/utils.service';
 
 @Component({
     selector: 'credential-edit',
@@ -36,7 +35,6 @@ export class CredentialEditComponent implements OnInit, OnDestroy {
     private workspaceList: Subscription;
     private paramId!: any;
     private oldPassword?: string;
-    private masterPassword!: string;
 
     constructor(private router: Router, private route: ActivatedRoute, private credentialsService: CredentialsService,
         private workspacesService: WorkspacesService, private translate: TranslateService, private snackBar: SnackBarService,
@@ -109,7 +107,6 @@ export class CredentialEditComponent implements OnInit, OnDestroy {
 
         firstValueFrom(dialogRef.afterClosed()).then(result => {
             if (result) {
-                this.masterPassword = result;
                 this.utilsService.checkMasterPassword(result, this.saveCredential);
             }
         });
@@ -128,42 +125,44 @@ export class CredentialEditComponent implements OnInit, OnDestroy {
         });
     }
 
-    private saveCredential = (): void => {
+    private saveCredential = (masterPassword: string): void => {
         this.settingsService.isLoading = true;
 
         if (this.paramId !== "add" && this.oldPassword === this.password?.value) {
-            this.cryptographyService.decrypt(this.password?.value, this.masterPassword, this.iv?.value, this.salt?.value).then(password => {
-                this.encryptAndSave(password, this.iv?.value, this.salt?.value);
-            });
+            this.saveInfo(this.password?.value, this.iv?.value, this.salt?.value);
         } else {
-            this.encryptAndSave(this.password?.value);
+            this.encryptAndSave(this.password?.value, masterPassword);
         }
     }
 
-    private encryptAndSave(password: string, iv: string | null = null, salt: string | null = null): void {
-        this.cryptographyService.encrypt(password, this.masterPassword, iv, salt).then(payload => {
-            const credential = new Credential();
-
-            credential.id = this.id?.value;
-            credential.name = this.name?.value;
-            credential.website = this.website?.value;
-            credential.username = this.username?.value;
-            credential.passwd = payload.cipher;
-            credential.workspace = this.workspace?.value;
-            credential.note = this.note?.value;
-            credential.iv = payload.iv;
-            credential.salt = payload.salt;
-
-            const action = credential.id ? this.credentialsService.update(credential) : this.credentialsService.save(credential);
-            const actionMessage = credential.id ? "UPDATE" : "SAVE";
-
-            firstValueFrom(action).then(data => {
-                this.snackBar.success(this.translate.instant(`CREDENTIAL.${actionMessage}.SUCCESS`));
-                this.router.navigate(['credentials', data?.id]);
-                this.ngOnInit();
-            }).catch(error => {
-                this.snackBar.error(this.translate.instant(`CREDENTIAL.${actionMessage}.ERROR`), error);
-            }).then(() => this.settingsService.isLoading = false);
+    private encryptAndSave(password: string, masterPassword: string, iv: string | null = null, salt: string | null = null): void {
+        this.cryptographyService.encrypt(password, masterPassword, iv, salt).then(payload => {
+            this.saveInfo(payload.cipher, payload.iv, payload.salt);
         });
+    }
+
+    private saveInfo(cipher: string, iv: string, salt: string) {
+        const credential = new Credential();
+
+        credential.id = this.id?.value;
+        credential.name = this.name?.value;
+        credential.website = this.website?.value;
+        credential.username = this.username?.value;
+        credential.passwd = cipher;
+        credential.workspace = this.workspace?.value;
+        credential.note = this.note?.value;
+        credential.iv = iv;
+        credential.salt = salt;
+
+        const action = credential.id ? this.credentialsService.update(credential) : this.credentialsService.save(credential);
+        const actionMessage = credential.id ? "UPDATE" : "SAVE";
+
+        firstValueFrom(action).then(data => {
+            this.snackBar.success(this.translate.instant(`CREDENTIAL.${actionMessage}.SUCCESS`));
+            this.router.navigate(['credentials', data?.id]);
+            this.ngOnInit();
+        }).catch(error => {
+            this.snackBar.error(this.translate.instant(`CREDENTIAL.${actionMessage}.ERROR`), error);
+        }).then(() => this.settingsService.isLoading = false);
     }
 }

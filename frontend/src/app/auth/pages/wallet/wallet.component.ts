@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
+import { Clipboard } from '@angular/cdk/clipboard';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { SettingsService, SnackBarService } from 'src/app/services';
 import { AbstractTableComponent } from '../../components/custom-table/abstract-table.component';
 import { IColumn, Page, Searcher, TypeEnum, Wallet } from '../../models';
-import { WalletsService } from '../../services';
+import { UtilsService, WalletsService } from '../../services';
 
 @Component({
     selector: 'wallet',
@@ -19,9 +20,9 @@ export class WalletComponent extends AbstractTableComponent<Wallet> {
     public typeEnum = TypeEnum;
 
     constructor(private walletsService: WalletsService, private translate: TranslateService,
-        private snackBarService: SnackBarService, private router: Router, settingsService: SettingsService,
-        dialog: MatDialog) {
-        super(settingsService, dialog);
+        private snackBarService: SnackBarService, private router: Router, private clipboard: Clipboard,
+        settingsService: SettingsService, utilsService: UtilsService, dialog: MatDialog) {
+        super(settingsService, utilsService, dialog);
 
         this.iDisplayedColumns = [{
             name: "name",
@@ -110,10 +111,20 @@ export class WalletComponent extends AbstractTableComponent<Wallet> {
     }
 
     public copyPasswd(data: Wallet): void {
-        console.log(data);
+        super.copy(data.passwd, data.iv, data.salt, this.successCopyPasswd);
     }
 
     public copyContent(data: Wallet): void {
-        console.log(data);
+        super.copy(data.content, data.iv, data.salt, this.successCopyContent);
+    }
+
+    private successCopyPasswd = (content: string): void => {
+        this.clipboard.copy(content);
+        this.snackBarService.info(this.translate.instant("CREDENTIAL.COPY.PASSWORD"));
+    }
+
+    private successCopyContent = (content: string): void => {
+        this.clipboard.copy(content);
+        this.snackBarService.info(this.translate.instant("NOTE.COPY.CONTENT"));
     }
 }

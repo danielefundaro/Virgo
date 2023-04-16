@@ -16,11 +16,11 @@ export class UtilsService {
         private snackBar: SnackBarService, private translate: TranslateService, private settingsService: SettingsService,
         private dialog: MatDialog) { }
 
-    public checkMasterPassword(password: string, callback: () => void): void {
+    public checkMasterPassword(password: string, callback: (masterPassword: string) => void): void {
         firstValueFrom(this.masterPasswordService.get()).then(data => {
             this.cryptographyService.hash(password, data.salt).then(result => {
                 if (data.hashPasswd === result.hash) {
-                    callback();
+                    callback(password);
                 } else {
                     this.snackBar.error(this.translate.instant("MASTER_PASSWORD.NOT_VALID"));
                 }
