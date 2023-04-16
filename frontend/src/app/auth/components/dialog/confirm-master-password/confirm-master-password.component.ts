@@ -8,8 +8,10 @@ import { FormControl } from '@angular/forms';
 })
 export class ConfirmMasterPasswordComponent {
     public passwordControl!: FormControl;
+    public passwordViewToggle: boolean;
 
     constructor() {
         this.passwordControl = new FormControl(null);
+        this.passwordViewToggle = false;
     }
 }

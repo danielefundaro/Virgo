@@ -195,6 +195,8 @@
         "CONFIRM_PASSWORD": "Conferma master password",
         "UNLOCK": "Sblocca",
         "NOT_VALID": "Master password inserita non valida",
+        "HIDDEN": "Nascondi master password",
+        "SHOW": "Mostra master password",
         "GET": {
             "ERROR": "Non esiste nessuna master password associata all'utente"
         },
