@@ -3,7 +3,7 @@ import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/fo
 import { ActivatedRoute, Router } from '@angular/router';
 import { KeycloakProfile } from 'keycloak-js';
 import { Subscription, firstValueFrom } from 'rxjs';
-import { SnackBarService, UserService } from 'src/app/services';
+import { SettingsService, SnackBarService, UserService } from 'src/app/services';
 import { MasterPassword, MasterPasswordEnum } from '../../models';
 import { CryptographyService, MasterPasswordService } from '../../services';
 import { TranslateService } from '@ngx-translate/core';
@@ -27,10 +27,10 @@ export class MasterPasswordComponent implements OnInit, OnDestroy {
 
     private fragmentSubscription?: Subscription;
 
-    constructor(private userService: UserService, private route: ActivatedRoute,
-        private router: Router, private masterPasswordService: MasterPasswordService,
-        private snackBar: SnackBarService, private translate: TranslateService,
-        private cryptoService: CryptographyService) {
+    constructor(private userService: UserService, private route: ActivatedRoute, private router: Router,
+        private masterPasswordService: MasterPasswordService, private snackBar: SnackBarService,
+        private translate: TranslateService, private cryptographyService: CryptographyService,
+        private settingsService: SettingsService) {
         this.oldPasswordViewToggle = false;
         this.passwordViewToggle = false;
 
@@ -79,7 +79,7 @@ export class MasterPasswordComponent implements OnInit, OnDestroy {
     public unlock(): void {
         switch (this.fragment) {
             case MasterPasswordEnum.FIRST_INSERT:
-                this.cryptoService.hash(this.password?.value).then(result => {
+                this.cryptographyService.hash(this.password?.value).then(result => {
                     const masterPassword = new MasterPassword(result.hash, result.salt);
 
                     firstValueFrom(this.masterPasswordService.save(masterPassword)).then(data => {
@@ -92,10 +92,10 @@ export class MasterPasswordComponent implements OnInit, OnDestroy {
                 });
                 break;
             case MasterPasswordEnum.LOCK:
-                this.getMasterPassword(this.password?.value, this.navigate);
+                this.settingsService.checkMasterPassword(this.password?.value, this.navigate);
                 break;
             case MasterPasswordEnum.CHANGE:
-                this.getMasterPassword(this.oldPassword?.value, this.updateMasterPassword);
+                this.settingsService.checkMasterPassword(this.oldPassword?.value, this.updateMasterPassword);
                 break;
         }
     }
@@ -125,24 +125,8 @@ export class MasterPasswordComponent implements OnInit, OnDestroy {
         this.router.navigate(['wallet']);
     }
 
-    private getMasterPassword(password: string, callback: () => void) {
-        firstValueFrom(this.masterPasswordService.get()).then(data => {
-            this.cryptoService.hash(password, data.salt).then(result => {
-                if (data.hashPasswd === result.hash) {
-                    callback();
-                } else {
-                    this.snackBar.error(this.translate.instant("MASTER_PASSWORD.NOT_VALID"));
-                }
-            }).catch((error: any) => {
-                this.snackBar.error(this.translate.instant("MASTER_PASSWORD.HASH.ERROR"));
-            });
-        }).catch(error => {
-            this.snackBar.error(this.translate.instant("MASTER_PASSWORD.GET.ERROR"), error);
-        });
-    }
-
-    private updateMasterPassword = () => {
-        this.cryptoService.hash(this.password?.value).then(result => {
+    private updateMasterPassword = (): void => {
+        this.cryptographyService.hash(this.password?.value).then(result => {
             const masterPassword = new MasterPassword(result.hash, result.salt);
 
             firstValueFrom(this.masterPasswordService.update(masterPassword)).then(data => {

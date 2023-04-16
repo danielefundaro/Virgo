@@ -24,7 +24,7 @@ export abstract class AbstractTableComponent<T extends EncryptCommonFields> impl
     private subscription!: Subscription;
     private workspaceList: Subscription;
 
-    constructor(private settingsService: SettingsService, protected dialog: MatDialog) {
+    constructor(protected settingsService: SettingsService, protected dialog: MatDialog) {
         this.dataSource = [];
         this.settingsService.isLoading = true;
 

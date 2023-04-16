@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 
-type EncryptionPayload = { key: string, cipher: string, iv: string, salt: string }
+type EncryptionPayload = { cipher: string, iv: string, salt: string }
 type HashPayload = { hash: string, salt: string }
 
 @Injectable({
@@ -39,54 +39,27 @@ export class CryptographyService {
         return { hash: this.convertStreamToBase64(hashBuffer), salt };
     }
 
-    // public async sha512(value: string, salt: string): Promise<string> {
-    //     const encodeValue = new TextEncoder().encode(value + salt);
-    //     const hashBuffer: ArrayBuffer = await window.crypto.subtle.digest(this.shaName, encodeValue);
-    //     const hashArray = Array.from(new Uint8Array(hashBuffer));
-    //     const hashHex = hashArray.map((bytes) => bytes.toString(16).padStart(2, '0')).join('');
-
-    //     return hashHex;
-    // }
-
-    // public async encrypt(value: string, password: string, iv: string, salt: string): Promise<String> {
-    //     const algorithmName = "AES-CBC";
-    //     const hashPass = await this.sha512(password, salt);
-
-    //     const algorithm = { name: algorithmName, length: 512 };
-    //     const keyUsages = ["encrypt", "decrypt"] as const;
-    //     const cryptoKey = await window.crypto.subtle.generateKey(algorithm, true, keyUsages);
-    //     const encodeValue = new TextEncoder().encode(value);
-    //     const encodeIv = new TextEncoder().encode(iv);
-
-    //     const encryptedBuffer: ArrayBuffer = await window.crypto.subtle.encrypt({ name: algorithmName, iv: encodeIv }, cryptoKey, encodeValue);
-    //     const encryptedArray = Array.from(new Uint8Array(encryptedBuffer));
-    //     const encryptedHex = encryptedArray.map((bytes) => bytes.toString(16).padStart(2, '0')).join('');
-
-    //     return encryptedHex;
-    // }
-
-    public encrypt = async (data: string, key: string): Promise<EncryptionPayload> => {
-        const iv = this.generateIv();
-        const algo = { ...this.algorithm, iv };
-        const hashPass = await this.hash(key);
-        const keyBuffer = this.convertBase64ToStream(hashPass.hash);
-        const cryptoKey = await this.parseKey(keyBuffer); // this.generateKey();
+    public encrypt = async (data: string, key: string, iv: string | null = null, salt: string | null = null): Promise<EncryptionPayload> => {
+        const ivBuffer = iv === null ? this.generateIv() : this.convertBase64ToStream(iv);
+        const algo = { ...this.algorithm, iv: ivBuffer };
+        const passwd = await this.hash(key, salt);
+        const keyBuffer = this.convertBase64ToStream(passwd.hash);
+        const cryptoKey = await this.parseKey(keyBuffer);
         const encoded = this.encode(data);
-
         const cipher = await window.crypto.subtle.encrypt(algo, cryptoKey, encoded);
-        const keyArrayBuffer = await this.readKey(cryptoKey);
 
-        return { key: this.convertStreamToBase64(keyArrayBuffer), cipher: this.convertStreamToBase64(cipher), iv: this.convertStreamToBase64(iv), salt:hashPass.salt };
+        return { cipher: this.convertStreamToBase64(cipher), iv: this.convertStreamToBase64(ivBuffer), salt: passwd.salt };
     }
 
-    public decrypt = async (cipherText: string, key: string, iv: string): Promise<string> => {
-        const keyBuffer = this.convertBase64ToStream(key);
+    public decrypt = async (cipherText: string, key: string, iv: string, salt: string): Promise<string> => {
+        const passwd = await this.hash(key, salt);
+        const keyBuffer = this.convertBase64ToStream(passwd.hash);
         const decryptionKey = await this.parseKey(keyBuffer);
 
         const cipher = this.convertBase64ToStream(cipherText);
         const ivBuffer = this.convertBase64ToStream<Uint8Array>(iv);
 
-        const algo = { ...this.algorithm, ivBuffer };
+        const algo = { ...this.algorithm, iv: ivBuffer };
         const encoded: ArrayBuffer = await window.crypto.subtle.decrypt(algo, decryptionKey, cipher);
 
         return this.decode(encoded);

@@ -1,12 +1,14 @@
 import { Component } from '@angular/core';
+import { Clipboard } from '@angular/cdk/clipboard';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { Observable } from 'rxjs';
+import { Observable, firstValueFrom } from 'rxjs';
 import { SettingsService, SnackBarService } from 'src/app/services';
 import { AbstractTableComponent } from '../../components/custom-table/abstract-table.component';
 import { Credential, IColumn, Page, Searcher } from '../../models';
-import { CredentialsService } from '../../services';
+import { CredentialsService, CryptographyService } from '../../services';
+import { ConfirmMasterPasswordComponent } from '../../components/dialog/confirm-master-password/confirm-master-password.component';
 
 @Component({
     selector: 'credentials',
@@ -18,8 +20,8 @@ export class CredentialsComponent extends AbstractTableComponent<Credential> {
     public iDisplayedColumns!: IColumn[];
 
     constructor(private credentialsService: CredentialsService, private translate: TranslateService,
-        private snackBarService: SnackBarService, private router: Router, settingsService: SettingsService,
-        dialog: MatDialog) {
+        private snackBarService: SnackBarService, private router: Router, private clipboard: Clipboard,
+        private cryptographyService: CryptographyService, settingsService: SettingsService, dialog: MatDialog) {
         super(settingsService, dialog);
 
         this.iDisplayedColumns = [{
@@ -40,7 +42,7 @@ export class CredentialsComponent extends AbstractTableComponent<Credential> {
     public search(s: Searcher): Observable<Page<Credential>> {
         return this.credentialsService.search(s);
     }
-    
+
     public override getError(error: any): void {
         this.snackBarService.error("", error);
     }
@@ -106,6 +108,18 @@ export class CredentialsComponent extends AbstractTableComponent<Credential> {
     }
 
     public copy(data: Credential): void {
-        console.log(data);
+        const dialogRef = this.dialog.open(ConfirmMasterPasswordComponent, {
+            disableClose: true
+        });
+
+        firstValueFrom(dialogRef.afterClosed()).then(result => {
+            if (result) {
+                this.settingsService.isLoading = true;
+                this.cryptographyService.decrypt(data.passwd, result, data.iv, data.salt).then(passwd => {
+                    this.clipboard.copy(passwd);
+                    this.settingsService.isLoading = false;
+                });
+            }
+        });
     }
 }
