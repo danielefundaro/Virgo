@@ -184,13 +184,13 @@
             "VERY_STRONG": "Molto forte"
         }
     },
-    "MASTER-PASSWORD": {
-        "ENTER-PASSWORD": "Inserisci la master password",
-        "OLD-PASSWORD": "Vecchia master password",
+    "MASTER_PASSWORD": {
+        "ENTER_PASSWORD": "Inserisci la master password",
+        "OLD_PASSWORD": "Vecchia master password",
         "PASSWORD": "Master passoword",
-        "CONFIRM-PASSWORD": "Conferma master password",
+        "CONFIRM_PASSWORD": "Conferma master password",
         "UNLOCK": "Sblocca",
-        "NOT-VALID": "Master password inserita non valida",
+        "NOT_VALID": "Master password inserita non valida",
         "GET": {
             "ERROR": "Non esiste nessuna master password associata all'utente"
         },
@@ -206,6 +206,7 @@
         "DELETE": "Elimina elemento selezionato",
         "NEW_WORKSPACE": "Nuova cartella",
         "INSERT_WORKSPACE_NAME": "Inserire il nome della nuova cartella",
+        "INSERT_MASTER_PASSWORD": "Inserire la master password",
         "WORKSPACE_NAME": "I.e. cartella 1"
     }
 }

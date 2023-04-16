@@ -85,10 +85,10 @@ export class MasterPasswordComponent implements OnInit, OnDestroy {
                     firstValueFrom(this.masterPasswordService.save(masterPassword)).then(data => {
                         this.navigate();
                     }).catch(error => {
-                        this.snackBar.error(this.translate.instant("MASTER-PASSWORD.SAVE.ERROR"), error);
+                        this.snackBar.error(this.translate.instant("MASTER_PASSWORD.SAVE.ERROR"), error);
                     });
                 }).catch((error: any) => {
-                    this.snackBar.error(this.translate.instant("MASTER-PASSWORD.HASH.ERROR"));
+                    this.snackBar.error(this.translate.instant("MASTER_PASSWORD.HASH.ERROR"));
                 });
                 break;
             case MasterPasswordEnum.LOCK:
@@ -131,13 +131,13 @@ export class MasterPasswordComponent implements OnInit, OnDestroy {
                 if (data.hashPasswd === result.hash) {
                     callback();
                 } else {
-                    this.snackBar.error(this.translate.instant("MASTER-PASSWORD.NOT-VALID"));
+                    this.snackBar.error(this.translate.instant("MASTER_PASSWORD.NOT_VALID"));
                 }
             }).catch((error: any) => {
-                this.snackBar.error(this.translate.instant("MASTER-PASSWORD.HASH.ERROR"));
+                this.snackBar.error(this.translate.instant("MASTER_PASSWORD.HASH.ERROR"));
             });
         }).catch(error => {
-            this.snackBar.error(this.translate.instant("MASTER-PASSWORD.GET.ERROR"), error);
+            this.snackBar.error(this.translate.instant("MASTER_PASSWORD.GET.ERROR"), error);
         });
     }
 
@@ -148,10 +148,10 @@ export class MasterPasswordComponent implements OnInit, OnDestroy {
             firstValueFrom(this.masterPasswordService.update(masterPassword)).then(data => {
                 this.navigate();
             }).catch(error => {
-                this.snackBar.error(this.translate.instant("MASTER-PASSWORD.UPDATE.ERROR"), error);
+                this.snackBar.error(this.translate.instant("MASTER_PASSWORD.UPDATE.ERROR"), error);
             });
         }).catch((error: any) => {
-            this.snackBar.error(this.translate.instant("MASTER-PASSWORD.HASH.ERROR"));
+            this.snackBar.error(this.translate.instant("MASTER_PASSWORD.HASH.ERROR"));
         });
     }
 }

@@ -43,6 +43,7 @@ import { PasswordGeneratorComponent } from './auth/pages/password-generator/pass
 import { AddWorkspaceComponent } from './auth/components/dialog/add-workspace/add-workspace.component';
 import { LoadingSpinnerComponent } from './auth/components/loading-spinner/loading-spinner.component';
 import { MasterPasswordComponent } from './auth/pages/master-password/master-password.component';
+import { ConfirmMasterPasswordComponent } from './auth/components/dialog/confirm-master-password/confirm-master-password.component';
 
 @NgModule({
     declarations: [
@@ -63,6 +64,7 @@ import { MasterPasswordComponent } from './auth/pages/master-password/master-pas
         AddWorkspaceComponent,
         LoadingSpinnerComponent,
         MasterPasswordComponent,
+        ConfirmMasterPasswordComponent,
     ],
     imports: [
         BrowserModule,
