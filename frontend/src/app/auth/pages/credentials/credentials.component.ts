@@ -9,6 +9,7 @@ import { AbstractTableComponent } from '../../components/custom-table/abstract-t
 import { Credential, IColumn, Page, Searcher } from '../../models';
 import { CredentialsService, CryptographyService } from '../../services';
 import { ConfirmMasterPasswordComponent } from '../../components/dialog/confirm-master-password/confirm-master-password.component';
+import { UtilsService } from '../../services/utils.service';
 
 @Component({
     selector: 'credentials',
@@ -21,7 +22,8 @@ export class CredentialsComponent extends AbstractTableComponent<Credential> {
 
     constructor(private credentialsService: CredentialsService, private translate: TranslateService,
         private snackBarService: SnackBarService, private router: Router, private clipboard: Clipboard,
-        private cryptographyService: CryptographyService, settingsService: SettingsService, dialog: MatDialog) {
+        private cryptographyService: CryptographyService, private utilsService: UtilsService,
+        settingsService: SettingsService, dialog: MatDialog) {
         super(settingsService, dialog);
 
         this.iDisplayedColumns = [{
@@ -108,18 +110,11 @@ export class CredentialsComponent extends AbstractTableComponent<Credential> {
     }
 
     public copy(data: Credential): void {
-        const dialogRef = this.dialog.open(ConfirmMasterPasswordComponent, {
-            disableClose: true
-        });
+        this.utilsService.decryptData(data.passwd, data.iv, data.salt, this.copyPassword);
+    }
 
-        firstValueFrom(dialogRef.afterClosed()).then(result => {
-            if (result) {
-                this.settingsService.isLoading = true;
-                this.cryptographyService.decrypt(data.passwd, result, data.iv, data.salt).then(passwd => {
-                    this.clipboard.copy(passwd);
-                    this.settingsService.isLoading = false;
-                });
-            }
-        });
+    private copyPassword = (password: string): void => {
+        this.clipboard.copy(password);
+        this.snackBarService.info(this.translate.instant("CREDENTIAL.COPY.PASSWORD"));
     }
 }

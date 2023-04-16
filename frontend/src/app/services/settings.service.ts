@@ -1,8 +1,5 @@
 import { EventEmitter, Injectable } from "@angular/core";
-import { TranslateService } from "@ngx-translate/core";
-import { Observable, Subject, firstValueFrom } from "rxjs";
-import { CryptographyService, MasterPasswordService } from "../auth/services";
-import { SnackBarService } from "./snack-bar.service";
+import { Observable, Subject } from "rxjs";
 
 export class Search {
     value: string = "";
@@ -40,9 +37,6 @@ export class SettingsService {
         this._search.onSearchChanged.emit(value);
     }
 
-    constructor(private cryptographyService: CryptographyService, private masterPasswordService: MasterPasswordService,
-        private snackBar: SnackBarService, private translate: TranslateService) { }
-
     public languageChanged(): Observable<string> {
         return this._languageChanged.asObservable();
     }
@@ -64,21 +58,5 @@ export class SettingsService {
 
     public onUpateWorkspacesEvent(): Observable<void> {
         return this._updateWorkspaces.asObservable();
-    }
-
-    public checkMasterPassword(password: string, callback: () => void): void {
-        firstValueFrom(this.masterPasswordService.get()).then(data => {
-            this.cryptographyService.hash(password, data.salt).then(result => {
-                if (data.hashPasswd === result.hash) {
-                    callback();
-                } else {
-                    this.snackBar.error(this.translate.instant("MASTER_PASSWORD.NOT_VALID"));
-                }
-            }).catch((error: any) => {
-                this.snackBar.error(this.translate.instant("MASTER_PASSWORD.HASH.ERROR"));
-            });
-        }).catch(error => {
-            this.snackBar.error(this.translate.instant("MASTER_PASSWORD.GET.ERROR"), error);
-        });
     }
 }

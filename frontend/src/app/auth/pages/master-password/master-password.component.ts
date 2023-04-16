@@ -7,6 +7,7 @@ import { SettingsService, SnackBarService, UserService } from 'src/app/services'
 import { MasterPassword, MasterPasswordEnum } from '../../models';
 import { CryptographyService, MasterPasswordService } from '../../services';
 import { TranslateService } from '@ngx-translate/core';
+import { UtilsService } from '../../services/utils.service';
 
 @Component({
     selector: 'master-password',
@@ -30,7 +31,7 @@ export class MasterPasswordComponent implements OnInit, OnDestroy {
     constructor(private userService: UserService, private route: ActivatedRoute, private router: Router,
         private masterPasswordService: MasterPasswordService, private snackBar: SnackBarService,
         private translate: TranslateService, private cryptographyService: CryptographyService,
-        private settingsService: SettingsService) {
+        private settingsService: SettingsService, private utilsService: UtilsService) {
         this.oldPasswordViewToggle = false;
         this.passwordViewToggle = false;
 
@@ -92,10 +93,10 @@ export class MasterPasswordComponent implements OnInit, OnDestroy {
                 });
                 break;
             case MasterPasswordEnum.LOCK:
-                this.settingsService.checkMasterPassword(this.password?.value, this.navigate);
+                this.utilsService.checkMasterPassword(this.password?.value, this.navigate);
                 break;
             case MasterPasswordEnum.CHANGE:
-                this.settingsService.checkMasterPassword(this.oldPassword?.value, this.updateMasterPassword);
+                this.utilsService.checkMasterPassword(this.oldPassword?.value, this.updateMasterPassword);
                 break;
         }
     }

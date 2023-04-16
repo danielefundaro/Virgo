@@ -56,7 +56,8 @@
         "HIDDEN_PASSWORD": "Nascondi password",
         "COPY": {
             "WEBSITE": "Sito web copiato",
-            "USERNAME": "Username copiato"
+            "USERNAME": "Username copiato",
+            "PASSWORD": "Password copiata"
         },
         "SAVE": {
             "SUCCESS": "Credenziali salvate con successo",
@@ -89,6 +90,9 @@
         "ADD":"Aggiungi nota",
         "SHOW_CONTENT": "Mostra contenuto",
         "HIDDEN_CONTENT": "Nascondi contenuto",
+        "COPY": {
+            "CONTENT": "Contenuto copiato"
+        },
         "SAVE": {
             "SUCCESS": "Nota salvata con successo",
             "ERROR": "Errore durante il salvataggio della nota"

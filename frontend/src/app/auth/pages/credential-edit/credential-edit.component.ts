@@ -9,6 +9,7 @@ import { CredentialsService, CryptographyService, MasterPasswordService, Workspa
 import { AddWorkspaceComponent } from '../../components/dialog/add-workspace/add-workspace.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmMasterPasswordComponent } from '../../components/dialog/confirm-master-password/confirm-master-password.component';
+import { UtilsService } from '../../services/utils.service';
 
 @Component({
     selector: 'credential-edit',
@@ -39,8 +40,8 @@ export class CredentialEditComponent implements OnInit, OnDestroy {
 
     constructor(private router: Router, private route: ActivatedRoute, private credentialsService: CredentialsService,
         private workspacesService: WorkspacesService, private translate: TranslateService, private snackBar: SnackBarService,
-        private cryptographyService: CryptographyService, private settingsService: SettingsService, private dialog: MatDialog,
-        private masterPasswordService: MasterPasswordService) {
+        private cryptographyService: CryptographyService, private settingsService: SettingsService,
+        private utilsService: UtilsService, private dialog: MatDialog) {
         this.settingsService.isLoading = true;
         this.passwordViewToggle = false;
 
@@ -109,7 +110,7 @@ export class CredentialEditComponent implements OnInit, OnDestroy {
         firstValueFrom(dialogRef.afterClosed()).then(result => {
             if (result) {
                 this.masterPassword = result;
-                this.settingsService.checkMasterPassword(result, this.saveCredential);
+                this.utilsService.checkMasterPassword(result, this.saveCredential);
             }
         });
     }
