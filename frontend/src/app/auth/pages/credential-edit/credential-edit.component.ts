@@ -61,6 +61,7 @@ export class CredentialEditComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.settingsService.isLoading = true;
+        this.passwordViewToggle = false;
 
         this.param = this.route.params.subscribe(data => {
             this.paramId = data['id'];
@@ -179,6 +180,7 @@ export class CredentialEditComponent implements OnInit, OnDestroy {
         firstValueFrom(action).then(data => {
             this.snackBar.success(this.translate.instant(`CREDENTIAL.${actionMessage}.SUCCESS`));
             this.router.navigate(['credentials', data?.id]);
+            this.passwordViewToggle = false;
 
             if (actionMessage === "UPDATE") {
                 this.ngOnInit();

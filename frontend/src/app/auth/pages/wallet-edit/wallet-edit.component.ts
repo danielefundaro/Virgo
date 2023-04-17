@@ -33,10 +33,10 @@ export class WalletEditComponent implements OnInit, OnDestroy {
     public formGroup: FormGroup;
     public viewToggleValue: boolean;
     public typeEnum = TypeEnum;
+    public paramId!: any;
 
     private param?: Subscription;
     private workspaceList: Subscription;
-    private paramId!: any;
     private oldPassword?: string;
     private oldContent?: string;
 
@@ -67,6 +67,7 @@ export class WalletEditComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.settingsService.isLoading = true;
+        this.viewToggleValue = false;
 
         this.param = this.route.params.subscribe(data => {
             this.paramId = data['id'];
@@ -222,6 +223,7 @@ export class WalletEditComponent implements OnInit, OnDestroy {
         firstValueFrom(action).then(data => {
             this.snackBar.success(this.translate.instant(`WALLET.${actionMessage}.SUCCESS`));
             this.router.navigate(['wallet', data?.id, "type", data.type.toLowerCase()]);
+            this.viewToggleValue = false;
 
             if (actionMessage === "UPDATE") {
                 this.ngOnInit();

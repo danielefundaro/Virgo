@@ -55,6 +55,7 @@ export class NoteEditComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.settingsService.isLoading = true;
+        this.contentViewToggle = false;
 
         this.param = this.route.params.subscribe(data => {
             this.paramId = data['id'];
@@ -167,6 +168,7 @@ export class NoteEditComponent implements OnInit, OnDestroy {
         firstValueFrom(action).then(data => {
             this.snackBar.success(this.translate.instant(`NOTE.${actionMessage}.SUCCESS`));
             this.router.navigate(['notes', data?.id]);
+            this.contentViewToggle = false;
 
             if (actionMessage === "UPDATE") {
                 this.ngOnInit();
