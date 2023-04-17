@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Arrays;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -56,10 +57,13 @@ public class WalletServiceImpl extends BasicServiceImpl<Wallet, WalletDTO, Walle
     }
 
     @Override
-    public WalletDTO getByIdAndType(Long id, @NotNull String type, JwtAuthenticationToken jwtAuthenticationToken) {
-        if (Arrays.stream(TypeEnum.values()).noneMatch(typeEnum -> type.equalsIgnoreCase(typeEnum.name())))
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Type not found");
+    public WalletDTO getById(Long id, @NotNull JwtAuthenticationToken jwtAuthenticationToken) {
+        Optional<Wallet> walletOptional = walletRepository.findByIdAndUserId(id, jwtAuthenticationToken.getName());
 
+        if (walletOptional.isEmpty())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Object not found");
+
+        String type = walletOptional.get().getType();
         WalletDTO walletDTO;
 
         if (type.equalsIgnoreCase(TypeEnum.CREDENTIAL.name())) {
@@ -73,7 +77,9 @@ public class WalletServiceImpl extends BasicServiceImpl<Wallet, WalletDTO, Walle
     }
 
     @Override
-    public WalletDTO save(WalletDTO walletDTO, @NotNull String type, JwtAuthenticationToken jwtAuthenticationToken) {
+    public WalletDTO save(@NotNull WalletDTO walletDTO, JwtAuthenticationToken jwtAuthenticationToken) {
+        String type = walletDTO.getType();
+
         if (Arrays.stream(TypeEnum.values()).noneMatch(typeEnum -> type.equalsIgnoreCase(typeEnum.name())))
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Type not found");
 
@@ -90,7 +96,9 @@ public class WalletServiceImpl extends BasicServiceImpl<Wallet, WalletDTO, Walle
     }
 
     @Override
-    public WalletDTO update(WalletDTO walletDTO, @NotNull String type, JwtAuthenticationToken jwtAuthenticationToken) {
+    public WalletDTO update(@NotNull WalletDTO walletDTO, JwtAuthenticationToken jwtAuthenticationToken) {
+        String type = walletDTO.getType();
+
         if (Arrays.stream(TypeEnum.values()).noneMatch(typeEnum -> type.equalsIgnoreCase(typeEnum.name())))
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Type not found");
 
@@ -107,10 +115,13 @@ public class WalletServiceImpl extends BasicServiceImpl<Wallet, WalletDTO, Walle
     }
 
     @Override
-    public WalletDTO delete(Long id, @NotNull String type, JwtAuthenticationToken jwtAuthenticationToken) {
-        if (Arrays.stream(TypeEnum.values()).noneMatch(typeEnum -> type.equalsIgnoreCase(typeEnum.name())))
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Type not found");
+    public WalletDTO delete(Long id, @NotNull JwtAuthenticationToken jwtAuthenticationToken) {
+        Optional<Wallet> walletOptional = walletRepository.findByIdAndUserId(id, jwtAuthenticationToken.getName());
 
+        if (walletOptional.isEmpty())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Object not found");
+
+        String type = walletOptional.get().getType();
         WalletDTO walletDTO;
 
         if (type.equalsIgnoreCase(TypeEnum.CREDENTIAL.name())) {
