@@ -17,7 +17,7 @@ const routes: Routes = [{
     canActivate: [AuthGuard],
     children: [
         { path: 'wallet', component: WalletComponent },
-        { path: 'wallet\/:id/type\/:type', component: WalletEditComponent },
+        { path: 'wallet\/:id', component: WalletEditComponent },
         { path: 'credentials', component: CredentialsComponent },
         { path: 'credentials\/:id', component: CredentialEditComponent },
         { path: 'notes', component: NotesComponent },

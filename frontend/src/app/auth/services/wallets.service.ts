@@ -11,19 +11,19 @@ export class WalletsService extends BasicService<Wallet> {
         return "wallets";
     }
 
-    public getByIdAndType(id: number, type: TypeEnum): Observable<Wallet> {
-        return this.http.get<Wallet>(`${this.getBaseUrl}/${id}/type/${type.toLowerCase()}`);
+    public getByIdAndType(id: number): Observable<Wallet> {
+        return this.http.get<Wallet>(`${this.getBaseUrl}/${id}`);
     }
 
-    public save(wallet: Wallet, type: TypeEnum): Observable<Wallet> {
-        return this.http.post<Wallet>(`${this.getBaseUrl}/type/${type.toLowerCase()}`, wallet);
+    public save(wallet: Wallet): Observable<Wallet> {
+        return this.http.post<Wallet>(`${this.getBaseUrl}/`, wallet);
     }
 
-    public update(wallet: Wallet, type: TypeEnum): Observable<Wallet> {
-        return this.http.put<Wallet>(`${this.getBaseUrl}/type/${type.toLowerCase()}`, wallet);
+    public update(wallet: Wallet): Observable<Wallet> {
+        return this.http.put<Wallet>(`${this.getBaseUrl}/`, wallet);
     }
 
-    public delete(id: number, type: TypeEnum): Observable<Wallet> {
-        return this.http.delete<Wallet>(`${this.getBaseUrl}/${id}/type/${type.toLowerCase()}`);
+    public delete(id: number): Observable<Wallet> {
+        return this.http.delete<Wallet>(`${this.getBaseUrl}/${id}`);
     }
 }

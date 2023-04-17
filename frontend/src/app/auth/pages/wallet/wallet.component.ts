@@ -51,7 +51,7 @@ export class WalletComponent extends AbstractTableComponent<Wallet> {
     }
 
     public update(data: Wallet): Observable<Wallet> {
-        return this.walletsService.update(data, data.type);
+        return this.walletsService.update(data);
     }
 
     public updateMassiveMessage(): string {
@@ -75,7 +75,7 @@ export class WalletComponent extends AbstractTableComponent<Wallet> {
     }
 
     public delete(data: Wallet): Observable<Wallet> {
-        return this.walletsService.delete(data.id, data.type);
+        return this.walletsService.delete(data.id);
     }
 
     public deleteMessage(): string {
@@ -103,7 +103,7 @@ export class WalletComponent extends AbstractTableComponent<Wallet> {
     }
 
     public addElement(): void {
-        this.router.navigate(['wallet', 'add', 'type', 'undefined']);
+        this.router.navigate(['wallet', 'add']);
     }
 
     public copyField(field: string) {

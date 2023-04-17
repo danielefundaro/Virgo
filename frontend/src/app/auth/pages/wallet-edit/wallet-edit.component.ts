@@ -71,17 +71,12 @@ export class WalletEditComponent implements OnInit, OnDestroy {
 
         this.param = this.route.params.subscribe(data => {
             this.paramId = data['id'];
-            const type = data['type'];
-
-            if (type !== "undefined") {
-                this.type?.disable();
-            }
 
             firstValueFrom(this.workspacesService.getAll()).then(workspaces => {
                 this.workspaces = workspaces;
 
                 if (this.paramId !== 'add') {
-                    firstValueFrom(this.walletsService.getByIdAndType(this.paramId, type)).then(wallet => {
+                    firstValueFrom(this.walletsService.getByIdAndType(this.paramId)).then(wallet => {
                         this.id?.setValue(wallet.id);
                         this.name?.setValue(wallet.name);
                         this.website?.setValue(wallet.website);
@@ -95,6 +90,7 @@ export class WalletEditComponent implements OnInit, OnDestroy {
                         this.salt?.setValue(wallet.salt);
 
                         this.valueChange(wallet.type);
+                        this.type?.disable();
 
                         this.oldPassword = wallet.passwd;
                         this.oldContent = wallet.content;
@@ -217,12 +213,12 @@ export class WalletEditComponent implements OnInit, OnDestroy {
         wallet.iv = iv;
         wallet.salt = salt;
 
-        const action = wallet.id ? this.walletsService.update(wallet, wallet.type) : this.walletsService.save(wallet, wallet.type);
+        const action = wallet.id ? this.walletsService.update(wallet) : this.walletsService.save(wallet);
         const actionMessage = wallet.id ? "UPDATE" : "SAVE";
 
         firstValueFrom(action).then(data => {
             this.snackBar.success(this.translate.instant(`WALLET.${actionMessage}.SUCCESS`));
-            this.router.navigate(['wallet', data?.id, "type", data.type.toLowerCase()]);
+            this.router.navigate(['wallet', data?.id]);
             this.viewToggleValue = false;
 
             if (actionMessage === "UPDATE") {
