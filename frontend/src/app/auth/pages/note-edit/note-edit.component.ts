@@ -27,11 +27,11 @@ export class NoteEditComponent implements OnInit, OnDestroy {
     public workspaces!: Workspace[];
     public formGroup: FormGroup;
     public contentViewToggle: boolean;
+    public paramId!: any;
 
     private param?: Subscription;
     private workspaceList: Subscription;
-    private paramId!: any;
-    private oldContent?: string;
+    private oldContent!: string;
 
     constructor(private router: Router, private route: ActivatedRoute, private notesService: NotesService,
         private workspacesService: WorkspacesService, private translate: TranslateService, private snackBar: SnackBarService,
@@ -103,6 +103,25 @@ export class NoteEditComponent implements OnInit, OnDestroy {
         });
     }
 
+    public viewToggle(): void {
+        if (this.paramId !== "add") {
+            const noChange = this.oldContent === this.content?.value;
+            const content = noChange ? this.content?.value : this.oldContent;
+
+            this.utilsService.decryptData(content, this.iv?.value, this.salt?.value, (data: string): void => {
+                if (noChange) {
+                    this.content?.setValue(data);
+                } else if (data === this.content?.value) {
+                    this.content.setValue(this.oldContent);
+                }
+
+                this.contentViewToggle = !this.contentViewToggle;
+            });
+        } else {
+            this.contentViewToggle = !this.contentViewToggle;
+        }
+    }
+
     public addWorkspace(): void {
         const dialogRef = this.dialog.open(AddWorkspaceComponent, {
             disableClose: true
@@ -148,7 +167,10 @@ export class NoteEditComponent implements OnInit, OnDestroy {
         firstValueFrom(action).then(data => {
             this.snackBar.success(this.translate.instant(`NOTE.${actionMessage}.SUCCESS`));
             this.router.navigate(['notes', data?.id]);
-            this.ngOnInit();
+
+            if (actionMessage === "UPDATE") {
+                this.ngOnInit();
+            }
         }).catch(error => {
             this.snackBar.error(this.translate.instant(`NOTE.${actionMessage}.ERROR`), error);
         }).then(() => this.settingsService.isLoading = false);

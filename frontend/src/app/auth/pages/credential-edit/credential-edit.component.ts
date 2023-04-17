@@ -30,11 +30,11 @@ export class CredentialEditComponent implements OnInit, OnDestroy {
     public workspaces!: Workspace[];
     public formGroup: FormGroup;
     public passwordViewToggle: boolean;
+    public paramId!: any;
 
     private param?: Subscription;
     private workspaceList: Subscription;
-    private paramId!: any;
-    private oldPassword?: string;
+    private oldPassword!: string;
 
     constructor(private router: Router, private route: ActivatedRoute, private credentialsService: CredentialsService,
         private workspacesService: WorkspacesService, private translate: TranslateService, private snackBar: SnackBarService,
@@ -112,6 +112,25 @@ export class CredentialEditComponent implements OnInit, OnDestroy {
         });
     }
 
+    public viewToggle(): void {
+        if (this.paramId !== "add") {
+            const noChange = this.oldPassword === this.password?.value;
+            const password = noChange ? this.password?.value : this.oldPassword;
+
+            this.utilsService.decryptData(password, this.iv?.value, this.salt?.value, (data: string): void => {
+                if (noChange) {
+                    this.password?.setValue(data);
+                } else if (data === this.password?.value) {
+                    this.password.setValue(this.oldPassword);
+                }
+
+                this.passwordViewToggle = !this.passwordViewToggle;
+            });
+        } else {
+            this.passwordViewToggle = !this.passwordViewToggle;
+        }
+    }
+
     public addWorkspace(): void {
         const dialogRef = this.dialog.open(AddWorkspaceComponent, {
             disableClose: true
@@ -160,7 +179,10 @@ export class CredentialEditComponent implements OnInit, OnDestroy {
         firstValueFrom(action).then(data => {
             this.snackBar.success(this.translate.instant(`CREDENTIAL.${actionMessage}.SUCCESS`));
             this.router.navigate(['credentials', data?.id]);
-            this.ngOnInit();
+
+            if (actionMessage === "UPDATE") {
+                this.ngOnInit();
+            }
         }).catch(error => {
             this.snackBar.error(this.translate.instant(`CREDENTIAL.${actionMessage}.ERROR`), error);
         }).then(() => this.settingsService.isLoading = false);

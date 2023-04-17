@@ -31,7 +31,7 @@ export class WalletEditComponent implements OnInit, OnDestroy {
 
     public workspaces!: Workspace[];
     public formGroup: FormGroup;
-    public viewToggle: boolean;
+    public viewToggleValue: boolean;
     public typeEnum = TypeEnum;
 
     private param?: Subscription;
@@ -45,7 +45,7 @@ export class WalletEditComponent implements OnInit, OnDestroy {
         private cryptographyService: CryptographyService, private settingsService: SettingsService,
         private utilsService: UtilsService, private dialog: MatDialog) {
         this.settingsService.isLoading = true;
-        this.viewToggle = false;
+        this.viewToggleValue = false;
 
         this.formGroup = new FormGroup({
             id: new FormControl(undefined),
@@ -143,6 +143,27 @@ export class WalletEditComponent implements OnInit, OnDestroy {
         });
     }
 
+    public viewToggle(): void {
+        if (this.paramId !== "add") {
+            const control = this.type?.value === TypeEnum.CREDENTIAL ? this.password : this.content;
+            const oldValue = this.type?.value === TypeEnum.CREDENTIAL ? this.oldPassword : this.oldContent;
+            const noChange = oldValue === control?.value;
+            const data = noChange ? control?.value : oldValue;
+
+            this.utilsService.decryptData(data, this.iv?.value, this.salt?.value, (clearData: string): void => {
+                if (noChange) {
+                    control?.setValue(clearData);
+                } else if (clearData === control?.value) {
+                    control?.setValue(oldValue);
+                }
+
+                this.viewToggleValue = !this.viewToggleValue;
+            });
+        } else {
+            this.viewToggleValue = !this.viewToggleValue;
+        }
+    }
+
     public addWorkspace(): void {
         const dialogRef = this.dialog.open(AddWorkspaceComponent, {
             disableClose: true
@@ -201,7 +222,10 @@ export class WalletEditComponent implements OnInit, OnDestroy {
         firstValueFrom(action).then(data => {
             this.snackBar.success(this.translate.instant(`WALLET.${actionMessage}.SUCCESS`));
             this.router.navigate(['wallet', data?.id, "type", data.type.toLowerCase()]);
-            this.ngOnInit();
+
+            if (actionMessage === "UPDATE") {
+                this.ngOnInit();
+            }
         }).catch(error => {
             this.snackBar.error(this.translate.instant(`WALLET.${actionMessage}.ERROR`), error);
         }).then(() => this.settingsService.isLoading = false);

@@ -13,9 +13,9 @@
         </mat-select>
     </mat-form-field>
 
-    <button type="button" mat-stroked-button [color]="viewToggle ? 'primary' : 'accent'" (click)="viewToggle = !viewToggle" *ngIf="type?.value === typeEnum.NOTE">
-        <i class="fa-solid" [ngClass]="viewToggle ? 'fa-eye-slash' : 'fa-eye'"></i>
-        <span>{{("WALLET." + (viewToggle ? "HIDDEN_CONTENT" : "SHOW_CONTENT")) | translate}}</span>
+    <button type="button" mat-stroked-button [color]="viewToggleValue ? 'primary' : 'accent'" (click)="viewToggle()" *ngIf="type?.value === typeEnum.NOTE">
+        <i class="fa-solid" [ngClass]="viewToggleValue ? 'fa-eye-slash' : 'fa-eye'"></i>
+        <span>{{("WALLET." + (viewToggleValue ? "HIDDEN_CONTENT" : "SHOW_CONTENT")) | translate}}</span>
     </button>
 
     <mat-form-field appearance="fill" class="content-input" *ngIf="type?.value === typeEnum.NOTE">
@@ -37,9 +37,9 @@
 
     <mat-form-field appearance="fill" class="password-input" *ngIf="type?.value === typeEnum.CREDENTIAL">
         <mat-label>{{"WALLET.PASSWORD" | translate}}</mat-label>
-        <input matInput [type]="viewToggle ? 'text' : 'password'" formControlName="password">
-        <button type="button" matSuffix mat-icon-button class="toggle-button" (click)="viewToggle = !viewToggle" [matTooltip]="('WALLET.' + (viewToggle ? 'HIDDEN_PASSWORD' : 'SHOW_PASSWORD')) | translate">
-            <i class="fa-solid" [ngClass]="viewToggle ? 'fa-eye-slash' : 'fa-eye'"></i>
+        <input matInput [type]="viewToggleValue ? 'text' : 'password'" formControlName="password">
+        <button type="button" matSuffix mat-icon-button class="toggle-button" (click)="viewToggle()" [matTooltip]="('WALLET.' + (viewToggleValue ? 'HIDDEN_PASSWORD' : 'SHOW_PASSWORD')) | translate">
+            <i class="fa-solid" [ngClass]="viewToggleValue ? 'fa-eye-slash' : 'fa-eye'"></i>
         </button>
     </mat-form-field>
 
