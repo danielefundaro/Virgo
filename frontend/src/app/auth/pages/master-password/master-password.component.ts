@@ -4,8 +4,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { KeycloakProfile } from 'keycloak-js';
 import { Subscription, firstValueFrom } from 'rxjs';
 import { SettingsService, SnackBarService, UserService } from 'src/app/services';
-import { MasterPassword, MasterPasswordEnum } from '../../models';
-import { CryptographyService, MasterPasswordService, UtilsService } from '../../services';
+import { MasterPassword, MasterPasswordEnum, TypeEnum, Wallet } from '../../models';
+import { CryptographyService, MasterPasswordService, UtilsService, WalletsService } from '../../services';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
@@ -30,7 +30,8 @@ export class MasterPasswordComponent implements OnInit, OnDestroy {
     constructor(private userService: UserService, private route: ActivatedRoute, private router: Router,
         private masterPasswordService: MasterPasswordService, private snackBar: SnackBarService,
         private translate: TranslateService, private cryptographyService: CryptographyService,
-        private settingsService: SettingsService, private utilsService: UtilsService) {
+        private settingsService: SettingsService, private utilsService: UtilsService,
+        private walletsService: WalletsService) {
         this.oldPasswordViewToggle = false;
         this.passwordViewToggle = false;
 
@@ -82,13 +83,13 @@ export class MasterPasswordComponent implements OnInit, OnDestroy {
                 this.cryptographyService.hash(this.password?.value).then(result => {
                     const masterPassword = new MasterPassword(result.hash, result.salt);
 
-                    firstValueFrom(this.masterPasswordService.save(masterPassword)).then(data => {
+                    firstValueFrom(this.masterPasswordService.save(masterPassword)).then(() => {
                         this.navigate();
                     }).catch(error => {
                         this.snackBar.error(this.translate.instant("MASTER_PASSWORD.SAVE.ERROR"), error);
                     });
-                }).catch((error: any) => {
-                    this.snackBar.error(this.translate.instant("MASTER_PASSWORD.HASH.ERROR"));
+                }).catch(() => {
+                    this.snackBar.error(this.translate.instant("MASTER_PASSWORD.UPDATE.FAIL"));
                 });
                 break;
             case MasterPasswordEnum.LOCK:
@@ -127,16 +128,56 @@ export class MasterPasswordComponent implements OnInit, OnDestroy {
     }
 
     private updateMasterPassword = (): void => {
-        this.cryptographyService.hash(this.password?.value).then(result => {
-            const masterPassword = new MasterPassword(result.hash, result.salt);
+        firstValueFrom(this.walletsService.getAll()).then(wallets => {
+            Promise.all(this.updateEncryptedInfo(wallets)).then(finalWallets => {
+                firstValueFrom(this.walletsService.updateAll(finalWallets)).then(() => {
+                    this.cryptographyService.hash(this.password?.value).then(result => {
+                        const masterPassword = new MasterPassword(result.hash, result.salt);
 
-            firstValueFrom(this.masterPasswordService.update(masterPassword)).then(data => {
-                this.navigate();
+                        firstValueFrom(this.masterPasswordService.update(masterPassword)).then(() => {
+                            this.navigate();
+                        }).catch(() => {
+                            this.restore(wallets);
+                        });
+                    }).catch(() => {
+                        this.restore(wallets);
+                    });
+                }).catch(error => {
+                    this.snackBar.error(this.translate.instant("MASTER_PASSWORD.UPDATE.ERROR"), error);
+                });
             }).catch(error => {
                 this.snackBar.error(this.translate.instant("MASTER_PASSWORD.UPDATE.ERROR"), error);
             });
-        }).catch((error: any) => {
-            this.snackBar.error(this.translate.instant("MASTER_PASSWORD.HASH.ERROR"));
+        }).catch(error => {
+            this.snackBar.error(this.translate.instant("MASTER_PASSWORD.UPDATE.ERROR"), error);
+        });
+    }
+
+    private updateEncryptedInfo(wallets: Wallet[]): Promise<Wallet>[] {
+        return wallets.map(async wallet => {
+            const info = wallet.type === TypeEnum.CREDENTIAL ? wallet.passwd : wallet.content;
+            const plainText = await this.cryptographyService.decrypt(info, this.oldPassword?.value, wallet.iv, wallet.salt);
+            const payload = await this.cryptographyService.encrypt(plainText, this.password?.value);
+            const finalWallet = JSON.parse(JSON.stringify(wallet));
+
+            if (finalWallet.type === TypeEnum.CREDENTIAL) {
+                finalWallet.passwd = payload.cipher;
+            } else {
+                finalWallet.content = payload.cipher;
+            }
+
+            finalWallet.iv = payload.iv;
+            finalWallet.salt = payload.salt;
+
+            return finalWallet;
+        });
+    }
+
+    private restore(wallets: Wallet[]) {
+        firstValueFrom(this.walletsService.updateAll(wallets)).then(() => {
+            this.snackBar.warning(this.translate.instant("MASTER_PASSWORD.UPDATE.FAIL"));
+        }).catch(error => {
+            this.snackBar.error(this.translate.instant("MASTER_PASSWORD.UPDATE.FATAL"), error);
         });
     }
 }

@@ -24,7 +24,7 @@ export class UtilsService {
                 } else {
                     this.snackBar.error(this.translate.instant("MASTER_PASSWORD.NOT_VALID"));
                 }
-            }).catch((error: any) => {
+            }).catch(() => {
                 this.snackBar.error(this.translate.instant("MASTER_PASSWORD.HASH.ERROR"));
             });
         }).catch(error => {

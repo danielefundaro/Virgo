@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { TypeEnum, Wallet } from '../models';
+import { Wallet } from '../models';
 import { BasicService } from './basic.service';
 
 @Injectable({
@@ -21,6 +21,10 @@ export class WalletsService extends BasicService<Wallet> {
 
     public update(wallet: Wallet): Observable<Wallet> {
         return this.http.put<Wallet>(`${this.getBaseUrl}/`, wallet);
+    }
+
+    public updateAll(wallets: Wallet[]): Observable<Wallet[]> {
+        return this.http.patch<Wallet[]>(`${this.getBaseUrl}/info`, wallets);
     }
 
     public delete(id: number): Observable<Wallet> {

@@ -204,7 +204,12 @@
             "ERROR": "Errore durante il salvataggio della master password"
         },
         "UPDATE": {
-            "ERROR": "Errore durante l'aggiornamento della master password"
+            "ERROR": "Errore durante l'aggiornamento della master password",
+            "FAIL": "Non è stato possibile aggiornare la master password. Tentare in un secondo momento",
+            "FATAL": "Le informazioni sono state corrotte definitivamente"
+        },
+        "HASH": {
+            "ERROR": "Errore durante il confronto della master password"
         }
     },
     "DIALOG": {
