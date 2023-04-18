@@ -1,14 +1,13 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
 import { MasterPasswordEnum } from '../auth/models';
 
 @Injectable({
     providedIn: 'root'
 })
 export class SnackBarService {
-    constructor(private snackBar: MatSnackBar, private router: Router, private translateService: TranslateService) { }
+    constructor(private snackBar: MatSnackBar, private router: Router) { }
 
     info(message: string, duration: number = 2000): void {
         this.open(message, duration, ['mat-snackbar-info']);
@@ -28,9 +27,7 @@ export class SnackBarService {
 
         try {
             messageError = JSON.parse(error?.error?.message || {});
-        } catch {
-
-        }
+        } catch { }
 
         if (status == 404) {
             this.router.navigate(['404']);

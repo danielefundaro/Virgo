@@ -17,6 +17,7 @@ export class SettingsService {
     private _languages: string[] = ['it', 'en'];
     private _isDarkTheme: boolean = !!localStorage.getItem("darkTheme") && localStorage.getItem("darkTheme") === "true" || !localStorage.getItem("darkTheme") && window.matchMedia("(prefers-color-scheme: dark)").matches;
 
+    public isLock: boolean = true;
     public get languages(): string[] { return this._languages; }
     public get default(): string {
         const current = localStorage.getItem("currentLang") || this._languages[0];

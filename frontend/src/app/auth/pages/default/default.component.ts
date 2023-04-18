@@ -6,6 +6,7 @@ import { WorkspacesService } from '../../services';
 import { MasterPasswordEnum, Workspace } from '../../models';
 import { TranslateService } from '@ngx-translate/core';
 import { MatDialog } from '@angular/material/dialog';
+import { NavigationStart, Router } from '@angular/router';
 import { AddWorkspaceComponent } from '../../components/dialog/add-workspace/add-workspace.component';
 import { ConfirmActionComponent } from '../../components/dialog/confirm-action/confirm-action.component';
 
@@ -25,8 +26,9 @@ export class DefaultComponent implements OnDestroy {
 
     private loadState: Subscription;
     private workspaceList: Subscription;
+    private routerSubscription: Subscription;
 
-    constructor(private userService: UserService, public settingsService: SettingsService,
+    constructor(private router: Router, private userService: UserService, public settingsService: SettingsService,
         private workspacesService: WorkspacesService, private snackBar: SnackBarService,
         private translate: TranslateService, private dialog: MatDialog) {
         this.languages = settingsService.languages;
@@ -45,15 +47,34 @@ export class DefaultComponent implements OnDestroy {
 
         // Check workspace list
         this.workspaceList = this.settingsService.onUpateWorkspacesEvent().subscribe(() => this.loadWorkspaces());
+
+        // Check at every action
+        this.routerSubscription = this.router.events.subscribe(data => {
+            const url = (data as NavigationStart).url;
+
+            if (this.settingsService.isLock && !(url === null || url === undefined || url.endsWith('master-password') || url.endsWith('first-insert'))) {
+                this.router.navigate(['master-password']);
+            }
+
+            if (this.userService.isTokenExpired()) {
+                this.userService.updateToken().catch(() => this.userService.logout());
+            }
+        });
     }
 
     ngOnDestroy(): void {
         this.loadState.unsubscribe();
         this.workspaceList.unsubscribe();
+        this.routerSubscription.unsubscribe();
     }
 
     public openProfile(): void {
         this.userService.redirectToProfile();
+    }
+
+    public lock(): void {
+        this.settingsService.isLock = true;
+        this.router.navigate(['master-password']);
     }
 
     public changeTheme(): void {

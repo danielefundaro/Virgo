@@ -11,7 +11,7 @@ export class WalletsService extends BasicService<Wallet> {
         return "wallets";
     }
 
-    public getByIdAndType(id: number): Observable<Wallet> {
+    public getById(id: number): Observable<Wallet> {
         return this.http.get<Wallet>(`${this.getBaseUrl}/${id}`);
     }
 

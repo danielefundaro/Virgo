@@ -150,7 +150,7 @@
         <div class="inline-block" [ngClass]="{'isLoggedId': isLoggedIn}"></div>
     </button>
     <mat-divider></mat-divider>
-    <button mat-menu-item [routerLink]="['master-password']">
+    <button mat-menu-item (click)="lock()">
         <mat-icon class="fa-solid fa-lock"></mat-icon>
         <span>{{'MENU.LOCK' | translate}}</span>
     </button>

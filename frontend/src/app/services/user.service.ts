@@ -25,11 +25,20 @@ export class UserService {
         return this.keycloakService.loadUserProfile();
     }
 
+    public updateToken(): Promise<boolean> {
+        return this.keycloakService.updateToken();
+    }
+
+    public isTokenExpired(): boolean {
+        return this.keycloakService.isTokenExpired();
+    }
+
     public login(): void {
         this.keycloakService.login();
     }
 
     public logout(): void {
+        this.keycloakService.clearToken();
         this.keycloakService.logout(window.location.origin);
     }
 

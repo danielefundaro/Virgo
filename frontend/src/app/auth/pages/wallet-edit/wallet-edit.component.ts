@@ -76,7 +76,7 @@ export class WalletEditComponent implements OnInit, OnDestroy {
                 this.workspaces = workspaces;
 
                 if (this.paramId !== 'add') {
-                    firstValueFrom(this.walletsService.getByIdAndType(this.paramId)).then(wallet => {
+                    firstValueFrom(this.walletsService.getById(this.paramId)).then(wallet => {
                         this.id?.setValue(wallet.id);
                         this.name?.setValue(wallet.name);
                         this.website?.setValue(wallet.website);
