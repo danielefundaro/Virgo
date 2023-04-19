@@ -13,3 +13,11 @@ export class Wallet extends EncryptCommonFields {
     content!: string;
     note?: string;
 }
+
+export class WalletBasic {
+    id!: number;
+    type!: TypeEnum;
+    info!: string;
+    salt!: string;
+    iv!: string;
+}

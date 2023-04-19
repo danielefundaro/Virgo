@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { KeycloakProfile } from 'keycloak-js';
 import { Subscription, firstValueFrom } from 'rxjs';
 import { SettingsService, SnackBarService, UserService } from 'src/app/services';
-import { MasterPassword, MasterPasswordEnum, TypeEnum, Wallet } from '../../models';
+import { MasterPassword, MasterPasswordEnum, MasterPasswordUpdate, TypeEnum, Wallet, WalletBasic } from '../../models';
 import { CryptographyService, MasterPasswordService, UtilsService, WalletsService } from '../../services';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -129,55 +129,41 @@ export class MasterPasswordComponent implements OnInit, OnDestroy {
 
     private updateMasterPassword = (): void => {
         firstValueFrom(this.walletsService.getAll()).then(wallets => {
-            Promise.all(this.updateEncryptedInfo(wallets)).then(finalWallets => {
-                firstValueFrom(this.walletsService.updateAll(finalWallets)).then(() => {
-                    this.cryptographyService.hash(this.password?.value).then(result => {
-                        const masterPassword = new MasterPassword(result.hash, result.salt);
+            Promise.all(this.updateEncryptedInfo(wallets)).then(walletBasic => {
+                this.cryptographyService.hash(this.password?.value).then(result => {
+                    const masterPassword = new MasterPasswordUpdate(result.hash, result.salt, walletBasic);
 
-                        firstValueFrom(this.masterPasswordService.update(masterPassword)).then(() => {
-                            this.navigate();
-                        }).catch(() => {
-                            this.restore(wallets);
-                        });
+                    firstValueFrom(this.masterPasswordService.update(masterPassword)).then(() => {
+                        this.snackBar.success(this.translate.instant("MASTER_PASSWORD.UPDATE.SUCCESS"));
+                        this.navigate();
                     }).catch(() => {
-                        this.restore(wallets);
+                        this.snackBar.warning(this.translate.instant("MASTER_PASSWORD.UPDATE.FAIL"));
                     });
-                }).catch(error => {
-                    this.snackBar.error(this.translate.instant("MASTER_PASSWORD.UPDATE.ERROR"), error);
+                }).catch(() => {
+                    this.snackBar.error(this.translate.instant("MASTER_PASSWORD.UPDATE.ERROR"));
                 });
-            }).catch(error => {
-                this.snackBar.error(this.translate.instant("MASTER_PASSWORD.UPDATE.ERROR"), error);
+            }).catch(() => {
+                this.snackBar.error(this.translate.instant("MASTER_PASSWORD.UPDATE.ERROR"));
             });
         }).catch(error => {
             this.snackBar.error(this.translate.instant("MASTER_PASSWORD.UPDATE.ERROR"), error);
         });
     }
 
-    private updateEncryptedInfo(wallets: Wallet[]): Promise<Wallet>[] {
+    private updateEncryptedInfo(wallets: Wallet[]): Promise<WalletBasic>[] {
         return wallets.map(async wallet => {
             const info = wallet.type === TypeEnum.CREDENTIAL ? wallet.passwd : wallet.content;
             const plainText = await this.cryptographyService.decrypt(info, this.oldPassword?.value, wallet.iv, wallet.salt);
             const payload = await this.cryptographyService.encrypt(plainText, this.password?.value);
-            const finalWallet = JSON.parse(JSON.stringify(wallet));
+            const finalWallet = new WalletBasic();
 
-            if (finalWallet.type === TypeEnum.CREDENTIAL) {
-                finalWallet.passwd = payload.cipher;
-            } else {
-                finalWallet.content = payload.cipher;
-            }
-
+            finalWallet.id = wallet.id;
+            finalWallet.type = wallet.type;
+            finalWallet.info = payload.cipher;
             finalWallet.iv = payload.iv;
             finalWallet.salt = payload.salt;
 
             return finalWallet;
-        });
-    }
-
-    private restore(wallets: Wallet[]) {
-        firstValueFrom(this.walletsService.updateAll(wallets)).then(() => {
-            this.snackBar.warning(this.translate.instant("MASTER_PASSWORD.UPDATE.FAIL"));
-        }).catch(error => {
-            this.snackBar.error(this.translate.instant("MASTER_PASSWORD.UPDATE.FATAL"), error);
         });
     }
 }

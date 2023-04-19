@@ -1,3 +1,5 @@
+import { WalletBasic } from "./wallet.model";
+
 export enum MasterPasswordEnum {
     FIRST_INSERT = "first-insert",
     LOCK = "lock",
@@ -11,5 +13,14 @@ export class MasterPassword {
     constructor(hashPasswd: string, salt: string) {
         this.hashPasswd = hashPasswd;
         this.salt = salt;
+    }
+}
+
+export class MasterPasswordUpdate extends MasterPassword {
+    wallet: WalletBasic[];
+
+    constructor(hashPasswd: string, salt: string, wallet: WalletBasic[]) {
+        super(hashPasswd, salt);
+        this.wallet = wallet;
     }
 }
