@@ -1,5 +1,6 @@
 package com.fnd.virgo.controller;
 
+import com.fnd.virgo.dto.MasterPassword2DTO;
 import com.fnd.virgo.dto.MasterPasswordDTO;
 import com.fnd.virgo.service.MasterPasswordService;
 import org.springframework.http.HttpStatus;
@@ -34,7 +35,7 @@ public class MasterPasswordController {
 
     @PutMapping(value = "/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(code = HttpStatus.OK)
-    public MasterPasswordDTO update(@RequestBody MasterPasswordDTO masterPasswordDTO, JwtAuthenticationToken jwtAuthenticationToken) {
-        return this.masterPasswordService.update(masterPasswordDTO, jwtAuthenticationToken);
+    public MasterPasswordDTO update(@RequestBody MasterPassword2DTO masterPassword2DTO, JwtAuthenticationToken jwtAuthenticationToken) {
+        return this.masterPasswordService.update(masterPassword2DTO, jwtAuthenticationToken);
     }
 }

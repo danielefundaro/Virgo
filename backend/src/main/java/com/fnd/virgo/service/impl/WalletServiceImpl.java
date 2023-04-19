@@ -20,9 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -114,36 +112,6 @@ public class WalletServiceImpl extends BasicServiceImpl<Wallet, WalletDTO, Walle
 
         walletDTO.setType(type.toUpperCase());
         return walletDTO;
-    }
-
-    @Override
-    public List<WalletDTO> updateAll(@NotNull List<WalletDTO> walletDTOList, @NotNull JwtAuthenticationToken jwtAuthenticationToken) {
-        String userId = jwtAuthenticationToken.getName();
-
-        if (walletDTOList.stream().anyMatch(walletDTO -> Arrays.stream(TypeEnum.values()).noneMatch(typeEnum -> walletDTO.getType().equalsIgnoreCase(typeEnum.name()))))
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Type not found");
-
-        List<Wallet> walletList = walletDTOList.stream().map(walletDTO -> {
-            Optional<Wallet> optionalWallet = walletRepository.findByIdAndUserId(walletDTO.getId(), userId);
-
-            if (optionalWallet.isEmpty())
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Objects not found");
-
-            Wallet wallet = optionalWallet.get();
-
-            if (wallet.getType().equals(TypeEnum.CREDENTIAL.name()))
-                wallet.setPasswd(walletDTO.getPasswd());
-            else
-                wallet.setContent(walletDTO.getContent());
-
-            wallet.setIv(walletDTO.getIv());
-            wallet.setSalt(walletDTO.getSalt());
-
-            return wallet;
-        }).toList();
-
-        walletList = walletRepository.saveAll(walletList);
-        return walletList.stream().map(wallet -> modelMapper.map(wallet, WalletDTO.class)).collect(Collectors.toList());
     }
 
     @Override

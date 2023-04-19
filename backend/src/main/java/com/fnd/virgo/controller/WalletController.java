@@ -10,8 +10,6 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping(value = "wallets")
 @Validated
@@ -43,12 +41,6 @@ public class WalletController implements BasicController<Wallet, WalletDTO, Wall
     @ResponseStatus(code = HttpStatus.OK)
     public WalletDTO update(@RequestBody WalletDTO walletDTO, JwtAuthenticationToken jwtAuthenticationToken) {
         return walletService.update(walletDTO, jwtAuthenticationToken);
-    }
-
-    @PatchMapping(value = "/info", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(code = HttpStatus.OK)
-    public List<WalletDTO> updateAll(@RequestBody List<WalletDTO> walletDTOList, JwtAuthenticationToken jwtAuthenticationToken) {
-        return walletService.updateAll(walletDTOList, jwtAuthenticationToken);
     }
 
     @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)

@@ -1,8 +1,13 @@
 package com.fnd.virgo.service.impl;
 
+import com.fnd.virgo.dto.MasterPassword2DTO;
 import com.fnd.virgo.dto.MasterPasswordDTO;
+import com.fnd.virgo.dto.WalletBasicDTO;
 import com.fnd.virgo.entity.MasterPassword;
+import com.fnd.virgo.entity.Wallet;
+import com.fnd.virgo.enums.TypeEnum;
 import com.fnd.virgo.repository.MasterPasswordRepository;
+import com.fnd.virgo.repository.WalletRepository;
 import com.fnd.virgo.service.MasterPasswordService;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
@@ -12,16 +17,20 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 @Service
 @Slf4j
 public class MasterPasswordServiceImpl implements MasterPasswordService {
     private final MasterPasswordRepository masterPasswordRepository;
+    private final WalletRepository walletRepository;
     private final ModelMapper modelMapper;
 
-    public MasterPasswordServiceImpl(MasterPasswordRepository masterPasswordRepository) {
+    public MasterPasswordServiceImpl(MasterPasswordRepository masterPasswordRepository, WalletRepository walletRepository) {
         this.masterPasswordRepository = masterPasswordRepository;
+        this.walletRepository = walletRepository;
         this.modelMapper = new ModelMapper();
     }
 
@@ -53,7 +62,7 @@ public class MasterPasswordServiceImpl implements MasterPasswordService {
     }
 
     @Override
-    public MasterPasswordDTO update(@NotNull MasterPasswordDTO masterPasswordDTO, @NotNull JwtAuthenticationToken jwtAuthenticationToken) {
+    public MasterPasswordDTO update(@NotNull MasterPassword2DTO masterPassword2DTO, @NotNull JwtAuthenticationToken jwtAuthenticationToken) {
         String userId = jwtAuthenticationToken.getName();
         Optional<MasterPassword> optionalOldMasterPasswordDTO = this.masterPasswordRepository.findMasterPasswordByUserId(userId);
 
@@ -61,12 +70,38 @@ public class MasterPasswordServiceImpl implements MasterPasswordService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Object not found");
 
         MasterPassword masterPassword = optionalOldMasterPasswordDTO.get();
+        List<WalletBasicDTO> walletBasicDTOList = masterPassword2DTO.getWalletBasicDTOList();
 
-        if (masterPassword.getHashPasswd().equals(masterPasswordDTO.getHashPasswd()))
+        if (masterPassword.getHashPasswd().equals(masterPassword2DTO.getHashPasswd()))
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Same password");
 
-        masterPassword.setHashPasswd(masterPasswordDTO.getHashPasswd());
-        masterPassword.setSalt(masterPasswordDTO.getSalt());
+        if (walletBasicDTOList.stream().anyMatch(walletDTO -> Arrays.stream(TypeEnum.values()).noneMatch(typeEnum -> walletDTO.getType().equalsIgnoreCase(typeEnum.name()))))
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Type not found");
+
+        List<Wallet> walletList = walletBasicDTOList.stream().map(walletBasicDTO -> {
+            Optional<Wallet> optionalWallet = walletRepository.findByIdAndUserId(walletBasicDTO.getId(), userId);
+
+            if (optionalWallet.isEmpty())
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Objects not found");
+
+            Wallet wallet = optionalWallet.get();
+            String info = walletBasicDTO.getInfo();
+
+            if (wallet.getType().equals(TypeEnum.CREDENTIAL.name()))
+                wallet.setPasswd(info);
+            else
+                wallet.setContent(info);
+
+            wallet.setIv(walletBasicDTO.getIv());
+            wallet.setSalt(walletBasicDTO.getSalt());
+
+            return wallet;
+        }).toList();
+
+        walletRepository.saveAll(walletList);
+
+        masterPassword.setHashPasswd(masterPassword2DTO.getHashPasswd());
+        masterPassword.setSalt(masterPassword2DTO.getSalt());
         masterPassword = masterPasswordRepository.save(masterPassword);
 
         return modelMapper.map(masterPassword, MasterPasswordDTO.class);
