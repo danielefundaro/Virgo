@@ -31,7 +31,7 @@ export class NoteEditComponent implements OnInit, OnDestroy {
 
     private param?: Subscription;
     private workspaceList: Subscription;
-    private oldContent!: string;
+    private oldContentValue!: string;
 
     constructor(private router: Router, private route: ActivatedRoute, private notesService: NotesService,
         private workspacesService: WorkspacesService, private translate: TranslateService, private snackBar: SnackBarService,
@@ -72,7 +72,7 @@ export class NoteEditComponent implements OnInit, OnDestroy {
                         this.iv?.setValue(note.iv);
                         this.salt?.setValue(note.salt);
 
-                        this.oldContent = note.content;
+                        this.oldContentValue = note.content;
                     }).catch(error => {
                         this.snackBar.error(this.translate.instant("NOTE.LOAD.ERROR"), error);
                     }).then(() => this.settingsService.isLoading = false);
@@ -105,21 +105,28 @@ export class NoteEditComponent implements OnInit, OnDestroy {
     }
 
     public viewToggle(): void {
-        if (this.paramId !== "add") {
-            const noChange = this.oldContent === this.content?.value;
-            const content = noChange ? this.content?.value : this.oldContent;
+        if (this.paramId === "add") {
+            this.contentViewToggle = !this.contentViewToggle;
+            return;
+        }
 
-            this.utilsService.decryptData(content, this.iv?.value, this.salt?.value, (data: string): void => {
-                if (noChange) {
-                    this.content?.setValue(data);
-                } else if (data === this.content?.value) {
-                    this.content.setValue(this.oldContent);
-                }
-
+        if (this.oldContentValue === this.content?.value) {
+            this.utilsService.decryptData(this.content?.value, this.iv?.value, this.salt?.value, (data: string): void => {
+                this.content?.setValue(data);
                 this.contentViewToggle = !this.contentViewToggle;
             });
         } else {
-            this.contentViewToggle = !this.contentViewToggle;
+            if (this.settingsService.masterPassword) {
+                this.cryptographyService.decrypt(this.oldContentValue, this.settingsService.masterPassword, this.iv?.value, this.salt?.value).then(plainContent => {
+                    if (this.content?.value === plainContent) {
+                        this.content.setValue(this.oldContentValue);
+                    }
+
+                    this.contentViewToggle = !this.contentViewToggle;
+                });
+            } else {
+                this.contentViewToggle = !this.contentViewToggle;
+            }
         }
     }
 
@@ -139,7 +146,7 @@ export class NoteEditComponent implements OnInit, OnDestroy {
     private saveNote = (masterPassword: string): void => {
         this.settingsService.isLoading = true;
 
-        if (this.paramId !== "add" && this.oldContent === this.content?.value) {
+        if (this.paramId !== "add" && this.oldContentValue === this.content?.value) {
             this.saveInfo(this.content?.value, this.iv?.value, this.salt?.value);
         } else {
             this.encryptAndSave(this.content?.value, masterPassword);

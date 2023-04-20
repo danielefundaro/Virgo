@@ -37,8 +37,8 @@ export class WalletEditComponent implements OnInit, OnDestroy {
 
     private param?: Subscription;
     private workspaceList: Subscription;
-    private oldPassword?: string;
-    private oldContent?: string;
+    private oldPasswordValue!: string;
+    private oldContentValue!: string;
 
     constructor(private router: Router, private route: ActivatedRoute, private walletsService: WalletsService,
         private workspacesService: WorkspacesService, private translate: TranslateService, private snackBar: SnackBarService,
@@ -92,8 +92,8 @@ export class WalletEditComponent implements OnInit, OnDestroy {
                         this.valueChange(wallet.type);
                         this.type?.disable();
 
-                        this.oldPassword = wallet.passwd;
-                        this.oldContent = wallet.content;
+                        this.oldPasswordValue = wallet.passwd;
+                        this.oldContentValue = wallet.content;
                     }).catch(error => {
                         this.snackBar.error(this.translate.instant("WALLET.LOAD.ERROR"), error);
                     }).then(() => this.settingsService.isLoading = false);
@@ -141,23 +141,36 @@ export class WalletEditComponent implements OnInit, OnDestroy {
     }
 
     public viewToggle(): void {
-        if (this.paramId !== "add") {
-            const control = this.type?.value === TypeEnum.CREDENTIAL ? this.password : this.content;
-            const oldValue = this.type?.value === TypeEnum.CREDENTIAL ? this.oldPassword : this.oldContent;
-            const noChange = oldValue === control?.value;
-            const data = noChange ? control?.value : oldValue;
+        if (this.paramId === "add") {
+            this.viewToggleValue = !this.viewToggleValue;
+            return;
+        }
 
-            this.utilsService.decryptData(data, this.iv?.value, this.salt?.value, (clearData: string): void => {
-                if (noChange) {
-                    control?.setValue(clearData);
-                } else if (clearData === control?.value) {
-                    control?.setValue(oldValue);
-                }
+        let control = this.content;
+        let oldValue = this.oldContentValue;
 
+        if (this.type?.value === TypeEnum.CREDENTIAL) {
+            control = this.password;
+            oldValue = this.oldPasswordValue;
+        }
+
+        if (oldValue === control?.value) {
+            this.utilsService.decryptData(control?.value, this.iv?.value, this.salt?.value, (data: string): void => {
+                control?.setValue(data);
                 this.viewToggleValue = !this.viewToggleValue;
             });
         } else {
-            this.viewToggleValue = !this.viewToggleValue;
+            if (this.settingsService.masterPassword) {
+                this.cryptographyService.decrypt(oldValue, this.settingsService.masterPassword, this.iv?.value, this.salt?.value).then(plainData => {
+                    if (control?.value === plainData) {
+                        control.setValue(oldValue);
+                    }
+
+                    this.viewToggleValue = !this.viewToggleValue;
+                });
+            } else {
+                this.viewToggleValue = !this.viewToggleValue;
+            }
         }
     }
 
@@ -178,13 +191,13 @@ export class WalletEditComponent implements OnInit, OnDestroy {
         this.settingsService.isLoading = true;
 
         if (this.type?.value === TypeEnum.CREDENTIAL) {
-            if (this.paramId !== "add" && this.oldPassword === this.password?.value) {
+            if (this.paramId !== "add" && this.oldPasswordValue === this.password?.value) {
                 this.saveInfo(this.password?.value, this.iv?.value, this.salt?.value);
             } else {
                 this.encryptAndSave(this.password?.value, masterPassword);
             }
         } else {
-            if (this.paramId !== "add" && this.oldContent === this.content?.value) {
+            if (this.paramId !== "add" && this.oldContentValue === this.content?.value) {
                 this.saveInfo(this.content?.value, this.iv?.value, this.salt?.value);
             } else {
                 this.encryptAndSave(this.content?.value, masterPassword);

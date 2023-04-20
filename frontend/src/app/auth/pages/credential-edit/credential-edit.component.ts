@@ -34,7 +34,7 @@ export class CredentialEditComponent implements OnInit, OnDestroy {
 
     private param?: Subscription;
     private workspaceList: Subscription;
-    private oldPassword!: string;
+    private oldPasswordValue!: string;
 
     constructor(private router: Router, private route: ActivatedRoute, private credentialsService: CredentialsService,
         private workspacesService: WorkspacesService, private translate: TranslateService, private snackBar: SnackBarService,
@@ -81,7 +81,7 @@ export class CredentialEditComponent implements OnInit, OnDestroy {
                         this.iv?.setValue(credential.iv);
                         this.salt?.setValue(credential.salt);
 
-                        this.oldPassword = credential.passwd;
+                        this.oldPasswordValue = credential.passwd;
                     }).catch(error => {
                         this.snackBar.error(this.translate.instant("CREDENTIAL.LOAD.ERROR"), error);
                     }).then(() => this.settingsService.isLoading = false);
@@ -114,21 +114,28 @@ export class CredentialEditComponent implements OnInit, OnDestroy {
     }
 
     public viewToggle(): void {
-        if (this.paramId !== "add") {
-            const noChange = this.oldPassword === this.password?.value;
-            const password = noChange ? this.password?.value : this.oldPassword;
+        if (this.paramId === "add") {
+            this.passwordViewToggle = !this.passwordViewToggle;
+            return;
+        }
 
-            this.utilsService.decryptData(password, this.iv?.value, this.salt?.value, (data: string): void => {
-                if (noChange) {
-                    this.password?.setValue(data);
-                } else if (data === this.password?.value) {
-                    this.password.setValue(this.oldPassword);
-                }
-
+        if (this.oldPasswordValue === this.password?.value) {
+            this.utilsService.decryptData(this.password?.value, this.iv?.value, this.salt?.value, (data: string): void => {
+                this.password?.setValue(data);
                 this.passwordViewToggle = !this.passwordViewToggle;
             });
         } else {
-            this.passwordViewToggle = !this.passwordViewToggle;
+            if (this.settingsService.masterPassword) {
+                this.cryptographyService.decrypt(this.oldPasswordValue, this.settingsService.masterPassword, this.iv?.value, this.salt?.value).then(plainPassword => {
+                    if (this.password?.value === plainPassword) {
+                        this.password.setValue(this.oldPasswordValue);
+                    }
+
+                    this.passwordViewToggle = !this.passwordViewToggle;
+                });
+            } else {
+                this.passwordViewToggle = !this.passwordViewToggle;
+            }
         }
     }
 
@@ -148,7 +155,7 @@ export class CredentialEditComponent implements OnInit, OnDestroy {
     private saveCredential = (masterPassword: string): void => {
         this.settingsService.isLoading = true;
 
-        if (this.paramId !== "add" && this.oldPassword === this.password?.value) {
+        if (this.paramId !== "add" && this.oldPasswordValue === this.password?.value) {
             this.saveInfo(this.password?.value, this.iv?.value, this.salt?.value);
         } else {
             this.encryptAndSave(this.password?.value, masterPassword);
