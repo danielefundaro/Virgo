@@ -9,7 +9,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ChildrenOutletContexts, NavigationStart, Router } from '@angular/router';
 import { AddWorkspaceComponent } from '../../components/dialog/add-workspace/add-workspace.component';
 import { ConfirmActionComponent } from '../../components/dialog/confirm-action/confirm-action.component';
-import { slideInAnimation } from './animation';
+import { slideInAnimation } from './default.component.animation';
 
 @Component({
     selector: 'default',
