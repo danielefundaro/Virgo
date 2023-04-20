@@ -95,7 +95,7 @@ export class WalletEditComponent implements OnInit, OnDestroy {
                         this.oldPassword = wallet.passwd;
                         this.oldContent = wallet.content;
                     }).catch(error => {
-                        this.snackBar.error(this.translate.instant("WALLET.ERROR.LOAD"), error);
+                        this.snackBar.error(this.translate.instant("WALLET.LOAD.ERROR"), error);
                     }).then(() => this.settingsService.isLoading = false);
                 } else {
                     this.iv?.setValidators(null);

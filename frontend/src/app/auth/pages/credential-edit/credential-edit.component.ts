@@ -83,7 +83,7 @@ export class CredentialEditComponent implements OnInit, OnDestroy {
 
                         this.oldPassword = credential.passwd;
                     }).catch(error => {
-                        this.snackBar.error(this.translate.instant("CREDENTIAL.ERROR.LOAD"), error);
+                        this.snackBar.error(this.translate.instant("CREDENTIAL.LOAD.ERROR"), error);
                     }).then(() => this.settingsService.isLoading = false);
                 } else {
                     this.iv?.setValidators(null);

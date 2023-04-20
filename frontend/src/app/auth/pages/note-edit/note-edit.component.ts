@@ -74,7 +74,7 @@ export class NoteEditComponent implements OnInit, OnDestroy {
 
                         this.oldContent = note.content;
                     }).catch(error => {
-                        this.snackBar.error(this.translate.instant("NOTE.ERROR.LOAD"), error);
+                        this.snackBar.error(this.translate.instant("NOTE.LOAD.ERROR"), error);
                     }).then(() => this.settingsService.isLoading = false);
                 } else {
                     this.iv?.setValidators(null);

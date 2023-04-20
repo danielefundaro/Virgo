@@ -54,6 +54,9 @@
         "OTHER": "Altro",
         "SHOW_PASSWORD": "Mostra password",
         "HIDDEN_PASSWORD": "Nascondi password",
+        "LOAD": {
+            "ERROR": "Errore durante il recupero delle informazioni"
+        },
         "COPY": {
             "WEBSITE": "Sito web copiato",
             "USERNAME": "Username copiato",
@@ -90,6 +93,9 @@
         "ADD":"Aggiungi nota",
         "SHOW_CONTENT": "Mostra contenuto",
         "HIDDEN_CONTENT": "Nascondi contenuto",
+        "LOAD": {
+            "ERROR": "Errore durante il recupero delle informazioni"
+        },
         "COPY": {
             "CONTENT": "Contenuto copiato"
         },
@@ -136,6 +142,9 @@
         "ENUMS": {
             "NOTE": "Note",
             "CREDENTIAL": "Credenziali"
+        },
+        "LOAD": {
+            "ERROR": "Errore durante il recupero delle informazioni"
         },
         "SAVE": {
             "SUCCESS": "Elemento salvato con successo",
