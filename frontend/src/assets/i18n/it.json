@@ -206,6 +206,15 @@
         "NOT_VALID": "Master password inserita non valida",
         "HIDDEN": "Nascondi master password",
         "SHOW": "Mostra master password",
+        "REPROMPT": {
+            "LABEL": "Non richiedere reprompt per",
+            "ALWAYS": "Sempre",
+            "ENUMS": {
+                "SEC": "secondi",
+                "MIN": "minuti",
+                "HOUR": "ore"
+            }
+        },
         "GET": {
             "ERROR": "Non esiste nessuna master password associata all'utente"
         },

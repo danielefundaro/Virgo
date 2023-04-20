@@ -8,7 +8,6 @@ import { TypeEnum, Wallet, Workspace } from '../../models';
 import { CryptographyService, UtilsService, WalletsService, WorkspacesService } from '../../services';
 import { AddWorkspaceComponent } from '../../components/dialog/add-workspace/add-workspace.component';
 import { MatDialog } from '@angular/material/dialog';
-import { ConfirmMasterPasswordComponent } from '../../components/dialog/confirm-master-password/confirm-master-password.component';
 
 @Component({
     selector: 'wallet-edit',
@@ -129,14 +128,8 @@ export class WalletEditComponent implements OnInit, OnDestroy {
     }
 
     public save(): void {
-        const dialogRef = this.dialog.open(ConfirmMasterPasswordComponent, {
-            disableClose: true
-        });
-
-        firstValueFrom(dialogRef.afterClosed()).then(result => {
-            if (result) {
-                this.utilsService.checkMasterPassword(result, this.saveWallet);
-            }
+        this.utilsService.confirmMasterPassword((masterPassword: string) => {
+            this.utilsService.checkMasterPassword(masterPassword, this.saveWallet);
         });
     }
 

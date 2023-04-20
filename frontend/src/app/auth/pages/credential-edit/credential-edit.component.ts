@@ -8,7 +8,6 @@ import { Credential, Workspace } from '../../models';
 import { CredentialsService, CryptographyService, UtilsService, WorkspacesService } from '../../services';
 import { AddWorkspaceComponent } from '../../components/dialog/add-workspace/add-workspace.component';
 import { MatDialog } from '@angular/material/dialog';
-import { ConfirmMasterPasswordComponent } from '../../components/dialog/confirm-master-password/confirm-master-password.component';
 
 @Component({
     selector: 'credential-edit',
@@ -102,15 +101,18 @@ export class CredentialEditComponent implements OnInit, OnDestroy {
     }
 
     public save(): void {
-        const dialogRef = this.dialog.open(ConfirmMasterPasswordComponent, {
-            disableClose: true
+        this.utilsService.confirmMasterPassword((masterPassword: string) => {
+            this.utilsService.checkMasterPassword(masterPassword, this.saveCredential)
         });
+        // const dialogRef = this.dialog.open(ConfirmMasterPasswordComponent, {
+        //     disableClose: true
+        // });
 
-        firstValueFrom(dialogRef.afterClosed()).then(result => {
-            if (result) {
-                this.utilsService.checkMasterPassword(result, this.saveCredential);
-            }
-        });
+        // firstValueFrom(dialogRef.afterClosed()).then(result => {
+        //     if (result) {
+        //         this.utilsService.checkMasterPassword(result, this.saveCredential);
+        //     }
+        // });
     }
 
     public viewToggle(): void {

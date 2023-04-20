@@ -124,6 +124,7 @@ export class MasterPasswordComponent implements OnInit, OnDestroy {
 
     private navigate = (): void => {
         this.settingsService.isLock = false;
+        this.settingsService.repromptMill = 0;
         this.router.navigate(['wallet']);
     }
 

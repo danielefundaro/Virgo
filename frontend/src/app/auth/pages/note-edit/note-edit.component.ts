@@ -8,7 +8,6 @@ import { Note, Workspace } from '../../models';
 import { CryptographyService, NotesService, UtilsService, WorkspacesService } from '../../services';
 import { AddWorkspaceComponent } from '../../components/dialog/add-workspace/add-workspace.component';
 import { MatDialog } from '@angular/material/dialog';
-import { ConfirmMasterPasswordComponent } from '../../components/dialog/confirm-master-password/confirm-master-password.component';
 
 @Component({
     selector: 'note-edit',
@@ -93,14 +92,8 @@ export class NoteEditComponent implements OnInit, OnDestroy {
     }
 
     public save(): void {
-        const dialogRef = this.dialog.open(ConfirmMasterPasswordComponent, {
-            disableClose: true
-        });
-
-        firstValueFrom(dialogRef.afterClosed()).then(result => {
-            if (result) {
-                this.utilsService.checkMasterPassword(result, this.saveNote);
-            }
+        this.utilsService.confirmMasterPassword((masterPassword: string) => {
+            this.utilsService.checkMasterPassword(masterPassword, this.saveNote);
         });
     }
 

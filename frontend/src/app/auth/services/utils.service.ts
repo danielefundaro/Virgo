@@ -32,29 +32,41 @@ export class UtilsService {
         });
     }
 
-    public decryptData(encryptData: string, iv: string, salt: string, callback: (data: string) => void) {
-        const dialogRef = this.dialog.open(ConfirmMasterPasswordComponent, {
-            disableClose: true
-        });
+    public confirmMasterPassword(callback: (masterPassword: string) => void) {
+        const startTime = this.settingsService.repromptStartDate.getTime();
 
-        firstValueFrom(dialogRef.afterClosed()).then(password => {
-            if (password) {
-                firstValueFrom(this.masterPasswordService.get()).then(data => {
-                    this.cryptographyService.hash(password, data.salt).then(result => {
-                        if (data.hashPasswd === result.hash) {
-                            this.cryptographyService.decrypt(encryptData, password, iv, salt).then(data => {
-                                callback(data);
-                            });
-                        } else {
-                            this.snackBar.error(this.translate.instant("MASTER_PASSWORD.NOT_VALID"));
-                        }
-                    }).catch((error: any) => {
-                        this.snackBar.error(this.translate.instant("MASTER_PASSWORD.HASH.ERROR"));
-                    });
-                }).catch(error => {
-                    this.snackBar.error(this.translate.instant("MASTER_PASSWORD.GET.ERROR"), error);
+        if (startTime + this.settingsService.repromptMill < new Date().getTime()) {
+            const dialogRef = this.dialog.open(ConfirmMasterPasswordComponent, {
+                disableClose: true
+            });
+
+            firstValueFrom(dialogRef.afterClosed()).then(masterPassword => {
+                if (masterPassword) {
+                    callback(masterPassword);
+                }
+            });
+        } else {
+            callback(this.settingsService.masterPassword);
+        }
+    }
+
+    public decryptData(encryptData: string, iv: string, salt: string, callback: (data: string) => void) {
+        this.confirmMasterPassword((masterPassword: string) => {
+            firstValueFrom(this.masterPasswordService.get()).then(data => {
+                this.cryptographyService.hash(masterPassword, data.salt).then(result => {
+                    if (data.hashPasswd === result.hash) {
+                        this.cryptographyService.decrypt(encryptData, masterPassword, iv, salt).then(data => {
+                            callback(data);
+                        });
+                    } else {
+                        this.snackBar.error(this.translate.instant("MASTER_PASSWORD.NOT_VALID"));
+                    }
+                }).catch((error: any) => {
+                    this.snackBar.error(this.translate.instant("MASTER_PASSWORD.HASH.ERROR"));
                 });
-            }
+            }).catch(error => {
+                this.snackBar.error(this.translate.instant("MASTER_PASSWORD.GET.ERROR"), error);
+            });
         });
     }
 }

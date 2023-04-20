@@ -17,8 +17,6 @@ export class SettingsService {
     private _languages: string[] = ['it', 'en'];
     private _isDarkTheme: boolean = !!localStorage.getItem("darkTheme") && localStorage.getItem("darkTheme") === "true" || !localStorage.getItem("darkTheme") && window.matchMedia("(prefers-color-scheme: dark)").matches;
 
-    public isLock: boolean = true;
-    public masterPassword?: string;
     public get languages(): string[] { return this._languages; }
     public get default(): string {
         const current = localStorage.getItem("currentLang") || this._languages[0];
@@ -38,6 +36,12 @@ export class SettingsService {
         this._search.value = value;
         this._search.onSearchChanged.emit(value);
     }
+
+    // Info related on master password
+    public isLock: boolean = true;
+    public masterPassword!: string;
+    public repromptMill: number = 0;
+    public repromptStartDate: Date = new Date();
 
     public languageChanged(): Observable<string> {
         return this._languageChanged.asObservable();
