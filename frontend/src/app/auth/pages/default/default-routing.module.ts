@@ -16,14 +16,14 @@ const routes: Routes = [{
     component: DefaultComponent,
     canActivate: [AuthGuard],
     children: [
-        { path: 'wallet', component: WalletComponent },
-        { path: 'wallet\/:id', component: WalletEditComponent },
-        { path: 'credentials', component: CredentialsComponent },
-        { path: 'credentials\/:id', component: CredentialEditComponent },
-        { path: 'notes', component: NotesComponent },
-        { path: 'notes\/:id', component: NoteEditComponent },
-        { path: 'password-generator', component: PasswordGeneratorComponent},
-        { path: 'master-password', component: MasterPasswordComponent, pathMatch: 'full'},
+        { path: 'wallet', component: WalletComponent, data: { animation: 'page' } },
+        { path: 'wallet/:id', component: WalletEditComponent, data: { animation: 'page' } },
+        { path: 'credentials', component: CredentialsComponent, data: { animation: 'page' } },
+        { path: 'credentials/:id', component: CredentialEditComponent, data: { animation: 'page' } },
+        { path: 'notes', component: NotesComponent, data: { animation: 'page' } },
+        { path: 'notes/:id', component: NoteEditComponent, data: { animation: 'page' } },
+        { path: 'password-generator', component: PasswordGeneratorComponent, data: { animation: 'page' } },
+        { path: 'master-password', component: MasterPasswordComponent, pathMatch: 'full', data: { animation: 'masterPasswordPage' } },
     ]
 }];
 

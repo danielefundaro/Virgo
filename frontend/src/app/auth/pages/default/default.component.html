@@ -113,7 +113,7 @@
             </mat-nav-list>
         </mat-sidenav>
     </mat-sidenav-container>
-    <div class="main-page-container" fxFlex>
+    <div class="main-page-container" fxFlex [@routeAnimations]="getRouteAnimationData()">
         <router-outlet></router-outlet>
     </div>
 </div>

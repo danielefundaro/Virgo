@@ -6,14 +6,16 @@ import { WorkspacesService } from '../../services';
 import { MasterPasswordEnum, Workspace } from '../../models';
 import { TranslateService } from '@ngx-translate/core';
 import { MatDialog } from '@angular/material/dialog';
-import { NavigationStart, Router } from '@angular/router';
+import { ChildrenOutletContexts, NavigationStart, Router } from '@angular/router';
 import { AddWorkspaceComponent } from '../../components/dialog/add-workspace/add-workspace.component';
 import { ConfirmActionComponent } from '../../components/dialog/confirm-action/confirm-action.component';
+import { slideInAnimation } from './animation';
 
 @Component({
     selector: 'default',
     templateUrl: './default.component.html',
-    styleUrls: ['./default.component.scss']
+    styleUrls: ['./default.component.scss'],
+    animations: [slideInAnimation]
 })
 export class DefaultComponent implements OnDestroy {
     public languages: string[];
@@ -30,7 +32,7 @@ export class DefaultComponent implements OnDestroy {
 
     constructor(private router: Router, private userService: UserService, public settingsService: SettingsService,
         private workspacesService: WorkspacesService, private snackBar: SnackBarService,
-        private translate: TranslateService, private dialog: MatDialog) {
+        private translate: TranslateService, private dialog: MatDialog, private contexts: ChildrenOutletContexts) {
         this.languages = settingsService.languages;
         this.isDarkTheme = this.settingsService.isDarkTheme;
 
@@ -119,6 +121,10 @@ export class DefaultComponent implements OnDestroy {
 
     public signout(): void {
         this.userService.logout();
+    }
+
+    public getRouteAnimationData() {
+        return this.contexts.getContext('primary')?.route?.snapshot?.data?.['animation'];
     }
 
     private loadWorkspaces() {
