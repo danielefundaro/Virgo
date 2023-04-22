@@ -28,6 +28,7 @@
             <ng-container *ngTemplateOutlet="logoutIcon"></ng-container>
         </button>
     </mat-toolbar>
+
     <mat-sidenav-container fxHide.lt-sm fxShow>
         <mat-sidenav class="sidenav" mode="side" position="start" opened>
             <mat-nav-list>
@@ -110,6 +111,20 @@
             </mat-nav-list>
         </mat-sidenav>
     </mat-sidenav-container>
+
+    <div fxLayout="colomn" fxLayoutAlign="start center" fxHide fxHide.lt-sm fxShow.lt-md
+        class="search-and-workspace-panel" [ngClass]="openContainer ? 'open' : 'close'">
+        <div class="search-and-workspace-container">
+            <ng-container *ngTemplateOutlet="search"></ng-container>
+            <ng-container *ngTemplateOutlet="workspaceComponent"></ng-container>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="center center" class="search-and-workspace-handle"
+            (click)="openContainer = !openContainer">
+            <mat-icon class="fa-solid"
+                [ngClass]="openContainer ? 'fa-angle-double-left' : 'fa-angle-double-right'"></mat-icon>
+        </div>
+    </div>
+
     <div class="main-page-container" fxFlex [@routeAnimations]="getRouteAnimationData()">
         <router-outlet></router-outlet>
     </div>
@@ -138,6 +153,38 @@
 <ng-template #logoutIcon>
     <mat-icon mat-list-icon fxHide fxShow.lt-md class="fa-solid fa-right-from-bracket"
         [matTooltip]="'MENU.LOGOUT' | translate"></mat-icon>
+</ng-template>
+
+<ng-template #search>
+    <mat-form-field class="example-full-width">
+        <mat-label>{{'SHARED.SEARCH' | translate}}</mat-label>
+        <input matInput [(ngModel)]="settingsService.search">
+        <mat-icon matSuffix class="fa-solid fa-search"></mat-icon>
+    </mat-form-field>
+</ng-template>
+
+<ng-template #workspaceComponent>
+    <mat-expansion-panel [expanded]="openContainer && expandWorkspacePanel" (opened)="expandWorkspacePanel = true"
+        (closed)="expandWorkspacePanel = false">
+        <mat-expansion-panel-header>
+            <mat-panel-title>{{'MENU.WORKSPACES' | translate}}</mat-panel-title>
+            <mat-panel-description>
+            </mat-panel-description>
+        </mat-expansion-panel-header>
+        <button mat-stroked-button color="primary" (click)="addWorkspace()">
+            <mat-icon class="fa-solid fa-folder-plus"></mat-icon>
+            <span>{{'WORKSPACE.ADD' | translate}}</span>
+        </button>
+        <div class="workspace-container">
+            <div *ngFor="let workspace of workspaces" fxLayout="row" fxLayoutAlign="space-between center">
+                <span class="workspace-name">{{workspace.name | truncate:0:20:'...'}}</span>
+                <button mat-icon-button color="warn" [matTooltip]="'WORKSPACE.REMOVE' | translate"
+                    (click)="removeWorkspace(workspace)">
+                    <mat-icon class="fa-solid fa-folder-minus"></mat-icon>
+                </button>
+            </div>
+        </div>
+    </mat-expansion-panel>
 </ng-template>
 
 <mat-menu #settings>

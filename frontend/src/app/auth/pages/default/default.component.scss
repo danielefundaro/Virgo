@@ -1,3 +1,6 @@
+@use '@angular/material' as mat;
+@import './../../../../constants.scss';
+
 .container {
     height: 100%;
 }
@@ -37,12 +40,58 @@
     overflow-wrap: anywhere;
 }
 
+.search-and-workspace-panel {
+    position: fixed;
+    z-index: 1;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+
+    .search-and-workspace-container {
+        background-color: mat.get-color-from-palette($background, 700);
+        color: mat.get-color-from-palette($background, '700-contrast');
+    }
+
+    .search-and-workspace-handle {
+        width: 3rem;
+        height: 5rem;
+        cursor: pointer;
+        border-top-right-radius: 5rem;
+        border-bottom-right-radius: 5rem;
+        background-color: mat.get-color-from-palette($background, 700);
+        color: mat.get-color-from-palette($background, '700-contrast');
+        border-right: 1px solid mat.get-color-from-palette($background, 900);
+    }
+
+    &.open {
+        transform: translateX(5rem) !important;
+        transition: transform 0.3s ease-in-out;
+    }
+
+    &.close {
+        .search-and-workspace-container {
+            transition: visibility 0.3s linear;
+        }
+    }
+
+    &:hover {
+        transform: translateX(calc(8rem - 100%));
+    }
+}
+
+mat-sidenav-container:hover+.search-and-workspace-panel {
+    transform: translateX(calc(8rem - 100%));
+}
+
 a {
     cursor: pointer;
 }
 
 mat-toolbar {
     height: 3rem !important;
+}
+
+mat-sidenav-container {
+    z-index: 10;
 }
 
 mat-icon {

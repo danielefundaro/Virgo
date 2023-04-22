@@ -25,6 +25,8 @@ export class DefaultComponent implements OnDestroy {
     public isLoading!: boolean;
     public workspaces?: Workspace[];
     public updateMasterPassword = MasterPasswordEnum.CHANGE;
+    public openContainer: boolean;
+    public expandWorkspacePanel: boolean;
 
     private loadState: Subscription;
     private workspaceList: Subscription;
@@ -35,6 +37,8 @@ export class DefaultComponent implements OnDestroy {
         private translate: TranslateService, private dialog: MatDialog, private contexts: ChildrenOutletContexts) {
         this.languages = settingsService.languages;
         this.isDarkTheme = this.settingsService.isDarkTheme;
+        this.openContainer = false;
+        this.expandWorkspacePanel = false;
 
         this.userService.isLoggedIn().then(data => this.isLoggedIn = data);
         this.userService.loadUserProfile().then(data => this.user = data);
