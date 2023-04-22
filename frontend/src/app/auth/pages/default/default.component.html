@@ -1,36 +1,33 @@
 <div class="container" fxLayout="row" fxLayout.lt-sm="column">
-    <div fxHide fxShow.lt-sm>
-        <mat-toolbar color="primary">
-            <span><strong>Virgo</strong></span>
-            <div fxFlex fxLayout="row" fxLayoutAlign="space-evenly center">
-                <a mat-icon-button [matTooltip]="'MENU.WALLET' | translate" [routerLink]="['wallet']"
-                    aria-label="Wallet">
-                    <ng-container *ngTemplateOutlet="walletIcon"></ng-container>
-                </a>
-                <a mat-icon-button [matTooltip]="'MENU.CREDENTIALS' | translate" [routerLink]="['credentials']"
-                    aria-label="Credential">
-                    <ng-container *ngTemplateOutlet="credentialsIcon"></ng-container>
-                </a>
-                <a mat-icon-button [matTooltip]="'MENU.NOTES' | translate" [routerLink]="['notes']" aria-label="Notes">
-                    <ng-container *ngTemplateOutlet="notesIcon"></ng-container>
-                </a>
-                <a mat-icon-button [matTooltip]="'MENU.PASSWORD_GENERATOR' | translate"
-                    [routerLink]="['password-generator']" aria-label="Password generator">
-                    <ng-container *ngTemplateOutlet="passwordIcon"></ng-container>
-                </a>
-            </div>
-            <button mat-icon-button [matTooltip]="'MENU.NOTIFICATIONS' | translate" aria-label="Notifications">
-                <mat-icon class="fa-solid fa-bell"></mat-icon>
-            </button>
-            <button mat-icon-button [matMenuTriggerFor]="settings" [matTooltip]="'MENU.SETTINGS' | translate"
-                aria-label="Menu">
-                <mat-icon class="fa-solid fa-gear"></mat-icon>
-            </button>
-            <button mat-icon-button [matTooltip]="'MENU.LOGOUT' | translate" aria-label="Logout" (click)="signout()">
-                <ng-container *ngTemplateOutlet="logoutIcon"></ng-container>
-            </button>
-        </mat-toolbar>
-    </div>
+    <mat-toolbar color="primary" fxHide fxShow.lt-sm>
+        <span><strong>Virgo</strong></span>
+        <div fxFlex fxLayout="row" fxLayoutAlign="space-evenly center">
+            <a mat-icon-button [matTooltip]="'MENU.WALLET' | translate" [routerLink]="['wallet']" aria-label="Wallet">
+                <ng-container *ngTemplateOutlet="walletIcon"></ng-container>
+            </a>
+            <a mat-icon-button [matTooltip]="'MENU.CREDENTIALS' | translate" [routerLink]="['credentials']"
+                aria-label="Credential">
+                <ng-container *ngTemplateOutlet="credentialsIcon"></ng-container>
+            </a>
+            <a mat-icon-button [matTooltip]="'MENU.NOTES' | translate" [routerLink]="['notes']" aria-label="Notes">
+                <ng-container *ngTemplateOutlet="notesIcon"></ng-container>
+            </a>
+            <a mat-icon-button [matTooltip]="'MENU.PASSWORD_GENERATOR' | translate"
+                [routerLink]="['password-generator']" aria-label="Password generator">
+                <ng-container *ngTemplateOutlet="passwordIcon"></ng-container>
+            </a>
+        </div>
+        <button mat-icon-button [matTooltip]="'MENU.NOTIFICATIONS' | translate" aria-label="Notifications">
+            <mat-icon class="fa-solid fa-bell"></mat-icon>
+        </button>
+        <button mat-icon-button [matMenuTriggerFor]="settings" [matTooltip]="'MENU.SETTINGS' | translate"
+            aria-label="Menu">
+            <mat-icon class="fa-solid fa-gear"></mat-icon>
+        </button>
+        <button mat-icon-button [matTooltip]="'MENU.LOGOUT' | translate" aria-label="Logout" (click)="signout()">
+            <ng-container *ngTemplateOutlet="logoutIcon"></ng-container>
+        </button>
+    </mat-toolbar>
     <mat-sidenav-container fxHide.lt-sm fxShow>
         <mat-sidenav class="sidenav" mode="side" position="start" opened>
             <mat-nav-list>
