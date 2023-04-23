@@ -58,12 +58,13 @@
         border-top-right-radius: 0;
         border-bottom-right-radius: 5rem;
         border-bottom-left-radius: 5rem;
-        background-color: mat.get-color-from-palette($background, 700);
-        color: mat.get-color-from-palette($background, '700-contrast');
-        border-bottom: 1px solid mat.get-color-from-palette($background, 900);
+        background-color: mat.get-color-from-palette($primary-palette, 500);
+        color: mat.get-color-from-palette($primary-palette, '500-contrast');
+        border-right: 1px solid mat.get-color-from-palette($primary-palette, 900);
+        border-bottom: 1px solid mat.get-color-from-palette($primary-palette, 900);
 
         mat-icon {
-            transform: rotate(-90deg);
+            transform: rotate(90deg);
         }
     }
 
@@ -104,6 +105,7 @@ mat-toolbar:hover~.search-and-workspace-panel {
             background-color: mat.get-color-from-palette($background, 700);
             color: mat.get-color-from-palette($background, '700-contrast');
             border-right: 1px solid mat.get-color-from-palette($background, 900);
+            border-bottom: 1px solid mat.get-color-from-palette($background, 900);
 
             mat-icon {
                 transform: rotate(0);
