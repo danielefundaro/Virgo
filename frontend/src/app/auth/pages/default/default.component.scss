@@ -43,7 +43,7 @@
 .search-and-workspace-panel {
     position: fixed;
     z-index: 1;
-    transform: translateX(-100%);
+    transform: translate(0, -100%);
     transition: transform 0.3s ease-in-out;
 
     .search-and-workspace-container {
@@ -52,34 +52,79 @@
     }
 
     .search-and-workspace-handle {
-        width: 3rem;
-        height: 5rem;
+        width: 5rem;
+        height: 3rem;
         cursor: pointer;
-        border-top-right-radius: 5rem;
+        border-top-right-radius: 0;
         border-bottom-right-radius: 5rem;
+        border-bottom-left-radius: 5rem;
         background-color: mat.get-color-from-palette($background, 700);
         color: mat.get-color-from-palette($background, '700-contrast');
-        border-right: 1px solid mat.get-color-from-palette($background, 900);
-    }
+        border-bottom: 1px solid mat.get-color-from-palette($background, 900);
 
-    &.open {
-        transform: translateX(5rem) !important;
-        transition: transform 0.3s ease-in-out;
-    }
-
-    &.close {
-        .search-and-workspace-container {
-            transition: visibility 0.3s linear;
+        mat-icon {
+            transform: rotate(-90deg);
         }
     }
 
+    &.open {
+        transform: translate(0, 3rem) !important;
+        transition: transform 0.3s ease-in-out;
+    }
+
     &:hover {
-        transform: translateX(calc(8rem - 100%));
+        transform: translate(0, calc(6rem - 100%));
     }
 }
 
-mat-sidenav-container:hover+.search-and-workspace-panel {
-    transform: translateX(calc(8rem - 100%));
+mat-toolbar:hover~.search-and-workspace-panel {
+    transform: translate(0, calc(6rem - 100%));
+}
+
+@media only screen and (min-width: 600px) {
+
+    .search-and-workspace-panel {
+        position: fixed;
+        z-index: 1;
+        transform: translate(-100%, 0);
+        transition: transform 0.3s ease-in-out;
+
+        .search-and-workspace-container {
+            background-color: mat.get-color-from-palette($background, 700);
+            color: mat.get-color-from-palette($background, '700-contrast');
+        }
+
+        .search-and-workspace-handle {
+            width: 3rem;
+            height: 5rem;
+            cursor: pointer;
+            border-top-right-radius: 5rem;
+            border-bottom-right-radius: 5rem;
+            border-bottom-left-radius: 0;
+            background-color: mat.get-color-from-palette($background, 700);
+            color: mat.get-color-from-palette($background, '700-contrast');
+            border-right: 1px solid mat.get-color-from-palette($background, 900);
+
+            mat-icon {
+                transform: rotate(0);
+            }
+        }
+
+        &.open {
+            transform: translate(5rem, 0) !important;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        &:hover {
+            transform: translate(calc(8rem - 100%), 0);
+            transition: transform 0.3s ease-in-out;
+        }
+    }
+
+    mat-sidenav-container:hover~.search-and-workspace-panel {
+        transform: translate(calc(8rem - 100%), 0);
+        transition: transform 0.3s ease-in-out;
+    }
 }
 
 a {
@@ -88,6 +133,7 @@ a {
 
 mat-toolbar {
     height: 3rem !important;
+    z-index: 10;
 }
 
 mat-sidenav-container {
