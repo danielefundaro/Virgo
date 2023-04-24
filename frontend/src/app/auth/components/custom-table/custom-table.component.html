@@ -11,7 +11,7 @@
         <div fxLayout="row" fxLayoutAlign="start center" class="header">
             <mat-checkbox [ngClass]="{'actions': !(checked || indeterminate)}" (change)="onCheck($event)"
                 [(ngModel)]="checked" [(indeterminate)]="indeterminate"></mat-checkbox>
-            <div class="column" fxFlex="grow" (click)="order(column.name)"
+            <div class="column" fxLayout="row" fxLayoutAlign="start center" fxFlex="grow" (click)="order(column.name)"
                 *ngFor="let column of displayedColumns">
                 <span>{{column.title}}</span>
                 <ng-container *ngIf="sort.substring(1) === column.name; else elseBlock">
