@@ -42,9 +42,10 @@
 
 .search-and-workspace-panel {
     position: fixed;
-    z-index: 1;
+    z-index: 5;
     transform: translate(0, -100%);
-    transition: transform 0.3s ease-in-out;
+    visibility: collapse;
+    transition: visibility 0.3s ease-in-out, transform 0.3s ease-in-out;
 
     .search-and-workspace-container {
         background-color: mat.get-color-from-palette($background, 700);
@@ -69,16 +70,19 @@
     }
 
     &.open {
+        visibility: visible;
         transform: translate(0, 3rem) !important;
         transition: transform 0.3s ease-in-out;
     }
 
     &:hover {
+        visibility: visible;
         transform: translate(0, calc(6rem - 100%));
     }
 }
 
 mat-toolbar:hover~.search-and-workspace-panel {
+    visibility: visible;
     transform: translate(0, calc(6rem - 100%));
 }
 
@@ -86,9 +90,10 @@ mat-toolbar:hover~.search-and-workspace-panel {
 
     .search-and-workspace-panel {
         position: fixed;
-        z-index: 1;
+        z-index: 5;
         transform: translate(-100%, 0);
-        transition: transform 0.3s ease-in-out;
+        visibility: collapse;
+        transition: visibility 0.3s ease-in-out, transform 0.3s ease-in-out;
 
         .search-and-workspace-container {
             background-color: mat.get-color-from-palette($background, 700);
@@ -118,12 +123,14 @@ mat-toolbar:hover~.search-and-workspace-panel {
         }
 
         &:hover {
+            visibility: visible;
             transform: translate(calc(8rem - 100%), 0);
             transition: transform 0.3s ease-in-out;
         }
     }
 
     mat-sidenav-container:hover~.search-and-workspace-panel {
+        visibility: visible;
         transform: translate(calc(8rem - 100%), 0);
         transition: transform 0.3s ease-in-out;
     }

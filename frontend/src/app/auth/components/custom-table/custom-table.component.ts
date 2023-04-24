@@ -4,6 +4,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { IColumn } from '../../models';
 import { Subscription } from 'rxjs';
 import { SettingsService } from 'src/app/services';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'custom-table',
@@ -30,7 +31,7 @@ export class CustomTableComponent implements OnInit, AfterViewInit, OnChanges, O
     private defaultColumnSort: string = 'id';
     private subscription!: Subscription;
 
-    constructor(public settingsService: SettingsService) { }
+    constructor(public settingsService: SettingsService, private translate: TranslateService) { }
 
     ngOnInit(): void {
         this.sort = this.defaultColumnSort;
@@ -38,6 +39,13 @@ export class CustomTableComponent implements OnInit, AfterViewInit, OnChanges, O
 
     ngAfterViewInit(): void {
         this.subscription = this.paginator.page.subscribe(() => this.resetCheckAll());
+        
+        const paginatorIntl = this.paginator._intl;
+        paginatorIntl.firstPageLabel = this.translate.instant('SHARED.PAGINATOR.FIRST');
+        paginatorIntl.nextPageLabel = this.translate.instant('SHARED.PAGINATOR.NEXT');
+        paginatorIntl.previousPageLabel = this.translate.instant('SHARED.PAGINATOR.PREVIOUS');
+        paginatorIntl.lastPageLabel = this.translate.instant('SHARED.PAGINATOR.LAST');
+        paginatorIntl.itemsPerPageLabel = this.translate.instant('SHARED.PAGINATOR.ITEMS_PER_PAGE');
     }
 
     ngOnChanges(changes: SimpleChanges): void {

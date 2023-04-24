@@ -10,7 +10,14 @@
         "CONFIRM": "Conferma",
         "ITEM_SELECTED": "elementi selezionati",
         "NO_DATA": "Nessun dato presente",
-        "LOADING": "Caricamento..."
+        "LOADING": "Caricamento...",
+        "PAGINATOR": {
+            "FIRST": "Prima pagina",
+            "NEXT": "Pagina successiva",
+            "PREVIOUS": "Pagina precedente",
+            "LAST": "Ultima pagina",
+            "ITEMS_PER_PAGE": "Elementi per pagina:"
+        }
     },
     "MENU": {
         "WALLET": "Wallet",
