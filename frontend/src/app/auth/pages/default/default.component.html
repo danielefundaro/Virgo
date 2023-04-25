@@ -198,3 +198,8 @@
 </mat-menu>
 
 <loading-spinner [isLoading]="isLoading"></loading-spinner>
+
+<div *ngIf="expiredTimeLeft" class="expired-container">
+    <h2>{{"SESSION.EXPIRE_IN" | translate: {time: expiredTimeLeft} }}</h2>
+    <span>{{"SESSION.EXPIRE_MESSAGE" | translate}}</span>
+</div>

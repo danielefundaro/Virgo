@@ -10,6 +10,7 @@ import { ChildrenOutletContexts, NavigationStart, Router } from '@angular/router
 import { AddWorkspaceComponent } from '../../components/dialog/add-workspace/add-workspace.component';
 import { ConfirmActionComponent } from '../../components/dialog/confirm-action/confirm-action.component';
 import { slideInAnimation } from './default.component.animation';
+import { IdleTimerService } from 'src/app/services/idle-timer.service';
 
 @Component({
     selector: 'default',
@@ -27,13 +28,15 @@ export class DefaultComponent implements OnDestroy {
     public updateMasterPassword = MasterPasswordEnum.CHANGE;
     public openContainer: boolean;
     public expandWorkspacePanel: boolean;
+    public expiredTimeLeft?: number | null
 
     private loadState: Subscription;
     private workspaceList: Subscription;
     private routerSubscription: Subscription;
+    private timeLeftSubscription: Subscription;
 
     constructor(private router: Router, private userService: UserService, public settingsService: SettingsService,
-        private workspacesService: WorkspacesService, private snackBar: SnackBarService,
+        private workspacesService: WorkspacesService, private snackBar: SnackBarService, private idleTimer: IdleTimerService,
         private translate: TranslateService, private dialog: MatDialog, private contexts: ChildrenOutletContexts) {
         this.languages = settingsService.languages;
         this.isDarkTheme = this.settingsService.isDarkTheme;
@@ -66,12 +69,18 @@ export class DefaultComponent implements OnDestroy {
                 this.userService.updateToken().catch(() => this.userService.logout());
             }
         });
+
+        // Start session expired service
+        this.timeLeftSubscription = this.idleTimer.finalCountdown().subscribe(timeLeft => {
+            this.expiredTimeLeft = timeLeft;
+        });
     }
 
     ngOnDestroy(): void {
         this.loadState.unsubscribe();
         this.workspaceList.unsubscribe();
         this.routerSubscription.unsubscribe();
+        this.timeLeftSubscription.unsubscribe();
     }
 
     public openProfile(): void {
@@ -137,7 +146,7 @@ export class DefaultComponent implements OnDestroy {
         firstValueFrom(this.workspacesService.getAll()).then(data => {
             this.workspaces = data;
         }).catch(error => {
-            this.snackBar.error(this.translate.instant("SHARED.WORKSPACE.GET_ALL.ERROR"), error);
+            this.snackBar.error(this.translate.instant("WORKSPACE.GET_ALL.ERROR"), error);
         }).then(() => this.settingsService.isLoading = false);
     }
 }

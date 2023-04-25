@@ -180,6 +180,9 @@
     "WORKSPACE": {
         "ADD": "Aggiungi nuova cartella",
         "REMOVE": "Rimuovi cartella",
+        "GET_ALL": {
+            "ERROR": "Errore durante il recupero delle informazioni"
+        },
         "SAVE": {
             "SUCCESS": "Cartella salvata con successo",
             "ERROR": "Errore durante il salvataggio della cartella"
@@ -245,5 +248,9 @@
         "INSERT_WORKSPACE_NAME": "Inserire il nome della nuova cartella",
         "INSERT_MASTER_PASSWORD": "Inserire la master password",
         "WORKSPACE_NAME": "I.e. cartella 1"
+    },
+    "SESSION": {
+        "EXPIRE_IN": "Sessione in scadenza tra {{time}}s",
+        "EXPIRE_MESSAGE": "Sei stato inattivo per un po'. Per la tua sicurezza, l'app verrà bloccata automaticamente e sarà necessario inserire nuovamente la tua password principale."
     }
 }
