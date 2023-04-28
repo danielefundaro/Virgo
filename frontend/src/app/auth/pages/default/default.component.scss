@@ -1,6 +1,18 @@
 @use '@angular/material' as mat;
 @import './../../../../constants.scss';
 
+.darkTheme {
+    :host {
+        @media only screen and (min-width: 600px) {
+
+            .search-and-workspace-container, .search-and-workspace-handle {
+                background-color: mat.get-color-from-palette($background, 700) !important;
+                color: mat.get-color-from-palette($background, '700-contrast') !important;
+            }
+        }
+    }
+}
+
 .container {
     height: 100%;
 }
@@ -48,8 +60,8 @@
     transition: visibility 0.3s ease-in-out, transform 0.3s ease-in-out;
 
     .search-and-workspace-container {
-        background-color: mat.get-color-from-palette($background, 700);
-        color: mat.get-color-from-palette($background, '700-contrast');
+        background-color: mat.get-color-from-palette($primary-palette, 500);
+        color: mat.get-color-from-palette($primary-palette, '500-contrast');
     }
 
     .search-and-workspace-handle {
@@ -61,8 +73,10 @@
         border-bottom-left-radius: 5rem;
         background-color: mat.get-color-from-palette($primary-palette, 500);
         color: mat.get-color-from-palette($primary-palette, '500-contrast');
-        border-right: 1px solid mat.get-color-from-palette($primary-palette, 900);
+        border-top: 0 solid mat.get-color-from-palette($primary-palette, 900);
         border-bottom: 1px solid mat.get-color-from-palette($primary-palette, 900);
+        border-right: 1px solid mat.get-color-from-palette($primary-palette, 900);
+        border-left: 1px solid mat.get-color-from-palette($primary-palette, 900);
 
         mat-icon {
             transform: rotate(90deg);
@@ -96,8 +110,8 @@ mat-toolbar:hover~.search-and-workspace-panel {
         transition: visibility 0.3s ease-in-out, transform 0.3s ease-in-out;
 
         .search-and-workspace-container {
-            background-color: mat.get-color-from-palette($background, 700);
-            color: mat.get-color-from-palette($background, '700-contrast');
+            background-color: white;
+            color: rgba(0, 0, 0, 0.87);
         }
 
         .search-and-workspace-handle {
@@ -107,10 +121,12 @@ mat-toolbar:hover~.search-and-workspace-panel {
             border-top-right-radius: 5rem;
             border-bottom-right-radius: 5rem;
             border-bottom-left-radius: 0;
-            background-color: mat.get-color-from-palette($background, 700);
-            color: mat.get-color-from-palette($background, '700-contrast');
-            border-right: 1px solid mat.get-color-from-palette($background, 900);
+            background-color: white;
+            color: rgba(0, 0, 0, 0.87);
+            border-top: 1px solid mat.get-color-from-palette($background, 900);
             border-bottom: 1px solid mat.get-color-from-palette($background, 900);
+            border-right: 1px solid mat.get-color-from-palette($background, 900);
+            border-left: 0 solid mat.get-color-from-palette($background, 900);
 
             mat-icon {
                 transform: rotate(0);

@@ -27,7 +27,7 @@ $theme: mat.define-light-theme((color: (primary: $primary,
 @include mat.all-component-themes($theme);
 
 .mat-app-background {
-    background: mat.get-color-from-palette($background, 50) !important;
+    background-color: mat.get-color-from-palette($background, 50) !important;
 }
 
 .darkTheme {
@@ -41,22 +41,22 @@ $theme: mat.define-light-theme((color: (primary: $primary,
     $background-dialog-contrast: mat.get-color-from-palette($background, '100-contrast');
 
     @include mat.all-component-themes($theme);
-    background: mat.get-color-from-palette($background, 500) !important;
+    background-color: mat.get-color-from-palette($background, 500) !important;
 
     .mat-drawer-side,
     .mat-mdc-paginator,
     .mdc-menu-surface {
-        background: $background-component !important;
+        background-color: $background-component !important;
         color: $background-component-contrast !important;
     }
 
     .background-component:hover, .background-component-selected {
-        background: mat.get-color-from-palette($background, 600) !important;
+        background-color: mat.get-color-from-palette($background, 600) !important;
         color: mat.get-color-from-palette($background, '600-contrast') !important;
     }
 
     .mdc-text-field, .mat-expansion-panel {
-        background: mat.get-color-from-palette($background, 800) !important;
+        background-color: mat.get-color-from-palette($background, 800) !important;
         color: mat.get-color-from-palette($background, '800-contrast') !important;
     }
 
@@ -92,7 +92,7 @@ body {
 }
 
 .background-component:hover, .background-component-selected {
-    background: white;
+    background-color: white;
     color: rgba(0, 0, 0, 0.87);
 }
 

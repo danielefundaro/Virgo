@@ -1,3 +1,256 @@
 {
-    
+    "SHARED": {
+        "SEARCH": "Search",
+        "CLOSE": "Close",
+        "MOVE": "Move",
+        "ADD": "Add",
+        "SAVE": "Save",
+        "BACK": "Back",
+        "CANCEL": "Cancel",
+        "CONFIRM": "Confirm",
+        "ITEM_SELECTED": "items selected",
+        "NO_DATA": "No data found",
+        "LOADING": "Loading...",
+        "PAGINATOR": {
+            "FIRST": "First page",
+            "NEXT": "Next page",
+            "PREVIOUS": "Previous page",
+            "LAST": "Last page",
+            "ITEMS_PER_PAGE": "Items per page:"
+        }
+    },
+    "MENU": {
+        "WALLET": "Wallet",
+        "CREDENTIALS": "Credentials",
+        "NOTES": "Notes",
+        "WORKSPACES": "Folders",
+        "PASSWORD_GENERATOR": "Generate password",
+        "LOGOUT": "Logout",
+        "NOTIFICATIONS": "Notifications",
+        "SETTINGS": "Settings",
+        "LOCK": "Lock application",
+        "MASTER-PASSWORD_UPDATE": "Update master password",
+        "COPY_WEBSITE": "Copy web site",
+        "COPY_USERNAME": "Copy username",
+        "COPY_PASSWORD": "Copy password",
+        "COPY_CONTENT": "Copy content",
+        "MOVE_WORKSPACE": "Move in folder",
+        "EDIT": "Edit",
+        "DELETE": "Delete",
+        "THEME": {
+            "LIGHT": "Light",
+            "DARK": "Dark"
+        },
+        "LANGUAGES": {
+            "TITLE": "Language",
+            "ENUMS": {
+                "IT": "Italian",
+                "EN": "English"
+            }
+        }
+    },
+    "CREDENTIAL": {
+        "NAME": "Name",
+        "WEBSITE": "Web site",
+        "USERNAME": "Username",
+        "PASSWORD": "Password",
+        "WORKSPACE": "Folder",
+        "NOTE": "Note",
+        "ADD": "Add credential",
+        "LOGIN_DETAIL": "Login details",
+        "OTHER": "Other",
+        "SHOW_PASSWORD": "Show password",
+        "HIDDEN_PASSWORD": "Hide password",
+        "LOAD": {
+            "ERROR": "Error occurs while loading information"
+        },
+        "COPY": {
+            "WEBSITE": "Web site copied",
+            "USERNAME": "Username copied",
+            "PASSWORD": "Password copied"
+        },
+        "SAVE": {
+            "SUCCESS": "Credential saved successfully",
+            "ERROR": "Error occurs while saving the credential"
+        },
+        "UPDATE": {
+            "SUCCESS": "Credential updated successfully",
+            "ERROR": "Error occurs while updating the credential",
+            "MASSIVE": {
+                "MESSAGE": "Move all selected credentials into the folder",
+                "SUCCESS": "All selected credentials have been updated successfully",
+                "ERROR": "Error occurs while updating one or more credentials"
+            }
+        },
+        "DELETE": {
+            "MESSAGE": "Do you want to delete the selected credential?",
+            "SUCCESS": "Credential deleted successfully",
+            "ERROR": "Error occurs while deleting the credential",
+            "MASSIVE": {
+                "MESSAGE": "Do you want to delete all selected credentials?",
+                "SUCCESS": "All selected credentials have been deleted successfully",
+                "ERROR": "Error occurs while deleting one or more credentials"
+            }
+        }
+    },
+    "NOTE": {
+        "NAME": "Name",
+        "WORKSPACE": "Folder",
+        "CONTENT": "Content",
+        "ADD":"Add note",
+        "SHOW_CONTENT": "Show content",
+        "HIDDEN_CONTENT": "Hide content",
+        "LOAD": {
+            "ERROR": "Error occurs while loading information"
+        },
+        "COPY": {
+            "CONTENT": "Content copied"
+        },
+        "SAVE": {
+            "SUCCESS": "Note saved successfully",
+            "ERROR": "Error occurs while saving the note"
+        },
+        "UPDATE": {
+            "SUCCESS": "Note updated successfully",
+            "ERROR": "Error occurs while updating the note",
+            "MASSIVE": {
+                "MESSAGE": "Move all selected notes into the folder",
+                "SUCCESS": "All selected notes have been updated successfully",
+                "ERROR": "Error occurs while updating one or more notes"
+            }
+        },
+        "DELETE": {
+            "MESSAGE": "Do you want to delete the selected note?",
+            "SUCCESS": "Note deleted successfully",
+            "ERROR": "Error occurs while deleting the note",
+            "MASSIVE": {
+                "MESSAGE": "Do you want to delete all selected notes?",
+                "SUCCESS": "All selected notes have been deleted successfully",
+                "ERROR": "Error occurs while deleting one or more notes"
+            }
+        }
+    },
+    "WALLET": {
+        "NAME": "Name",
+        "TYPE": "Type",
+        "WEBSITE": "Web site",
+        "USERNAME": "Username",
+        "WORKSPACE": "Folder",
+        "PASSWORD": "Password",
+        "CONTENT": "Content",
+        "NOTE": "Note",
+        "ADD": "Add item",
+        "LOGIN_DETAIL": "Login details",
+        "OTHER": "Other",
+        "SHOW_PASSWORD": "Show password",
+        "HIDDEN_PASSWORD": "Hide password",
+        "SHOW_CONTENT": "Show content",
+        "HIDDEN_CONTENT": "Hide content",
+        "ENUMS": {
+            "NOTE": "Note",
+            "CREDENTIAL": "Credential"
+        },
+        "LOAD": {
+            "ERROR": "Error occurs while loading information"
+        },
+        "SAVE": {
+            "SUCCESS": "Item saved successfully",
+            "ERROR": "Error occurs while saving the item"
+        },
+        "UPDATE": {
+            "SUCCESS": "Item updated successfully",
+            "ERROR": "Error occurs while updating the item",
+            "MASSIVE": {
+                "MESSAGE": "Move all selected items into the folder",
+                "SUCCESS": "All selected items have been updated successfully",
+                "ERROR": "Error occurs while updating one or more items"
+            }
+        },
+        "DELETE": {
+            "MESSAGE": "Do you want to delete the selected item?",
+            "SUCCESS": "Item deleted successfully",
+            "ERROR": "Error occurs while deleting the item",
+            "MASSIVE": {
+                "MESSAGE": "Do you want to delete all selected items?",
+                "SUCCESS": "All selected items have been deleted successfully",
+                "ERROR": "Error occurs while deleting one or more items"
+            }
+        }
+    },
+    "WORKSPACE": {
+        "ADD": "Add new folder",
+        "REMOVE": "Delete folder",
+        "GET_ALL": {
+            "ERROR": "Error occurs while loading information"
+        },
+        "SAVE": {
+            "SUCCESS": "Folder saved successfully",
+            "ERROR": "Error occurs while saving the folder"
+        },
+        "DELETE": {
+            "MESSAGE": "Do you want to delete the selected folder and its content?",
+            "SUCCESS": "Folder deleted successfully",
+            "ERROR": "Error occurs while deleting the folder"
+        }
+    },
+    "PASSWORD_GENERATOR": {
+        "LENGTH": "Password lenght",
+        "UPPERCASE": "Include capitalized characters (A-Z)",
+        "NUMBERS": "Include numbers (0-9)",
+        "SYMBOLS": "Include special characters",
+        "COPY": "Password copied",
+        "ENUMS": {
+            "VERY_WEAK": "Very weak",
+            "WEAK": "Weak",
+            "MODERATE": "Moderate",
+            "STRONG": "Strong",
+            "VERY_STRONG": "Very strong"
+        }
+    },
+    "MASTER_PASSWORD": {
+        "ENTER_PASSWORD": "Enter your master password",
+        "OLD_PASSWORD": "Old master password",
+        "PASSWORD": "Master passoword",
+        "CONFIRM_PASSWORD": "Confirm master password",
+        "UNLOCK": "Unlock",
+        "NOT_VALID": "Invalid master password entered",
+        "HIDDEN": "Hide master password",
+        "SHOW": "Show master password",
+        "REPROMPT": {
+            "LABEL": "Don't request reprompts for",
+            "ALWAYS": "Always",
+            "ENUMS": {
+                "SEC": "seconds",
+                "MIN": "minutes",
+                "HOUR": "hours"
+            }
+        },
+        "GET": {
+            "ERROR": "There is no master password associated with the user"
+        },
+        "SAVE": {
+            "ERROR": "Error occurs while saving the master password"
+        },
+        "UPDATE": {
+            "SUCCESS": "Master password updated successfully",
+            "ERROR": "Error occurs while updating the master password",
+            "FAIL": "The master password could not be updated. Try it later",
+            "FATAL": "The information has been permanently corrupted"
+        },
+        "HASH": {
+            "ERROR": "Error occurs while comparing master password"
+        }
+    },
+    "DIALOG": {
+        "SELECT_WORKSPACE": "Select folder",
+        "DELETE": "Delete selected item",
+        "NEW_WORKSPACE": "New folder",
+        "INSERT_WORKSPACE_NAME": "Enter the name of the new folder",
+        "INSERT_MASTER_PASSWORD": "Enter your master password",
+        "WORKSPACE_NAME": "I.e. folder 1"
+    },
+    "SESSION": {
+        "EXPIRE_IN": "Session expires in {{time}}s",
+        "EXPIRE_MESSAGE": "You have been inactive for a while. For your safety, the app will be locked automatically and you will need to enter your master password again."
+    }
 }

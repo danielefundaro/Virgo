@@ -23,7 +23,9 @@ export class WalletComponent extends AbstractTableComponent<Wallet> {
         private snackBarService: SnackBarService, private router: Router, private clipboard: Clipboard,
         settingsService: SettingsService, utilsService: UtilsService, dialog: MatDialog) {
         super(settingsService, utilsService, dialog);
+    }
 
+    public override columnsName(): void {
         this.iDisplayedColumns = [{
             name: "name",
             title: this.translate.instant("WALLET.NAME")

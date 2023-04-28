@@ -22,7 +22,9 @@ export class CredentialsComponent extends AbstractTableComponent<Credential> {
         private snackBarService: SnackBarService, private router: Router, private clipboard: Clipboard,
         utilsService: UtilsService, settingsService: SettingsService, dialog: MatDialog) {
         super(settingsService, utilsService, dialog);
+    }
 
+    public override columnsName(): void {
         this.iDisplayedColumns = [{
             name: "name",
             title: this.translate.instant("CREDENTIAL.NAME")

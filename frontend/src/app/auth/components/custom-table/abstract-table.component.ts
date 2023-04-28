@@ -24,6 +24,7 @@ export abstract class AbstractTableComponent<T extends EncryptCommonFields> impl
 
     private subscription!: Subscription;
     private workspaceList: Subscription;
+    private languageChangedSubscription: Subscription;
 
     constructor(protected settingsService: SettingsService, protected utilsService: UtilsService, protected dialog: MatDialog) {
         this.dataSource = [];
@@ -31,8 +32,10 @@ export abstract class AbstractTableComponent<T extends EncryptCommonFields> impl
 
         // Check workspace list
         this.workspaceList = this.settingsService.onUpateWorkspacesEvent().subscribe(() => this.ngAfterViewInit());
+        this.languageChangedSubscription = this.settingsService.languageChanged().subscribe(() => this.columnsName());
     }
 
+    public abstract columnsName(): void;
     public abstract search(s: Searcher): Observable<Page<T>>;
     public abstract getError(error: any): void;
     public abstract update(data: T): Observable<T>;
@@ -50,6 +53,7 @@ export abstract class AbstractTableComponent<T extends EncryptCommonFields> impl
     public abstract deleteErrorMassive(error: any): void;
 
     ngAfterViewInit(): void {
+        this.columnsName();
         this.subscription = merge(this.customTable.paginator.page, this.customTable.onSortChange, this.settingsService.onSearchChanged).pipe(
             startWith({}),
             debounceTime(150),
@@ -77,6 +81,7 @@ export abstract class AbstractTableComponent<T extends EncryptCommonFields> impl
     ngOnDestroy(): void {
         this.subscription.unsubscribe();
         this.workspaceList.unsubscribe();
+        this.languageChangedSubscription.unsubscribe();
     }
 
     protected onCheckAll(isChecked: boolean): void {

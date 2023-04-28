@@ -22,7 +22,9 @@ export class NotesComponent extends AbstractTableComponent<Note> {
         private snackBarService: SnackBarService, private router: Router, private clipboard: Clipboard,
         settingsService: SettingsService, utilsService: UtilsService, dialog: MatDialog) {
         super(settingsService, utilsService, dialog);
+    }
 
+    public override columnsName(): void {
         this.iDisplayedColumns = [{
             name: "name",
             title: this.translate.instant("NOTE.NAME")
