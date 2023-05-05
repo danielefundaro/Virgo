@@ -2,8 +2,8 @@
     window.env = window.env || {};
 
     // Environment variables
-    window.env.backendUrl = "${BACKEND_URL}";
-    window.env.keycloakUrl = "${KEYCLOAK_URL}";
-    window.env.realmName = "${REALM_NAME}";
-    window.env.clientId = "${CLIENT_ID}";
+    window.env.backendUrl = "http://localhost:9090";
+    window.env.keycloakUrl = "http://localhost:8080";
+    window.env.realmName = "virgo-realm";
+    window.env.clientId = "virgo-app";
 })(this);

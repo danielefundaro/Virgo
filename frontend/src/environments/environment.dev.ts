@@ -1,8 +1,8 @@
 export const environment = {
-    backendUrl: "http://localhost:9090",
+    backendUrl: (window as any).env.backendUrl,
     keycloak: {
-        baseUrl: "http://localhost:8080",
-        realmName: "virgo-realm",
-        clientId: "virgo-app",
+        baseUrl: (window as any).env.keycloakUrl,
+        realmName: (window as any).env.realmName,
+        clientId: (window as any).env.clientId,
     }
 };

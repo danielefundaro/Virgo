@@ -110,8 +110,8 @@ mat-toolbar:hover~.search-and-workspace-panel {
         transition: visibility 0.3s ease-in-out, transform 0.3s ease-in-out;
 
         .search-and-workspace-container {
-            background-color: white;
-            color: rgba(0, 0, 0, 0.87);
+            background-color: $background-component;
+            color: $background-component-contrast;
         }
 
         .search-and-workspace-handle {
@@ -121,8 +121,8 @@ mat-toolbar:hover~.search-and-workspace-panel {
             border-top-right-radius: 5rem;
             border-bottom-right-radius: 5rem;
             border-bottom-left-radius: 0;
-            background-color: white;
-            color: rgba(0, 0, 0, 0.87);
+            background-color: $background-component;
+            color: $background-component-contrast;
             border-top: 1px solid mat.get-color-from-palette($background, 900);
             border-bottom: 1px solid mat.get-color-from-palette($background, 900);
             border-right: 1px solid mat.get-color-from-palette($background, 900);

@@ -16,31 +16,25 @@ $warn: mat.define-palette($warn-palette);
 
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".
-$theme: mat.define-light-theme((color: (primary: $primary,
-                accent: $accent,
-                warn: $warn,
-            )));
+$light-theme: mat.define-light-theme((color: (primary: $primary, accent: $accent, warn: $warn,)));
+$dark-theme: mat.define-dark-theme((color: (primary: $primary, accent: $accent, warn: $warn,)));
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
-@include mat.all-component-themes($theme);
+@include mat.all-component-themes($light-theme);
 
 .mat-app-background {
     background-color: mat.get-color-from-palette($background, 50) !important;
 }
 
 .darkTheme {
-    $theme: mat.define-dark-theme((color: (primary: $primary,
-                accent: $accent,
-                warn: $warn,
-            )));
     $background-component: mat.get-color-from-palette($background, 700);
     $background-component-contrast: mat.get-color-from-palette($background, '700-contrast');
     $background-dialog: mat.get-color-from-palette($background, 100);
     $background-dialog-contrast: mat.get-color-from-palette($background, '100-contrast');
 
-    @include mat.all-component-themes($theme);
+    @include mat.all-component-colors($dark-theme);
     background-color: mat.get-color-from-palette($background, 500) !important;
 
     .mat-drawer-side,
@@ -92,8 +86,8 @@ body {
 }
 
 .background-component:hover, .background-component-selected {
-    background-color: white;
-    color: rgba(0, 0, 0, 0.87);
+    background-color: $background-component;
+    color: $background-component-contrast;
 }
 
 .element {
