@@ -17,14 +17,14 @@ import org.hibernate.annotations.Where;
 @Table(name = "wallet")
 @Where(clause = "deleted = false and type = 'CREDENTIAL'")
 public class Credential extends EncryptCommonFields {
-    @Column(name = "type", nullable = false, updatable = false)
+    @Column(name = "type", nullable = false)
     private String type = TypeEnum.CREDENTIAL.name();
-    @Column(name = "website", nullable = false)
+    @Column(name = "website", length = Integer.MAX_VALUE)
     private String website;
-    @Column(name = "username")
+    @Column(name = "username", length = Integer.MAX_VALUE)
     private String username;
-    @Column(name = "passwd", nullable = false)
+    @Column(name = "passwd", length = Integer.MAX_VALUE)
     private String passwd;
-    @Column(name = "note")
+    @Column(name = "note", length = Integer.MAX_VALUE)
     private String note;
 }

@@ -33,7 +33,7 @@ public class Audit {
     private AuditTypeEnum type;
     @Column(name = "table_name", nullable = false)
     private String tableName;
-    @Column(name = "description", nullable = false)
+    @Column(name = "description", nullable = false, length = Integer.MAX_VALUE)
     private String description;
     @OneToMany(mappedBy = "audit", cascade = CascadeType.ALL)
     private List<AuditTuple> tuples;

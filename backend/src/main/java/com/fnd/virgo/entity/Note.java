@@ -17,8 +17,8 @@ import org.hibernate.annotations.Where;
 @Table(name = "wallet")
 @Where(clause = "deleted = false and type = 'NOTE'")
 public class Note extends EncryptCommonFields {
-    @Column(name = "type", nullable = false, updatable = false)
+    @Column(name = "type", nullable = false)
     private String type = TypeEnum.NOTE.name();
-    @Column(name = "content", nullable = false)
+    @Column(name = "content", length = Integer.MAX_VALUE)
     private String content;
 }

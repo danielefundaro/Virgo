@@ -18,14 +18,14 @@ import org.hibernate.annotations.Where;
 public class Wallet extends EncryptCommonFields {
     @Column(name = "type", nullable = false)
     private String type;
-    @Column(name = "website")
+    @Column(name = "website", length = Integer.MAX_VALUE)
     private String website;
-    @Column(name = "username")
+    @Column(name = "username", length = Integer.MAX_VALUE)
     private String username;
-    @Column(name = "passwd")
+    @Column(name = "passwd", length = Integer.MAX_VALUE)
     private String passwd;
-    @Column(name = "content")
+    @Column(name = "content", length = Integer.MAX_VALUE)
     private String content;
-    @Column(name = "note")
+    @Column(name = "note", length = Integer.MAX_VALUE)
     private String note;
 }

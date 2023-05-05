@@ -15,7 +15,7 @@
     <name>backend</name>
     <description>backend</description>
     <properties>
-        <java.version>19</java.version>
+        <java.version>17</java.version>
     </properties>
     <dependencies>
         <dependency>
@@ -103,7 +103,7 @@
     </dependencyManagement>
 
     <build>
-        <finalName>virgo</finalName>
+        <finalName>${project.artifactId}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
