@@ -30,7 +30,7 @@ public class KeycloakServiceImpl implements KeycloakService {
     private String keycloakIssuerUri;
     @Value("${spring.security.oauth2.client.registration.keycloak.client-id}")
     private String clientId;
-    @Value("${keycloak.realm.client-secret:}")
+    @Value("${spring.security.oauth2.client.registration.keycloak.client-secret:}")
     private String clientSecret;
     @Value("${spring.security.oauth2.client.provider.keycloak.token-uri}")
     private String keycloakTokenUri;
@@ -51,9 +51,12 @@ public class KeycloakServiceImpl implements KeycloakService {
         form.add("username", username);
         form.add("password", password);
         form.add("grant_type", grantType);
-        form.add("score", "openid");
+        form.add("scope", "openid");
 
-        return getAccessToken(form);
+        AccessTokenResponse accessTokenResponse = getAccessToken(form);
+        log.info(String.format("Successfully logged in to Keycloak for the user %s", username));
+
+        return accessTokenResponse;
     }
 
     @Override
@@ -70,7 +73,7 @@ public class KeycloakServiceImpl implements KeycloakService {
         ResponseEntity<String> response = postResponseEntity(url, httpHeaders, form);
 
         if (response.getStatusCode().is2xxSuccessful()) {
-            log.info("Successfully logged out from Keycloak");
+            log.info(String.format("Successfully logged out from Keycloak for the user %s", jwtAuthenticationToken.getTokenAttributes().get("preferred_username")));
         } else {
             log.error("Could not propagate logout to Keycloak");
         }
