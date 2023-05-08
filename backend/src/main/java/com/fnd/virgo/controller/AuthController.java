@@ -1,6 +1,7 @@
 package com.fnd.virgo.controller;
 
 import com.fnd.virgo.service.KeycloakService;
+import org.keycloak.representations.AccessTokenResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
@@ -19,7 +20,7 @@ public class AuthController {
 
     @PostMapping(value = "/login", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(code = HttpStatus.OK)
-    public Object login(@RequestParam String username, @RequestParam String password, @RequestParam("grant_type") String grantType) {
+    public AccessTokenResponse login(@RequestParam String username, @RequestParam String password, @RequestParam("grant_type") String grantType) {
         return keycloakService.login(username, password, grantType);
     }
 
@@ -31,7 +32,7 @@ public class AuthController {
 
     @PostMapping(value = "/token", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(code = HttpStatus.OK)
-    public Object refreshToken(@RequestParam("refresh_token") String token, @RequestParam("grant_type") String grantType) {
+    public AccessTokenResponse refreshToken(@RequestParam("refresh_token") String token, @RequestParam("grant_type") String grantType) {
         return keycloakService.refreshToken(token, grantType);
     }
 }

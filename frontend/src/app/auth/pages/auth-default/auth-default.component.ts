@@ -9,28 +9,26 @@ import { MatDialog } from '@angular/material/dialog';
 import { ChildrenOutletContexts, NavigationStart, Router } from '@angular/router';
 import { AddWorkspaceComponent } from '../../components/dialog/add-workspace/add-workspace.component';
 import { ConfirmActionComponent } from '../../components/dialog/confirm-action/confirm-action.component';
-import { slideInAnimation } from './default.component.animation';
+import { slideInAnimation } from './auth-default.component.animation';
 import { IdleTimerService } from 'src/app/services/idle-timer.service';
 
 @Component({
     selector: 'default',
-    templateUrl: './default.component.html',
-    styleUrls: ['./default.component.scss'],
+    templateUrl: './auth-default.component.html',
+    styleUrls: ['./auth-default.component.scss'],
     animations: [slideInAnimation]
 })
-export class DefaultComponent implements OnDestroy {
+export class AuthDefaultComponent implements OnDestroy {
     public languages: string[];
     public user?: KeycloakProfile;
     public isLoggedIn!: boolean;
     public isDarkTheme: boolean;
-    public isLoading!: boolean;
     public workspaces?: Workspace[];
     public updateMasterPassword = MasterPasswordEnum.CHANGE;
     public openContainer: boolean;
     public expandWorkspacePanel: boolean;
     public expiredTimeLeft?: number | null
 
-    private loadState: Subscription;
     private workspaceList: Subscription;
     private routerSubscription: Subscription;
     private timeLeftSubscription: Subscription;
@@ -48,11 +46,8 @@ export class DefaultComponent implements OnDestroy {
         this.loadWorkspaces();
 
         // Set default theme
-        this.settingsService.setDefalutTheme();
+        // this.settingsService.setDefalutTheme();
         this.isDarkTheme = this.settingsService.isDarkTheme;
-
-        // Check loading state
-        this.loadState = this.settingsService.loadStateChanged().subscribe(data => this.isLoading = data);
 
         // Check workspace list
         this.workspaceList = this.settingsService.onUpateWorkspacesEvent().subscribe(() => this.loadWorkspaces());
@@ -77,7 +72,6 @@ export class DefaultComponent implements OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this.loadState.unsubscribe();
         this.workspaceList.unsubscribe();
         this.routerSubscription.unsubscribe();
         this.timeLeftSubscription.unsubscribe();

@@ -22,12 +22,12 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSliderModule } from '@angular/material/slider';
-import {MatExpansionModule} from '@angular/material/expansion';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MainTranslateModule } from './main-translate/main-translate.module';
 import { KeycloakInitModule } from './init/keycloak-init.module';
-import { DefaultRoutingModule } from './auth/pages/default/default-routing.module';
-import { DefaultComponent } from './auth/pages/default/default.component';
+import { AuthDefaultRoutingModule } from './auth/pages/auth-default/auth-default-routing.module';
+import { AuthDefaultComponent } from './auth/pages/auth-default/auth-default.component';
 import { CustomTableComponent } from './auth/components/custom-table/custom-table.component';
 import { WalletComponent } from './auth/pages/wallet/wallet.component';
 import { CredentialsComponent } from './auth/pages/credentials/credentials.component';
@@ -44,11 +44,16 @@ import { AddWorkspaceComponent } from './auth/components/dialog/add-workspace/ad
 import { LoadingSpinnerComponent } from './auth/components/loading-spinner/loading-spinner.component';
 import { MasterPasswordComponent } from './auth/pages/master-password/master-password.component';
 import { ConfirmMasterPasswordComponent } from './auth/components/dialog/confirm-master-password/confirm-master-password.component';
+import { DefaultRoutingModule } from './pages/default/default-routing.module';
+import { DefaultComponent } from './pages/default/default.component';
+import { LoginComponent } from './pages/login/login.component';
+import { RegisterUserComponent } from './pages/register-user/register-user.component';
+import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component';
 
 @NgModule({
     declarations: [
         AppComponent,
-        DefaultComponent,
+        AuthDefaultComponent,
         WalletComponent,
         CredentialsComponent,
         TruncatePipe,
@@ -65,6 +70,10 @@ import { ConfirmMasterPasswordComponent } from './auth/components/dialog/confirm
         LoadingSpinnerComponent,
         MasterPasswordComponent,
         ConfirmMasterPasswordComponent,
+        DefaultComponent,
+        LoginComponent,
+        RegisterUserComponent,
+        ForgotPasswordComponent,
     ],
     imports: [
         BrowserModule,
@@ -91,9 +100,10 @@ import { ConfirmMasterPasswordComponent } from './auth/components/dialog/confirm
         MatSliderModule,
         MatExpansionModule,
         MatProgressBarModule,
-        DefaultRoutingModule,
+        AuthDefaultRoutingModule,
         MainTranslateModule,
         KeycloakInitModule,
+        DefaultRoutingModule,
     ],
     providers: [],
     bootstrap: [AppComponent]

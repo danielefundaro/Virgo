@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from 'src/app/guard/auth.guard';
-import { DefaultComponent } from './default.component';
+import { AuthDefaultComponent } from './auth-default.component';
 import { WalletComponent } from '../wallet/wallet.component';
 import { WalletEditComponent } from '../wallet-edit/wallet-edit.component';
 import { CredentialsComponent } from '../credentials/credentials.component';
@@ -10,11 +10,12 @@ import { NotesComponent } from '../notes/notes.component';
 import { NoteEditComponent } from '../note-edit/note-edit.component';
 import { PasswordGeneratorComponent } from '../password-generator/password-generator.component';
 import { MasterPasswordComponent } from '../master-password/master-password.component';
+import { MyGuard } from 'src/app/guard/my.guard';
 
 const routes: Routes = [{
     path: '',
-    component: DefaultComponent,
-    canActivate: [AuthGuard],
+    component: AuthDefaultComponent,
+    // canActivate: [MyGuard],
     children: [
         { path: 'wallet', component: WalletComponent, data: { animation: 'page' } },
         { path: 'wallet/:id', component: WalletEditComponent, data: { animation: 'page' } },
@@ -31,4 +32,4 @@ const routes: Routes = [{
     imports: [RouterModule.forChild(routes)],
     exports: [RouterModule]
 })
-export class DefaultRoutingModule { }
+export class AuthDefaultRoutingModule { }

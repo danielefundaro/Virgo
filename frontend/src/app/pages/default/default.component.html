@@ -1,0 +1,12 @@
+<div class="main-page-container" fxLayout="column" fxLayoutAlign="center">
+    <div fxLayout="row" fxLayoutAlign="end baseline" class="actions">
+        <mat-slide-toggle #darkModeSwitch color="primary" (change)="toggleTheme()" [(ngModel)]="isDarkTheme"></mat-slide-toggle>
+        <mat-form-field>
+            <mat-select (valueChange)="changeLang($event)" [value]="currentLanguage">
+                <mat-option [value]="lang" *ngFor="let lang of languages">{{('MENU.LANGUAGES.ENUMS.' + lang.toUpperCase()) | translate}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+
+    <router-outlet></router-outlet>
+</div>

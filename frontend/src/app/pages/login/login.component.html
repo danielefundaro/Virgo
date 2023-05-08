@@ -1,0 +1,41 @@
+<div fxLayout="column" fxLayoutAlign="center center">
+    <div fxLayout="row" fxLayoutAlign="center center">
+        <img class="logo" src="assets/logo.png" alt="logo">
+        <h1>{{'LOGIN.TITLE' | translate}}</h1>
+    </div>
+    <h4>{{'LOGIN.SUBTITLE' | translate}}</h4>
+
+    <form [formGroup]="formGroup" (ngSubmit)="login()" fxLayout="column" class="login-form">
+
+        <mat-form-field appearance="fill">
+            <mat-label>{{'LOGIN.USERNAME' | translate}}</mat-label>
+            <input matInput formControlName="username">
+            <mat-icon matPrefix class="fa-solid fa-user-alt"></mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+            <mat-label>{{'LOGIN.PASSWORD' | translate}}</mat-label>
+            <input matInput formControlName="password" [type]="passwordViewToggle ? 'text' : 'password'">
+            <mat-icon matPrefix class="fa-solid fa-key"></mat-icon>
+            <button type="button" matSuffix mat-icon-button class="toggle-button"
+                (click)="passwordViewToggle = !passwordViewToggle">
+                <i class="fa-solid" [ngClass]="passwordViewToggle ? 'fa-eye-slash' : 'fa-eye'"></i>
+            </button>
+        </mat-form-field>
+
+        <div fxLayout="row" fxLayoutAlign="space-between center" class="forgot-componenet">
+            <mat-checkbox color="primary">{{'LOGIN.REMEMBER-ME' | translate}}</mat-checkbox>
+            <a [routerLink]="['/reset-credentials']">{{'LOGIN.FORGOT-PASSWORD' | translate}}</a>
+        </div>
+
+        <button type="submit" mat-raised-button color="accent" [disabled]="!formGroup.valid">
+            <mat-icon class="fa-solid" [ngClass]="formGroup.valid ? 'fa-unlock' : 'fa-lock'"></mat-icon>
+            {{'LOGIN.ACCESS' | translate}}
+        </button>
+    </form>
+
+    <div>
+        <span>{{'LOGIN.NEW-USER' | translate}} </span>
+        <a [routerLink]="['/registration']">{{'LOGIN.REGISTRATION' | translate}}</a>
+    </div>
+</div>

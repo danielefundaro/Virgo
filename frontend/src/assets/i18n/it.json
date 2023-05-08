@@ -19,6 +19,18 @@
             "ITEMS_PER_PAGE": "Elementi per pagina:"
         }
     },
+    "LOGIN": {
+        "TITLE": "VIRGO",
+        "SUBTITLE": "Non custodial password wallet",
+        "USERNAME": "Username o email",
+        "PASSWORD": "Password",
+        "REMEMBER-ME": "Ricordami",
+        "FORGOT-PASSWORD": "Hai dimenticato la tua password?",
+        "ACCESS": "Accedi",
+        "NEW-USER": "Sei un nuovo utente?",
+        "REGISTRATION": "Registrati",
+        "ERROR": "Username o password non validi"
+    },
     "MENU": {
         "WALLET": "Wallet",
         "CREDENTIALS": "Credenziali",

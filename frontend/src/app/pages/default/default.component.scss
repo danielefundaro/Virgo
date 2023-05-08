@@ -1,0 +1,18 @@
+:host {
+    display: block;
+    height: 100%;
+}
+
+.actions {
+    mat-form-field {
+        margin-left: 1rem;
+        width: 10rem;
+    }
+}
+
+.main-page-container {
+    height: calc(100% - 4rem);
+    padding: 2rem;
+    max-width: 40rem;
+    margin: auto;
+}

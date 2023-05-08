@@ -1,13 +1,16 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { KeycloakService } from 'keycloak-angular';
 import { KeycloakProfile, KeycloakTokenParsed } from 'keycloak-js';
+import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment.dev';
 
 @Injectable({
     providedIn: 'root'
 })
 export class UserService {
 
-    constructor(private keycloakService: KeycloakService) { }
+    constructor(private keycloakService: KeycloakService, private http: HttpClient) { }
 
     public getLoggedUser(): KeycloakTokenParsed | undefined {
         try {
@@ -33,8 +36,8 @@ export class UserService {
         return this.keycloakService.isTokenExpired();
     }
 
-    public login(): void {
-        this.keycloakService.login();
+    public login(username: string, password: string): Observable<any> {
+        return this.http.post<any>(`${environment.backendUrl}/auth/login`, { username, password, "grant_type": "password"});
     }
 
     public logout(): void {
