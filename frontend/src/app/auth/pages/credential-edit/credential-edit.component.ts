@@ -104,15 +104,6 @@ export class CredentialEditComponent implements OnInit, OnDestroy {
         this.utilsService.confirmMasterPassword((masterPassword: string) => {
             this.utilsService.checkMasterPassword(masterPassword, this.saveCredential)
         });
-        // const dialogRef = this.dialog.open(ConfirmMasterPasswordComponent, {
-        //     disableClose: true
-        // });
-
-        // firstValueFrom(dialogRef.afterClosed()).then(result => {
-        //     if (result) {
-        //         this.utilsService.checkMasterPassword(result, this.saveCredential);
-        //     }
-        // });
     }
 
     public viewToggle(): void {
