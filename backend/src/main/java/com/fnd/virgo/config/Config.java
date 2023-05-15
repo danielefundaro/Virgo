@@ -20,7 +20,7 @@ public class Config implements WebMvcConfigurer {
     @Override
     public void addInterceptors(@NotNull InterceptorRegistry registry) {
         registry.addInterceptor(new CustomInterceptor(keycloakService, masterPasswordService))
-                .excludePathPatterns("/error", "/master-password", "/master-password/")
+                .excludePathPatterns("/error", "/auth/login", "/auth/token", "/master-password", "/master-password/")
                 .addPathPatterns("/**");
     }
 }

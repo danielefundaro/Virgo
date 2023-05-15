@@ -92,7 +92,7 @@ public class KeycloakServiceImpl implements KeycloakService {
     }
 
     @Override
-    public KeycloakUser tokenIsActive(String accessToken) {
+    public KeycloakUser tokenIsActive(@NotNull String accessToken) {
         String url = String.format("%s/introspect", keycloakTokenUri);
         HttpHeaders httpHeaders = new HttpHeaders();
         MultiValueMap<String, String> form = new LinkedMultiValueMap<>();
@@ -145,7 +145,8 @@ public class KeycloakServiceImpl implements KeycloakService {
         try {
             return restTemplate.exchange(url, HttpMethod.POST, request, String.class);
         } catch (HttpClientErrorException e) {
-            throw new ResponseStatusException(e.getStatusCode(), e.getResponseBodyAsString());
+            HttpStatus httpStatus = e.getStatusText().toLowerCase().contains("bad request") ? HttpStatus.BAD_REQUEST : HttpStatus.FORBIDDEN;
+            throw new ResponseStatusException(httpStatus, e.getMessage());
         }
     }
 }

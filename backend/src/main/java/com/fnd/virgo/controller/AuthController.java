@@ -8,6 +8,7 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin
 @RestController
 @RequestMapping(value = "auth")
 @Validated
@@ -25,7 +26,7 @@ public class AuthController {
     }
 
     @PostMapping(value = "/logout", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    @ResponseStatus(code = HttpStatus.OK)
+    @ResponseStatus(code = HttpStatus.NO_CONTENT)
     public void logout(@RequestParam("refresh_token") String token, JwtAuthenticationToken jwtAuthenticationToken) {
         keycloakService.logout(token, jwtAuthenticationToken);
     }

@@ -30,7 +30,6 @@ public class SecurityConfig {
                 .requestMatchers("/auth/login").permitAll()
                 .requestMatchers("/auth/token").permitAll()
                 .anyRequest().authenticated();
-        http.oauth2Login().and().logout();
         http.oauth2ResourceServer().jwt();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 

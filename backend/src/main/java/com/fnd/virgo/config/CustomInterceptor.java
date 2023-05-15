@@ -11,6 +11,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 @Component
@@ -27,17 +28,19 @@ public class CustomInterceptor implements HandlerInterceptor {
     public boolean preHandle(@NotNull HttpServletRequest request, @NotNull HttpServletResponse response, @NotNull Object handler) {
         String token = request.getHeader("Authorization");
 
-        if (token != null) {
-            KeycloakUser keycloakUser = keycloakService.tokenIsActive(token);
-
-            if (!keycloakUser.isActive())
-                throw new MyResponseStatusException(HttpStatus.FORBIDDEN, ErrorCode.TOKEN_EXPIRED, "token expired");
-
-            MasterPasswordDTO masterPasswordDTO = masterPasswordService.getByUserId(keycloakUser.getId());
-
-            if (masterPasswordDTO == null || masterPasswordDTO.getHashPasswd() == null || masterPasswordDTO.getHashPasswd().isBlank())
-                throw new MyResponseStatusException(HttpStatus.CONFLICT, ErrorCode.MASTER_PASSWORD_MISSING, "Must set master password");
+        if (token == null) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "invalid token");
         }
+
+        KeycloakUser keycloakUser = keycloakService.tokenIsActive(token);
+
+        if (!keycloakUser.isActive())
+            throw new MyResponseStatusException(HttpStatus.UNAUTHORIZED, ErrorCode.TOKEN_EXPIRED, "token expired");
+
+        MasterPasswordDTO masterPasswordDTO = masterPasswordService.getByUserId(keycloakUser.getId());
+
+        if (masterPasswordDTO == null || masterPasswordDTO.getHashPasswd() == null || masterPasswordDTO.getHashPasswd().isBlank())
+            throw new MyResponseStatusException(HttpStatus.CONFLICT, ErrorCode.MASTER_PASSWORD_MISSING, "Must set master password");
 
         return true;
     }
