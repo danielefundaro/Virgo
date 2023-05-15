@@ -10,12 +10,11 @@ import { NotesComponent } from '../notes/notes.component';
 import { NoteEditComponent } from '../note-edit/note-edit.component';
 import { PasswordGeneratorComponent } from '../password-generator/password-generator.component';
 import { MasterPasswordComponent } from '../master-password/master-password.component';
-import { MyGuard } from 'src/app/guard/my.guard';
 
 const routes: Routes = [{
     path: '',
     component: AuthDefaultComponent,
-    // canActivate: [MyGuard],
+    canActivate: [AuthGuard],
     children: [
         { path: 'wallet', component: WalletComponent, data: { animation: 'page' } },
         { path: 'wallet/:id', component: WalletEditComponent, data: { animation: 'page' } },

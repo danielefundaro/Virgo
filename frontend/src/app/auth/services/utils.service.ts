@@ -2,18 +2,20 @@ import { MatDialog } from "@angular/material/dialog";
 import { Injectable } from "@angular/core";
 import { TranslateService } from "@ngx-translate/core";
 import { firstValueFrom } from "rxjs";
-import { SettingsService, SnackBarService } from "src/app/services";
+import { SettingsService, SnackBarService, UserService } from "src/app/services";
 import { MasterPasswordService } from "./master-password.service";
 import { CryptographyService } from "./cryptography.service";
 import { ConfirmMasterPasswordComponent } from "../components/dialog/confirm-master-password/confirm-master-password.component";
+import { Router } from "@angular/router";
 
 @Injectable({
     providedIn: 'root'
 })
 export class UtilsService {
 
-    constructor(private masterPasswordService: MasterPasswordService, private cryptographyService: CryptographyService,
-        private snackBar: SnackBarService, private translate: TranslateService, private settingsService: SettingsService,
+    constructor(private userService: UserService, private masterPasswordService: MasterPasswordService,
+        private cryptographyService: CryptographyService, private snackBar: SnackBarService,
+        private translate: TranslateService, private router: Router, private settingsService: SettingsService,
         private dialog: MatDialog) { }
 
     public checkMasterPassword(password: string, callback: (masterPassword: string) => void): void {
@@ -67,6 +69,13 @@ export class UtilsService {
             }).catch(error => {
                 this.snackBar.error(this.translate.instant("MASTER_PASSWORD.GET.ERROR"), error);
             });
+        });
+    }
+
+    public logout(): void {
+        firstValueFrom(this.userService.logout()).finally(() => {
+            this.userService.clearAuthToken();
+            this.router.navigate(['login']);
         });
     }
 }

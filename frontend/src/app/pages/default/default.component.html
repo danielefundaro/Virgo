@@ -1,12 +1,25 @@
 <div class="main-page-container" fxLayout="column" fxLayoutAlign="center">
     <div fxLayout="row" fxLayoutAlign="end baseline" class="actions">
-        <mat-slide-toggle #darkModeSwitch color="primary" (change)="toggleTheme()" [(ngModel)]="isDarkTheme"></mat-slide-toggle>
+        <mat-slide-toggle #darkModeSwitch color="primary" (change)="toggleTheme()"
+            [(ngModel)]="isDarkTheme"></mat-slide-toggle>
         <mat-form-field>
-            <mat-select (valueChange)="changeLang($event)" [value]="currentLanguage">
-                <mat-option [value]="lang" *ngFor="let lang of languages">{{('MENU.LANGUAGES.ENUMS.' + lang.toUpperCase()) | translate}}</mat-option>
+            <mat-select (valueChange)="changeLang($event)" [(ngModel)]="currentLanguage">
+                <mat-select-trigger>
+                    <ng-container [ngTemplateOutlet]="option" [ngTemplateOutletContext]="{'lang': currentLanguage}">
+                    </ng-container>
+                </mat-select-trigger>
+                <mat-option [value]="lang" *ngFor="let lang of languages">
+                    <ng-container [ngTemplateOutlet]="option" [ngTemplateOutletContext]="{'lang': lang}">
+                    </ng-container>
+                </mat-option>
             </mat-select>
         </mat-form-field>
     </div>
 
     <router-outlet></router-outlet>
 </div>
+
+<ng-template #option let-lang="lang">
+    <img [src]="'assets/' + lang + '.png'" class="logo" [alt]="lang">
+    {{('MENU.LANGUAGES.ENUMS.' + lang.toUpperCase()) | translate}}
+</ng-template>

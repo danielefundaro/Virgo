@@ -1,8 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
-import { KeycloakProfile } from 'keycloak-js';
-import { Subscription, firstValueFrom } from 'rxjs';
-import { SettingsService, SnackBarService, UserService } from 'src/app/services';
-import { WorkspacesService } from '../../services';
+import { Subscription, catchError, firstValueFrom, switchMap } from 'rxjs';
+import { IdleTimerService, SettingsService, SnackBarService, UserService } from 'src/app/services';
+import { UtilsService, WorkspacesService } from '../../services';
 import { MasterPasswordEnum, Workspace } from '../../models';
 import { TranslateService } from '@ngx-translate/core';
 import { MatDialog } from '@angular/material/dialog';
@@ -10,7 +9,7 @@ import { ChildrenOutletContexts, NavigationStart, Router } from '@angular/router
 import { AddWorkspaceComponent } from '../../components/dialog/add-workspace/add-workspace.component';
 import { ConfirmActionComponent } from '../../components/dialog/confirm-action/confirm-action.component';
 import { slideInAnimation } from './auth-default.component.animation';
-import { IdleTimerService } from 'src/app/services/idle-timer.service';
+import { KeycloakProfile } from 'src/app/models';
 
 @Component({
     selector: 'default',
@@ -35,13 +34,14 @@ export class AuthDefaultComponent implements OnDestroy {
 
     constructor(private router: Router, private userService: UserService, public settingsService: SettingsService,
         private workspacesService: WorkspacesService, private snackBar: SnackBarService, private idleTimer: IdleTimerService,
-        private translate: TranslateService, private dialog: MatDialog, private contexts: ChildrenOutletContexts) {
+        private utilsService: UtilsService, private translate: TranslateService, private dialog: MatDialog,
+        private contexts: ChildrenOutletContexts) {
         this.languages = settingsService.languages;
         this.isDarkTheme = this.settingsService.isDarkTheme;
         this.openContainer = false;
         this.expandWorkspacePanel = false;
 
-        this.userService.isLoggedIn().then(data => this.isLoggedIn = data);
+        this.isLoggedIn = this.userService.isLoggedIn();
         this.userService.loadUserProfile().then(data => this.user = data);
         this.loadWorkspaces();
 
@@ -56,12 +56,8 @@ export class AuthDefaultComponent implements OnDestroy {
         this.routerSubscription = this.router.events.subscribe(data => {
             const url = (data as NavigationStart).url;
 
-            if (this.settingsService.isLock && !(url === null || url === undefined || url.endsWith('master-password') || url.endsWith('first-insert'))) {
+            if (this.settingsService.isLock && !(url === null || url === undefined || url.endsWith('master-password') || url.endsWith('first-insert') || url.endsWith('login'))) {
                 this.router.navigate(['master-password']);
-            }
-
-            if (this.userService.isTokenExpired()) {
-                this.userService.updateToken().catch(() => this.userService.logout());
             }
         });
 
@@ -127,7 +123,7 @@ export class AuthDefaultComponent implements OnDestroy {
     }
 
     public signout(): void {
-        this.userService.logout();
+        this.utilsService.logout();
     }
 
     public getRouteAnimationData() {

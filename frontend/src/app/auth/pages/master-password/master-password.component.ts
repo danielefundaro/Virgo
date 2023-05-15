@@ -1,12 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { KeycloakProfile } from 'keycloak-js';
 import { Subscription, firstValueFrom } from 'rxjs';
 import { SettingsService, SnackBarService, UserService } from 'src/app/services';
 import { MasterPassword, MasterPasswordEnum, MasterPasswordUpdate, TypeEnum, Wallet, WalletBasic } from '../../models';
 import { CryptographyService, MasterPasswordService, UtilsService, WalletsService } from '../../services';
 import { TranslateService } from '@ngx-translate/core';
+import { KeycloakProfile } from 'src/app/models';
 
 @Component({
     selector: 'master-password',
@@ -102,7 +102,7 @@ export class MasterPasswordComponent implements OnInit, OnDestroy {
     }
 
     public signout(): void {
-        this.userService.logout();
+        this.utilsService.logout();
     }
 
     private lockFunction() {

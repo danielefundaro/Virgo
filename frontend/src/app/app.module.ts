@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -25,7 +26,6 @@ import { MatSliderModule } from '@angular/material/slider';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MainTranslateModule } from './main-translate/main-translate.module';
-import { KeycloakInitModule } from './init/keycloak-init.module';
 import { AuthDefaultRoutingModule } from './auth/pages/auth-default/auth-default-routing.module';
 import { AuthDefaultComponent } from './auth/pages/auth-default/auth-default.component';
 import { CustomTableComponent } from './auth/components/custom-table/custom-table.component';
@@ -49,6 +49,7 @@ import { DefaultComponent } from './pages/default/default.component';
 import { LoginComponent } from './pages/login/login.component';
 import { RegisterUserComponent } from './pages/register-user/register-user.component';
 import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component';
+import { AuthInterceptor } from './interceptor/auth.interceptor';
 
 @NgModule({
     declarations: [
@@ -102,10 +103,9 @@ import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password
         MatProgressBarModule,
         AuthDefaultRoutingModule,
         MainTranslateModule,
-        KeycloakInitModule,
         DefaultRoutingModule,
     ],
-    providers: [],
+    providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
     bootstrap: [AppComponent]
 })
 export class AppModule { }
