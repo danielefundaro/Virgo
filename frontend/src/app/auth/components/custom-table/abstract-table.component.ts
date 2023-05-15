@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnDestroy, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { MatCheckbox } from '@angular/material/checkbox';
 import { MatDialog } from '@angular/material/dialog';
 import { catchError, debounceTime, firstValueFrom, map, merge, Observable, of, startWith, Subscription, switchMap } from 'rxjs';
@@ -10,7 +10,7 @@ import { CustomTableComponent } from './custom-table.component';
 import { UtilsService } from '../../services';
 
 @Component({ template: "" })
-export abstract class AbstractTableComponent<T extends EncryptCommonFields> implements AfterViewInit, OnDestroy {
+export abstract class AbstractTableComponent<T extends EncryptCommonFields> implements OnInit, AfterViewInit, OnDestroy {
 
     @ViewChild(CustomTableComponent) customTable!: CustomTableComponent;
     @ViewChildren(MatCheckbox) checkBoxes!: QueryList<MatCheckbox>;
@@ -52,8 +52,11 @@ export abstract class AbstractTableComponent<T extends EncryptCommonFields> impl
     public abstract deleteError(error: any): void;
     public abstract deleteErrorMassive(error: any): void;
 
-    ngAfterViewInit(): void {
+    ngOnInit(): void {
         this.columnsName();
+    }
+
+    ngAfterViewInit(): void {
         this.subscription = merge(this.customTable.paginator.page, this.customTable.onSortChange, this.settingsService.onSearchChanged).pipe(
             startWith({}),
             debounceTime(150),

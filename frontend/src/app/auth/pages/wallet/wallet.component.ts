@@ -49,7 +49,7 @@ export class WalletComponent extends AbstractTableComponent<Wallet> {
     }
     
     public override getError(error: any): void {
-        this.snackBarService.error("", error);
+        this.snackBarService.error("WALLET.LOAD.ERROR", error);
     }
 
     public update(data: Wallet): Observable<Wallet> {

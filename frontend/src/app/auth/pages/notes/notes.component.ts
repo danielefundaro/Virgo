@@ -39,7 +39,7 @@ export class NotesComponent extends AbstractTableComponent<Note> {
     }
     
     public override getError(error: any): void {
-        this.snackBarService.error("", error);
+        this.snackBarService.error("NOTE.LOAD.ERROR", error);
     }
     
     public update(data: Note): Observable<Note> {
