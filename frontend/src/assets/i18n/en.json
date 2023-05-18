@@ -19,9 +19,11 @@
             "ITEMS_PER_PAGE": "Items per page:"
         }
     },
-    "LOGIN": {
+    "MAIN": {
         "TITLE": "VIRGO",
-        "SUBTITLE": "Non custodial password wallet",
+        "SUBTITLE": "Non custodial password wallet"
+    },
+    "LOGIN": {
         "USERNAME": "Username or email",
         "PASSWORD": "Password",
         "REMEMBER-ME": "Remember me",
@@ -30,6 +32,25 @@
         "NEW-USER": "Don't have an account?",
         "REGISTRATION": "Create account",
         "ERROR": "Invalid username or password"
+    },
+    "RESET-CREDENTIAL": {
+        "BACK": "Back to the login",
+        "EMAIL": "Email",
+        "SEND-EMAIL": "Send request",
+        "INFO": "You will receive the password reset procedure at the specified email address. Haven't received an answer?",
+        "RESEND": "Resend request"
+    },
+    "REGISTRATION": {
+        "BACK": "Back to the login",
+        "EMAIL": "Email",
+        "FIRSTNAME": "First name",
+        "LASTNAME": "Last name",
+        "USERNAME": "Username",
+        "PASSWORD": "Password",
+        "CONFIRM-PASSWORD": "Confirm password",
+        "SEND-EMAIL": "Registration",
+        "INFO": "You will receive the procedure to confirm your account at the specified email address. Haven't received an answer?",
+        "RESEND": "Resend request"
     },
     "MENU": {
         "WALLET": "Wallet",

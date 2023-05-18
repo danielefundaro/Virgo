@@ -67,6 +67,12 @@ $dark-theme: mat.define-dark-theme((color: (primary: $primary, accent: $accent, 
             color: #E00;
         }
     }
+
+    .login-form {
+        background-color: mat.get-color-from-palette($background, 900) !important;
+        color: mat.get-color-from-palette($background, '900-contrast') !important;
+        box-shadow: 2px 6px 20px 2px #94949438;
+    }
 }
 
 /* You can add global styles to this file, and also import other style files */
@@ -79,6 +85,23 @@ body {
 body {
     margin: 0;
     font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.login-form {
+    width: 100%;
+    padding: 1rem;
+    background-color: $background-component;
+    color: $background-component-contrast;
+    margin-bottom: 1rem;
+    box-shadow: 2px 6px 20px 2px #9494945e;
+
+    .forgot-componenet {
+        width: 100%;
+    }
+
+    mat-form-field {
+        width: 100%;
+    }
 }
 
 .mat-mdc-paginator {

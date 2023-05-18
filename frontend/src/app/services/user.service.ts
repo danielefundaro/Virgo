@@ -1,8 +1,8 @@
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, catchError, firstValueFrom, of, switchMap, throwError } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment.dev';
-import { KeycloakProfile, KeycloakToken } from '../models';
+import { KeycloakProfile, KeycloakProfileRegistration, KeycloakToken } from '../models';
 
 @Injectable({
     providedIn: 'root'
@@ -31,19 +31,6 @@ export class UserService {
         if (localStorage.getItem("token")) {
             localStorage.removeItem("token");
         }
-    }
-
-    public async updateToken(): Promise<boolean> {
-        const refresh$ = this.refreshToken().pipe(switchMap((token) => {
-            this.setAuthToken(token);
-            return Promise.resolve(true);
-        }), catchError(() => Promise.resolve(false)));
-
-        return firstValueFrom(refresh$);
-    }
-
-    public isTokenExpired(): boolean {
-        return false;
     }
 
     public isLoggedIn(): boolean {
@@ -86,6 +73,15 @@ export class UserService {
         }
 
         return throwError(() => new HttpErrorResponse({ status: 403, error: "Token is not exists" }));
+    }
+
+    public resetCredential(email: string): Observable<void> {
+        const payload = new HttpParams().set("email", email);
+        return this.http.put<void>(`${environment.backendUrl}/users/credential/restoration`, payload);
+    }
+
+    public save(payload: KeycloakProfileRegistration): Observable<void> {
+        return this.http.post<void>(`${environment.backendUrl}/users/`, payload);
     }
 
     public redirectToProfile(): void {

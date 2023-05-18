@@ -1,6 +1,7 @@
 package com.fnd.virgo;
 
 
+import com.fnd.virgo.config.PermitRequest;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -26,10 +27,13 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(@NotNull HttpSecurity http) throws Exception {
-        http.csrf().disable().cors().disable().authorizeHttpRequests()
-                .requestMatchers("/auth/login").permitAll()
-                .requestMatchers("/auth/token").permitAll()
-                .anyRequest().authenticated();
+        http.csrf().disable().cors().disable().anonymous().disable();
+
+        for (PermitRequest request : PermitRequest.values()) {
+            http.authorizeHttpRequests().requestMatchers(request.toString()).permitAll();
+        }
+
+        http.authorizeHttpRequests().anyRequest().authenticated();
         http.oauth2ResourceServer().jwt();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 

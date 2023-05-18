@@ -4,6 +4,7 @@ import com.fnd.virgo.service.KeycloakService;
 import com.fnd.virgo.service.MasterPasswordService;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -19,8 +20,13 @@ public class Config implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(@NotNull InterceptorRegistry registry) {
-        registry.addInterceptor(new CustomInterceptor(keycloakService, masterPasswordService))
-                .excludePathPatterns("/error", "/auth/login", "/auth/token", "/master-password", "/master-password/")
-                .addPathPatterns("/**");
+        InterceptorRegistration registration = registry.addInterceptor(new CustomInterceptor(keycloakService, masterPasswordService))
+                .excludePathPatterns("/error", "/master-password", "/master-password/");
+
+        for (PermitRequest request : PermitRequest.values()) {
+            registration = registration.excludePathPatterns(request.toString());
+        }
+
+        registration.addPathPatterns("/**");
     }
 }

@@ -1,9 +1,4 @@
 <div fxLayout="column" fxLayoutAlign="center center">
-    <div fxLayout="row" fxLayoutAlign="center center">
-        <img class="logo" src="assets/logo.png" alt="logo">
-        <h1>{{'LOGIN.TITLE' | translate}}</h1>
-    </div>
-    <h4>{{'LOGIN.SUBTITLE' | translate}}</h4>
 
     <form [formGroup]="formGroup" (ngSubmit)="login()" fxLayout="column" class="login-form">
 

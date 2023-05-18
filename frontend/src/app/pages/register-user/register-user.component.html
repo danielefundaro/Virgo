@@ -1,1 +1,63 @@
-<p>register-user works!</p>
+<button mat-button color="primary" [routerLink]="['/login']">
+    <mat-icon class="fa-solid fa-arrow-left"></mat-icon>
+    {{'REGISTRATION.BACK' | translate}}
+</button>
+
+<div fxLayout="column" fxLayoutAlign="center center">
+
+    <form #form [formGroup]="formGroup" (ngSubmit)="registration()" fxLayout="column" class="login-form">
+
+        <mat-form-field appearance="fill">
+            <mat-label>{{'REGISTRATION.EMAIL' | translate}}</mat-label>
+            <input matInput formControlName="email">
+            <mat-icon matPrefix class="fa-solid fa-at"></mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+            <mat-label>{{'REGISTRATION.FIRSTNAME' | translate}}</mat-label>
+            <input matInput formControlName="firstName">
+            <mat-icon matPrefix class="fa-solid fa-at"></mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+            <mat-label>{{'REGISTRATION.LASTNAME' | translate}}</mat-label>
+            <input matInput formControlName="lastName">
+            <mat-icon matPrefix class="fa-solid fa-at"></mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+            <mat-label>{{'REGISTRATION.USERNAME' | translate}}</mat-label>
+            <input matInput formControlName="username">
+            <mat-icon matPrefix class="fa-solid fa-user-alt"></mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+            <mat-label>{{'REGISTRATION.PASSWORD' | translate}}</mat-label>
+            <input matInput formControlName="password" [type]="passwordViewToggle ? 'text' : 'password'">
+            <mat-icon matPrefix class="fa-solid fa-key"></mat-icon>
+            <button type="button" matSuffix mat-icon-button class="toggle-button"
+                (click)="passwordViewToggle = !passwordViewToggle">
+                <i class="fa-solid" [ngClass]="passwordViewToggle ? 'fa-eye-slash' : 'fa-eye'"></i>
+            </button>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+            <mat-label>{{'REGISTRATION.CONFIRM-PASSWORD' | translate}}</mat-label>
+            <input matInput formControlName="confirmPassword" [type]="passwordViewToggle ? 'text' : 'password'">
+            <mat-icon matPrefix class="fa-solid fa-key"></mat-icon>
+        </mat-form-field>
+
+        <button type="submit" mat-raised-button color="accent" [disabled]="!formGroup.valid">
+            <mat-icon class="fa-solid fa-paper-plane"></mat-icon>
+            {{'REGISTRATION.SEND-EMAIL' | translate}}
+        </button>
+
+    </form>
+
+    <div *ngIf="resend">
+        <span>{{'REGISTRATION.INFO' | translate}} </span>
+        <button mat-button color="accent" [disabled]="!formGroup.valid" (click)="registration()">
+            {{'REGISTRATION.RESEND' | translate}}
+        </button>
+    </div>
+</div>

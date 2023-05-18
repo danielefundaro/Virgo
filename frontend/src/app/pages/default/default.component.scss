@@ -3,7 +3,12 @@
     height: 100%;
 }
 
-.logo {
+.main-logo {
+    width: 4rem;
+    height: 4rem;
+}
+
+.language-logo {
     width: 1rem;
 }
 
@@ -15,7 +20,6 @@
 }
 
 .main-page-container {
-    height: calc(100% - 4rem);
     padding: 2rem;
     max-width: 40rem;
     margin: auto;

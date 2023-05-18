@@ -1,4 +1,14 @@
 <div class="main-page-container" fxLayout="column" fxLayoutAlign="center">
+
+    <div fxLayout="column" fxLayoutAlign="center center">
+        <div fxLayout="row" fxLayoutAlign="center center">
+            <img class="main-logo" src="assets/logo.png" alt="logo">
+            <h1>{{'MAIN.TITLE' | translate}}</h1>
+        </div>
+
+        <h4>{{'MAIN.SUBTITLE' | translate}}</h4>
+    </div>
+
     <div fxLayout="row" fxLayoutAlign="end baseline" class="actions">
         <mat-slide-toggle #darkModeSwitch color="primary" (change)="toggleTheme()"
             [(ngModel)]="isDarkTheme"></mat-slide-toggle>
@@ -20,6 +30,6 @@
 </div>
 
 <ng-template #option let-lang="lang">
-    <img [src]="'assets/' + lang + '.png'" class="logo" [alt]="lang">
+    <img [src]="'assets/' + lang + '.png'" class="language-logo" [alt]="lang">
     {{('MENU.LANGUAGES.ENUMS.' + lang.toUpperCase()) | translate}}
 </ng-template>
