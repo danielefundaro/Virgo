@@ -45,7 +45,7 @@ export class CredentialsComponent extends AbstractTableComponent<Credential> {
     }
 
     public override getError(error: any): void {
-        this.snackBarService.error("", error);
+        this.snackBarService.error("CREDENTIAL.LOAD.ERROR", error);
     }
 
     public update(data: Credential): Observable<Credential> {
