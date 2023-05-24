@@ -2,7 +2,7 @@ export * from './commonFields.model';
 export * from './credential.model';
 export * from './encryptCommonFields.model';
 export * from './iChangeWorkspace';
-export * from './iColumn.model';
+export * from './icolumn.model';
 export * from './masterPassword.model';
 export * from './note.model';
 export * from './page.model';
