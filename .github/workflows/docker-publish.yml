@@ -74,11 +74,9 @@ jobs:
         uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
         with:
           images: |
-            ${{ env.DOCKER_HUB_NAMESPACE }}/${{ env.DOCKER_HUB_REPOSITORY }}
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-${{ env.BACKEND_PATH }}
           tags: |
-            type=semver,pattern={{version}}
-            type=semver,pattern={{major}}.{{minor}}.{{patch}}
+            type=semver,pattern=${{ env.BACKEND_PATH }}-{{version}}
             type=semver,pattern=${{ env.BACKEND_PATH }}-{{major}}.{{minor}}.{{patch}}
 
       # Build and push Docker image with Buildx (don't push on PR)
@@ -161,11 +159,9 @@ jobs:
         uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
         with:
           images: |
-            ${{ env.DOCKER_HUB_NAMESPACE }}/${{ env.DOCKER_HUB_REPOSITORY }}
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-${{ env.FRONTEND_PATH }}
           tags: |
-            type=semver,pattern={{version}}
-            type=semver,pattern={{major}}.{{minor}}.{{patch}}
+            type=semver,pattern=${{ env.FRONTEND_PATH }}-{{version}}
             type=semver,pattern=${{ env.FRONTEND_PATH }}-{{major}}.{{minor}}.{{patch}}
 
       # Build and push Docker image with Buildx (don't push on PR)
